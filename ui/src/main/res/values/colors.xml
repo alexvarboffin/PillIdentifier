@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorLight">@color/material_grey_600</color>
+    <color name="colorPrimary" /><!--   your app branding color for the app bar -->
+    <color name="colorPrimaryDark" /><!--   darker variant for the status bar and contextual app bars -->
+    <color name="colorAccent">#FF4081
+    </color><!--   theme UI controls like checkboxes and text fields -->
+    <color name="colorControlHighlight">#00BCD4</color>
+    <color name="textColorPrimary">#777777</color>
+
+    <color name="msg_no_notes">#999</color>
+    <color name="nv_item_icon_tint">@android:color/white</color>
+
+
+    <color name="nv_background">@color/colorPrimaryDark</color>
+
+
+    <color name="colorButtonNormal">#00BFA5</color>
+</resources>

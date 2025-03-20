@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_color">Цвет</string>
+    <string name="tab_shape">Форма</string>
+    <string name="tab_scoring">Части</string>
+    <string name="tab_search">Поиск</string>
+    <string name="tab_imprint">Отпечаток</string>
+    <string name="tab_size">Размер</string>
+
+    <string name="what_letters">Какие буквы или цифры на таблетке?</string>
+    <string name="share_qr_code">Поделиться QR-кодом</string>
+    <string name="pdnh">Таблетка не имеет отпечатка</string>
+    <string name="empty_no_imprint">Отсутствует отпечаток</string>
+
+    <string name="generated_qr_code_already_exists">Файл успешно сохранен</string>
+    <string name="pdf_viewer_not_installed">PDF Viewer Не установлен</string>
+    <string name="share_data">Отправка данных</string>
+
+    <string name="tab_title_0">0</string>
+    <string name="tab_title_1">1</string>
+    <string name="tab_title_3">3</string>
+    <string name="tab_title_2">2</string>
+    <string name="onboard_action_next">Next</string>
+    <string name="onboard_action_finish">OK</string>
+
+    <string name="onboard_03_description">Забота о здоровье — твой ключ к счастью. Используй наши калькуляторы и будь на вершине!</string>
+    <string name="onboard_01_description">Расшифруйте свои рецепты. Pill Identifier: Предоставление вам знаний о лекарствах.</string>
+    <string name="onboard_02_description">Введите название препарата/лекарства, чтобы увидеть подробности. Найдите ответы на свои вопросы о лекарствах. Раскройте секреты фармацевтики.</string>
+
+
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="DialogButton" parent="@style/Widget.AppCompat.Button">
+<!--        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <!--        <item name="android:background">@drawable/submit_bg</item>-->
+        <item name="fontFamily" tools:ignore="NewApi">sans-serif-smallcaps</item>
+
+        <item name="colorButtonNormal">@color/colorButtonNormal</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+
+<!--        <item name="colorButtonNormal">@drawable/submit_bg</item>-->
+<!--        <item name="colorControlHighlight">@color/colorControlHighlight</item>-->
+    </style>
+</resources>

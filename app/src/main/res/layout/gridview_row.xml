@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/abc_bg_item_pill"
+    android:padding="5dp"
+    android:paddingTop="7dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.walhalla.pillfinder.ui.helper.SquareImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:background="@mipmap/ic_launcher"
+            android:contentDescription="@null">
+
+        </com.walhalla.pillfinder.ui.helper.SquareImageView>
+
+        <com.walhalla.pillfinder.ui.custom.CustomTextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/app_name"
+            android:textColor="#000000"
+            android:textSize="16sp">
+
+        </com.walhalla.pillfinder.ui.custom.CustomTextView>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

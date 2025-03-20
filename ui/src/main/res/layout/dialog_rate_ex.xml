@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:alpha="0"
+        android:scaleX="0"
+        android:scaleY="0"
+        tools:alpha="100"
+        tools:ignore="UselessParent"
+        tools:scaleX="1"
+        tools:scaleY="1">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_above="@+id/bb1"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ribonl" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_above="@+id/bb1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ribonr" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/layout_bg">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/head_bg">
+
+                <ImageView
+                    android:id="@+id/btnCacncel"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:alpha="0.5"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/cancel" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/rateme__dialog_first_title"
+                    android:textColor="#000000"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rate_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    tools:text="@string/rateme__dialog_first_message" />
+
+                <com.ratingdialog.simple.RotationRatingBar
+                    android:id="@+id/rotationratingbar_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center"
+                    android:visibility="invisible" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/ok"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="60dp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:background="@drawable/submit_bg"-->
+        <!--            android:fontFamily="sans-serif-smallcaps"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="Rate Now!"-->
+        <!--            android:textColor="#ffffff"-->
+        <!--            android:textSize="30sp"-->
+        <!--            android:textStyle="bold" />-->
+        <LinearLayout
+            android:id="@+id/bb1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/submit_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <!--            style="@style/AppTheme.DialogButton"-->
+            <Button
+                android:id="@+id/cancel"
+                style="@style/DialogButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_margin="3dp"
+                android:gravity="center"
+                android:text="@android:string/cancel"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+
+                android:theme="@style/DialogButton" />
+
+            <!--            <Button-->
+            <!--                android:id="@+id/neutral"-->
+            <!--                style="@style/AppTheme.DialogButton"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="60dp"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:layout_marginEnd="3dp"-->
+            <!--                android:layout_marginRight="3dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="@android:string/cancel"-->
+            <!--                android:textStyle="bold" />-->
+            <!--            style="@style/AppTheme.DialogButton"-->
+            <Button
+                android:id="@+id/ok"
+                style="@style/DialogButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@android:string/ok"
+
+                android:textStyle="bold"
+                android:theme="@style/DialogButton" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ratingFace"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/favorite" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

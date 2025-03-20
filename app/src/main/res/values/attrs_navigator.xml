@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="SimpleNavigatorView">
+
+            <attr name="exampleString" />
+            <attr name="exampleDimension" />
+            <attr name="exampleColor" />
+            <attr name="exampleDrawable" />
+
+    </declare-styleable>
+</resources>

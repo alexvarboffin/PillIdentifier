@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="100dp"
+    android:paddingTop="100dp">
+
+    <TextView
+        android:id="@+id/nothingPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTint="@android:color/secondary_text_light"
+        android:drawableTop="@drawable/ic_promo_0"
+        android:enabled="false"
+        android:fontFamily="sans-serif-light"
+        android:text="No Item's Yet"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="40sp"
+        tools:targetApi="m" />
+
+    <TextView
+        android:id="@+id/nothingSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:enabled="false"
+        android:fontFamily="sans-serif-condensed"
+        android:text="You're doing good !"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/tertiary_text_light" />
+</LinearLayout>

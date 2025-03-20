@@ -1,0 +1,15 @@
+// Создаем задачу для удаления исходных файлов после перемещения
+tasks.register("deleteAabFromSource", Delete) {
+    delete(fileTree("${buildDir}/outputs/bundle/release").matching {
+        include("*.aab")
+    })
+}
+
+tasks.named("copyAabToBuildFolder") {
+    mustRunAfter(tasks.named("signReleaseBundle"))
+}
+
+tasks.named("copyAabToBuildFolder").configure {
+    dependsOn tasks.named("signReleaseBundle")
+    finalizedBy tasks.named("deleteAabFromSource")
+}

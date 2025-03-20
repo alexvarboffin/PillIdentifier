@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="market_rate_url" translatable="false">http://www.amazon.com/gp/mas/dl/android?p=%1$s</string>
+</resources>

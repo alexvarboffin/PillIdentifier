@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rxcui" translatable="false">RxCUI</string>
+    <string name="name" translatable="false">Concept Name</string>
+
+    <string name="tty" translatable="false">Term Type</string>
+    <string name="tty0" translatable="false">TTY</string>
+
+    <string name="isMultipleIngredient" translatable="false">Multiple Ingredient</string>
+    <string name="isBranded" translatable="false">Branded</string>
+
+
+    <string name="doseFormName" translatable="false">Dose Form</string>
+    <string name="doseFormRxcui" translatable="false">Dose Form RxCUI</string>
+
+
+    <string name="status" translatable="false">Status</string>
+    <string name="source" translatable="false">Source</string>
+    <string name="activeStartDate" translatable="false">Active Start Date</string>
+    <string name="activeEndDate" translatable="false">Active End Date</string>
+    <string name="isCurrent" translatable="false">Is Current</string>
+    <string name="releaseStartDate" translatable="false">Release Start Date</string>
+    <string name="releaseEndDate" translatable="false">Release End Date</string>
+
+</resources>

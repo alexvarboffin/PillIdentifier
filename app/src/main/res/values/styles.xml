@@ -1,0 +1,129 @@
+<resources>
+
+    <style name="PillFinder" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/ic_splash</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!-- Nav Page Elipse Button -->
+    <style name="round_nav_batton" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#fff9f0</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/round_nav_button</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="OurThemeName">
+        <item name="android:textOn" />
+        <item name="android:textOff" />
+
+        <item name="android:layout_width">@dimen/dp_56</item>
+
+        <!--<item name="android:layout_width">0dp</item>-->
+        <!--<item name="android:layout_weight">1</item>-->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="MyTheme.FloatingDialog" parent="Theme.AppCompat.Light.Dialog">
+
+        <!--        <item name="android:windowFrame">@null</item>-->
+        <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--        <item name="android:windowContentOverlay">@null</item>-->
+        <!--        <item name="android:windowTitleStyle">@null</item>-->
+        <!--        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
+        <!--        <item name="android:backgroundDimEnabled">false</item>-->
+        <!--        <item name="android:background">@android:color/transparent</item>-->
+
+        <!--        <item name="android:windowIsFloating">true</item>-->
+        <!--        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>-->
+        <!--        <item name="android:windowActionModeOverlay">false</item>-->
+        <!--        <item name="android:windowCloseOnTouchOutside">true</item>-->
+        <!--        <item name="android:windowNoTitle">true</item>-->
+        <!--        <item name="android:backgroundDimAmount">.70</item>-->
+
+        <!--<item name="buttonStyle">@style/MyTheme.Button.Transparent.Dialog</item>-->
+        <!--<item name="android:buttonStyle">@style/MyTheme.Button.Transparent.Dialog</item>-->
+    </style>
+
+    <style name="QCustomTextView" parent="TextAppearance.AppCompat.Small">
+        <!--        <item name="android:fontFamily">@font/oxygen_mono</item>-->
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">italic</item>
+        <!--        <item name="android:textAllCaps">true</item>-->
+        <item name="android:typeface">normal</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="IBDefault">
+        <item name="android:background">#0C0C0C</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="IB1" parent="IBDefault">
+        <item name="android:tint">#D50000</item>
+    </style>
+
+    <style name="IB2" parent="IBDefault">
+        <item name="android:tint">#00BFA5</item>
+    </style>
+
+    <style name="IB3" parent="IBDefault">
+        <item name="android:tint">#6200EA</item>
+    </style>
+
+    <style name="IB4" parent="IBDefault">
+        <item name="android:background">#0C0C0C</item>
+        <!--        <item name="android:tint">#6200EA</item>-->
+    </style>
+
+    <style name="IBG" parent="IBDefault">
+        <item name="android:tint">#32A351</item>
+    </style>
+
+    <style name="ObjHeader">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="OnboardTitle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/opensansregular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="OnboardDescription" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorgrey</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/opensansregular</item>
+<!--        <item name="android:textStyle">bold</item>-->
+    </style>
+
+</resources>

@@ -1,0 +1,96 @@
+{
+  "rximages": {
+    "5a32f687eb4525ea9e82bee4": {
+      "rxnavImageSize300": 26739,
+      "labeler": "Cephalon, Inc.",
+      "nlmImageSize800": 84344,
+      "rxcui": 262219,
+      "ingredientsAvailable": false,
+      "nlmImageSizeFull": 270070,
+      "rxnavImageFileName": "63459-0504-30_RXNAVIMAGE10_8841C43E.jpg",
+      "acqDate": "09-26-2013",
+      "nlmImageSize600": 55793,
+      "rxnavImageSize120": 4617,
+      "rxnavImageObjectId": 185688934,
+      "deaSchedule": "CII",
+      "rxnavImageSize600": 86288,
+      "rxnavImageSizeFull": 404170,
+      "rxnavImageSize1024": 199673,
+      "attribution": "National Library of Medicine | Lister Hill National Center for Biomedical Communications | Office of High Performance Computing and Communications | Medicos Consultants LLC",
+      "rxnavImageSize": 404170,
+      "nlmImageSize120": 3726,
+      "nlmImageSize300": 17645,
+      "ndc11": "63459-0504-30",
+      "nlmImageSize": 270070,
+      "part": 1,
+      "ingredients": {
+        "active": [],
+        "inactive": []
+      },
+      "nlmImageFileName": "63459-0504-30_NLMIMAGE10_8841C43E.jpg",
+      "_id": {
+        "oid": "5a32f687eb4525ea9e82bee4"
+      },
+      "imageSize": 3726,
+      "rxnavImageSize800": 132688,
+      "mpc": {
+        "shape": "BULLET",
+        "size": 19,
+        "color": "WHITE",
+        "imprint": "ACTIQ;400",
+        "imprintColor": "TURQUOISE",
+        "imprintType": "PRINTED",
+        "symbol": false,
+        "score": 1
+      },
+      "name": "Fentanyl 0.4 MG Oral Lozenge [Actiq]",
+      "nlmImageObjectId": 168911718
+    },
+    "5a32f687eb4525ea9e82bee3": {
+      "rxnavImageSize300": 26586,
+      "labeler": "Cephalon, Inc.",
+      "nlmImageSize800": 82994,
+      "rxcui": 261106,
+      "ingredientsAvailable": false,
+      "nlmImageSizeFull": 269524,
+      "rxnavImageFileName": "63459-0502-30_RXNAVIMAGE10_8641C37E.jpg",
+      "acqDate": "09-26-2013",
+      "nlmImageSize600": 55054,
+      "rxnavImageSize120": 4516,
+      "rxnavImageObjectId": 185688930,
+      "deaSchedule": "CII",
+      "rxnavImageSize600": 85745,
+      "rxnavImageSizeFull": 405034,
+      "rxnavImageSize1024": 198194,
+      "attribution": "National Library of Medicine | Lister Hill National Center for Biomedical Communications | Office of High Performance Computing and Communications | Medicos Consultants LLC",
+      "rxnavImageSize": 405034,
+      "nlmImageSize120": 3643,
+      "nlmImageSize300": 17477,
+      "ndc11": "63459-0502-30",
+      "nlmImageSize": 269524,
+      "part": 1,
+      "ingredients": {
+        "active": [],
+        "inactive": []
+      },
+      "nlmImageFileName": "63459-0502-30_NLMIMAGE10_8641C37E.jpg",
+      "_id": {
+        "oid": "5a32f687eb4525ea9e82bee3"
+      },
+      "imageSize": 3643,
+      "rxnavImageSize800": 131568,
+      "mpc": {
+        "shape": "BULLET",
+        "size": 19,
+        "color": "WHITE",
+        "imprint": "ACTIQ;200",
+        "imprintColor": "TURQUOISE",
+        "imprintType": "PRINTED",
+        "symbol": false,
+        "score": 1
+      },
+      "name": "Fentanyl 0.2 MG Oral Lozenge [Actiq]",
+      "nlmImageObjectId": 168911714
+    }
+  }
+}

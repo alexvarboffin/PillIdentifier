@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    <color name="colorPrimary">#1F7E79</color>&lt;!&ndash;&ndash;&gt;-->
+    <!--    <color name="colorPrimaryDark">#1F7E79</color>&lt;!&ndash;#303F9F  00004f 9FC131 &ndash;&gt;-->
+
+<!--    <color name="colorPrimary">#3A51AF</color>&lt;!&ndash;&ndash;&gt;-->
+<!--    <color name="colorPrimaryDark">#2B4097</color>&lt;!&ndash;#303F9F  00004f 9FC131 &ndash;&gt;-->
+
+    <color name="colorPrimary">#134E5E</color>
+    <color name="colorPrimaryDark">#134E5E</color>
+
+<!--    <color name="colorPrimary">#5B0A6B</color>-->
+<!--    <color name="colorPrimaryDark">#5B0A6B</color>-->
+
+<!--    <color name="colorPrimary">#00A2F5</color> -->
+<!--    <color name="colorPrimaryDark">#00A2F5</color> -->
+
+    <color name="colorNewPrimary">#326295</color>
+
+
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorAccent">#D50000</color>
+    <color name="colorAccent999">@android:color/transparent</color>
+    <color name="navigator_border_color">#fff9f0</color><!--#FF4081-->
+
+    <color name="toolbarStartColor">@color/colorPrimary</color>
+    <color name="toolbarEndColor">#5B0A6B</color>
+    <!--    <color name="placeholder">#E8E8E8</color>-->
+    <color name="placeholder">#ff424242</color>
+
+
+    <color name="dialog_color">@color/colorPrimary</color>
+    <color name="transparent">#00000000</color>
+    <color name="drugsearch">#B248C7</color>
+    <color name="pillidentifier">#29AFD3</color>
+    <color name="colorgrey">#2E2B2B</color>
+
+</resources>

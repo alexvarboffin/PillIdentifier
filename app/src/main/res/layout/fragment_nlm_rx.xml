@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:padding="10dp"
+
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <!--android:linksClickable="false"android:autoLink="web"-->
+            <!--android:drawableStart="@drawable/ic_green_point"-->
+            <!--android:drawableLeft="@drawable/ic_green_point"-->
+
+            <com.walhalla.pillfinder.ui.custom.CustomTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/actionCopy"
+                android:drawablePadding="@dimen/pad_10dp"
+
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:fontFamily="@font/opensansregular"
+                tools:text="@string/action_privacy_policy" />
+
+            <ImageView
+                android:id="@+id/actionCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:contentDescription="@string/action_share_text"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_content_copy_black_24dp" />
+
+        </RelativeLayout>
+
+
+        <com.walhalla.pillfinder.ui.helper.SquareLayout
+            android:id="@id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line1"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@drawable/img_border"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY"
+                tools:src="@null" />
+        </com.walhalla.pillfinder.ui.helper.SquareLayout>
+
+
+        <LinearLayout
+            android:id="@+id/control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line2"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="0dp"
+            android:background="#E3E2E2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/action_google_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+
+                    style="@style/IBG"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_search_black_24dp"
+                    tools:text="@string/app_name" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/action_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+
+                    style="@style/IB1"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_remove_red_eye_black_24dp"
+                    tools:text="@string/app_name" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/action_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="2dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+
+                    style="@style/IB2"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_share"
+                    tools:text="@string/app_name" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/action_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    style="@style/IB3"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_qr_code"
+                    tools:text="@string/app_name" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/action_pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <ImageView
+                    style="@style/IB4"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_pdf"
+                    tools:text="@string/app_name" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/control"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            tools:text="2222222222222222222222222222222222222222222222" />
+
+
+        <com.walhalla.pillfinder.ui.custom.CustomTextView
+            android:id="@+id/api2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerView"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            tools:text="_API_2_" />
+
+        <RelativeLayout
+            android:id="@+id/rootView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="@string/promo_text"
+                android:textColor="#0000FF" />
+        </RelativeLayout>
+
+        <com.walhalla.pillfinder.ui.custom.CustomTextView
+            android:id="@+id/textView2"
+            style="@style/QCustomTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/api2"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="@string/text_footer" />
+        <!--            <ImageView-->
+        <!--                android:background="#D50000"-->
+        <!--                android:layout_margin="5dp"-->
+        <!--                android:layout_alignParentRight="true"-->
+        <!--                android:layout_below="@id/line1"-->
+        <!--                android:src="@drawable/ic_star_border_white_24dp"-->
+        <!--                android:layout_width="42dp"-->
+        <!--                android:layout_height="42dp"-->
+        <!--                android:layout_alignParentEnd="true"-->
+        <!--                android:contentDescription="@null" />-->
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

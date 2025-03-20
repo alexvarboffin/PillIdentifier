@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list>
+    <item xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@color/colorPrimaryDark" />
+    <item>
+        <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+            android:gravity="center"
+            android:src="@drawable/ic_splash_logo" />
+    </item>
+</layer-list>

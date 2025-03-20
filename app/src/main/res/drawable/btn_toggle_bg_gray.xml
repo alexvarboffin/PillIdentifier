@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+            <stroke
+                android:width="2dp"
+                android:color="#FF999999" />
+            <solid android:color="@color/gray" />
+
+            <padding
+                android:bottom="0dp"
+                android:left="0dp"
+                android:right="0dp"
+                android:top="0dp" />
+
+            <!--<size-->
+            <!--android:width="64dp"-->
+            <!--android:height="64dp" />-->
+        </shape>
+    </item>
+
+    <!--<item-->
+        <!--android:id="@android:id/background"-->
+        <!--android:drawable="@color/gray" />-->
+    <item
+        android:id="@android:id/toggle"
+        android:drawable="@drawable/btn_toggle" />
+</layer-list>

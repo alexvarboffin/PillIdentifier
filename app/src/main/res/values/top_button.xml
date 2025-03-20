@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="buttonShape" parent="@android:style/Widget.Button">
+        <!-- Custom font -->
+        <!-- <item name="_font">font/oxygen_mono.ttf</item>-->
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">#fff9f0</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:shadowColor">#213FFF</item>
+        <!--item name="android:shadowColor">#FF000000</item-->
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:drawablePadding">7dp</item>
+
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">0.2</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@drawable/top_menu_button</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+</resources>

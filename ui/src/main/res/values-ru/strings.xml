@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="rateme__dialog_first_button_rate">Оцените наше приложение в Play Store</string>
+    <string name="rateme__dialog_first_thanks">Спасибо за оценку!</string>
+    <string name="rateme__dialog_feedback_message">Написать разработчику?</string>
+
+
+    <string name="action_exit">Выход</string>
+    <string name="tab_text_1">Приложения</string>
+    <string name="action_settings">Настройки</string>
+    <string name="tab_text_3">Лог</string>
+
+
+    <string name="action_contact_us">Обратная связь</string>
+    <string name="action_discover_more_app">Еще приложений…</string>
+    <string name="action_share_app">Отправить другу</string>
+    <string name="action_rate_app">Оставить отзыв</string>
+    <string name="action_about">О программе</string>
+
+
+    <string name="msg_no_notes">data is empty</string>
+    <!-- app rate-->
+    <string name="rateme__dialog_first_title">Оцените это приложение!</string>
+    <string name="rateme__dialog_first_message">Если вам нравится приложение "%1$s", пожалуйста, найдите минутку, чтобы оценить его.\nСпасибо за поддержку!</string>
+
+    <string name="action_update">Проверка обновлений</string>
+    <string name="action_privacy_policy">Политика конфиденциальности</string>
+
+    <string name="about_version">Версия</string>
+
+
+    <string name="press_again_to_exit">Нажмите ещё раз, чтобы выйти</string>
+
+
+    <string name="update_available">Ознакомьтесь с последней доступной версией, чтобы получить последние функции и исправления ошибок</string>
+    <string name="update_now">Обновить сейчас</string>
+    <string name="update_later">Познее</string>
+    <string name="update_not_available">Обновление недоступно</string>
+    <string name="update_check_later">Нет доступных обновлений. Проверьте обновления еще раз позже!</string>
+
+    <!--Exit dialog-->
+    <string name="exit_dialog_title">Выходите из этого приложения?</string>
+    <string name="exit_dialog_message">Вы уверены, что хотите закрыть это приложение?</string>
+    <string name="default_location">ru</string>
+</resources>

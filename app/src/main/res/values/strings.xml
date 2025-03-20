@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="r1" translatable="false">ca-app-pub-5111357348858303/7927594279</string>
+    <string name="app_name" translatable="false">Pill Identifier</string>
+
+    <string name="hello_world"><b>Note:</b> All fields are optional. Use the pill finder to identify medications by visual appearance or name.
+All Rx and OTC drugs in the US are required by the FDA to have an imprint.
+If your pill has no imprint it could be a vitamin, diet/herbal/energy pill, illicit or foreign drug. \n<s>Example:</s> color - red and white, size 21 mm, or red and white imprint - 590 etc.
+</string>
+
+    <string name="couldnt_rate">couldnt_rate</string>
+    <string name="action_settings">Settings</string>
+    <string name="paint">Paint</string>
+    <string name="activity_two">ActivityTwo</string>
+
+    <string name="bg_color">#370903</string>
+
+    <string name="text_footer"><u>National Library of Medicine | Lister Hill National Center for Biomedical Communications
+        | Office of High Performance Computing and Communications | Medicos Consultants LLC</u>
+</string>
+
+    <color name="white">#FFFFFF</color>
+    <color name="brown">#A52A2A</color>
+    <color name="orange">#FFA500</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="fuchsia">#FF00FF</color>
+    <color name="red">#FF0000</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gray">#808080</color>
+    <color name="olive">#808000</color>
+    <color name="pink">#FFC0CB</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="lime">#00FF00</color>
+    <color name="teal">#008080</color>
+    <color name="green">#008000</color>
+    <color name="blue">#0000FF</color>
+    <color name="navy">#000080</color>
+    <color name="black">#000000</color>
+    <color name="turquoise">#40E0D0</color>
+
+    <color name="indigo">#3F51B5</color>
+
+    <string name="agreement_text" translatable="false">
+        \tThis Service is intended for use by consumers in the United States.
+        Your use of this product acknowledges acceptance of these restrictions, disclaimers, and limitations.
+You expressly acknowledge and agree that Multum, Truven Health Analytics, Inc., National Library of Medicine are not responsible for the results of your decisions resulting from the use of the Service, including, but not limited to, your choosing to seek or not to seek professional medical care,
+or from choosing or not choosing specific treatment based on the Service.
+\tEvery effort has been made to ensure that the information provided in the Service is accurate, up-to-date and complete, but no guarantee is made to that effect. In addition, the drug information contained herein may be time sensitive.
+\n\nInformation about Privacy Policy is available in the menu section
+
+    </string>
+
+    <string name="prev_page">Prev.\npage</string>
+    <string name="next_page">Next\npage</string>
+
+
+    <!-- Network States -->
+    <string name="net_disconnected">Please check your network connection!</string>
+    <string name="net_connected">Connected</string>
+    <string name="net_connecting">Connecting</string>
+
+
+    <string name="google_search_url" translatable="false">https://www.google.com/search?q=%1$s</string>
+
+    <string name="dialog_color_title">Colors (Max 2)</string>
+    <string name="dialog_size_title">Size</string>
+    <string name="dialog_shape_title">Select shape</string>
+    <string name="dialog_scoring_title">Scoring</string>
+    <string name="about">
+        The easiest way to lookup drug information, identify pills, check interactions and set up your own personal medication records. All mobile-optimized to speed up your browsing experience.
+Need help to identify that pill?
+
+\n\nWorried about some capsules found in your teenager\'s room?
+        Not sure about those leftover pills still in the bathroom cabinet?
+        There\'s a good chance that our Pill Identification Wizard (Pill Finder) can help you match the imprint,
+        size, shape, or color and lead you to the detailed description in our drug database.
+
+\n\nAs a general rule:
+
+\nPeriodically check your medicine cabinets for expired, re-bottled, or unidentified pills
+To avoid confusion and mistakes, keep all medications in their original bottles or packets with pertinent
+        labeling and instructions attached
+If you do not find a match, contact your healthcare provider
+    </string>
+    <string name="action_about">About</string>
+    <string name="home_screen_title">Search by Imprint, Size, Shape, Scoring or Color</string>
+    <string name="dialog_imprint_title">What letters or numbers are on the pill?</string>
+    <string name="dialog_imprint_cb_hint">Pill does not have an imprint</string>
+    <string name="search_all_size">Search all size</string>
+    <string name="search_size">Size: %1$d</string>
+
+    <string name="shape_selected">Shape selected: %1$s</string>
+    <string name="score_selected">Score selected: %1$s</string>
+    <string name="err_connection">Connection error!</string>
+    <string name="no_data_found">No data found! Refine your query</string>
+    <string name="err_refine_query">Refine your query!</string>
+    <string name="enter_the_letter">Enter the letters or numbers from your pill</string>
+    <string name="to_get_more_result"><b>HINT: </b>To get more results, enter an imprint only. To further
+expand your search, try entering only part of your imprint.</string>
+    <string name="action_img" />
+    <string name="settings_reset">Settings reset</string>
+
+    <string-array name="network_type">
+        <item>@string/net_disconnected</item>
+        <item>@string/net_connected</item>
+        <item>@string/net_connecting</item>
+    </string-array>
+
+    <string name="navigation_drawer_open" translatable="false">navigation_drawer_open</string>
+    <string name="navigation_drawer_close" translatable="false">navigation_drawer_close</string>
+    <string name="orientation" translatable="false">lang</string>
+
+
+    <string name="tab_color">Color</string>
+    <string name="tab_shape">Shape</string>
+    <string name="tab_scoring">Scoring</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_imprint">Imprint</string>
+    <string name="tab_size">Size</string>
+    <string name="information">More information</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_share_text">Share text</string>
+    <string name="share_using">@string/app_name</string>
+    <string name="what_letters">What letters or numbers are on the pill?</string>
+    <string name="share_qr_code">Share QRcode</string>
+    <string name="pdnh">Pill does not have an imprint</string>
+    <string name="empty_no_imprint">No imprint</string>
+
+    <string name="generated_qr_code_already_exists">File saved successfully</string>
+    <string name="pdf_viewer_not_installed">PDF Viewer Not Installed</string>
+    <string name="share_data">Share File</string>
+    <string name="promo_text">
+                <u>
+            <![CDATA[Sigma Medical Dictionary
+            \n >>Google Play<<]]>
+        </u>
+    </string>
+
+    <string name="hint_sleep_search">Drug(s)</string>
+
+    <string name="tab_title_0">0</string>
+    <string name="tab_title_1">1</string>
+    <string name="tab_title_3">3</string>
+    <string name="tab_title_2">2</string>
+
+
+    <string name="header_properties">Properties</string>
+    <string name="header_definitional_features">Definitional Features</string>
+    <string name="header_pack_components">Pack Components</string>
+    <string name="header_metadata">Metadata</string>
+    <string name="action_help">Help</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="header_derived_concepts">Derived Concepts</string>
+
+    <string name="general_cardinality">GENERAL_CARDINALITY</string>
+    <string name="prescribable">PRESCRIBABLE</string>
+    <string name="rxnav_human_drug">RXNAV_HUMAN_DRUG</string>
+    <string name="rxnav_vet_drug">RXNAV_VET_DRUG</string>
+    <string name="propcategory_attributes">ATTRIBUTES</string>
+
+    <string name="rxcui_label">RXCUI\tRxNorm Concept Unique Identifier (US NIH; drug standardization)</string>
+
+    <string name="mpc_shape">Shape</string>
+    <string name="mpc_size">Size</string>
+    <string name="mpc_color">Color</string>
+    <string name="mpc_imprint">Imprint</string>
+    <string name="mpc_imprint_color">Imprint Color</string>
+    <string name="mpc_imprint_type">Imprint Type</string>
+    <string name="mpc_symbol">Symbol</string>
+    <string name="mpc_score">Score</string>
+
+    <string name="rx_5_brandName">Brand Name</string>
+    <string name="rx_5_displayName">Display Name</string>
+    <string name="rx_5_synonym">Synonym</string>
+    <string name="rx_5_fullName">FullName</string>
+    <string name="rx_5_fullGenericName">FullGenericName</string>
+    <string name="rx_5_strength">Strength</string>
+    <string name="rx_5_rxtermsDoseForm">RxtermsDoseForm</string>
+    <string name="rx_5_route">Route</string>
+    <string name="rx_5_termType">TermType</string>
+    <string name="rx_5_rxcui">Rxcui</string>
+    <string name="rx_5_genericRxcui">GenericRxcui</string>
+    <string name="rx_5_rxnormDoseForm">RxnormDoseForm</string>
+    <string name="rx_5_suppress">Suppress</string>
+
+    <string name="pillidentifier">The easiest way to lookup drug information, identify pills</string>
+    <string name="drugsearch">Drug Search</string>
+    <string name="drugsearch_desc">Enter the Exact Drug/Medication name to see Details</string>
+    <string name="data_to_clipboard">Copied to clipboard: %s.</string>
+
+    <string name="onboard_action_next">Next</string>
+    <string name="onboard_action_finish">OK</string>
+
+    <string name="onboard_03_description">Healthcare is your key to happiness. Utilize our calculators and rise to the top!</string>
+    <string name="onboard_01_description">Decode your prescriptions. Pill Identifier: Empowering you with medication knowledge.</string>
+    <string name="onboard_02_description">Enter the Exact Drug/Medication name to see Details. Find answers to your medication queries. Drug Search: Unlock the secrets of pharmaceuticals.</string>
+
+</resources>

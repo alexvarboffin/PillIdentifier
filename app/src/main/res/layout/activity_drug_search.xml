@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".activity.MainActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/mm">
+
+
+        <!--android:fitsSystemWindows="true" removed-->
+
+        <!--SCROLLABLE_STUFF-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/appbar_gradient"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/app_bar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="@dimen/appbar_padding_top"-->
+            <!--android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">-->
+
+            <!--
+            Visible tabView
+            need @android:color/transparent
+            -->
+            <!--<android.support.design.widget.CollapsingToolbarLayout-->
+            <!--android:id="@+id/collapsing_toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--app:contentScrim="#99000000"-->
+            <!--app:expandedTitleMarginStart="@dimen/expanded_toolbar_title_margin_start"-->
+
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+
+            <!--content-->
+
+
+            <!--<ImageButton-->
+            <!--android:id="@+id/image_beast"-->
+            <!--android:layout_width="44dp"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@null"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--android:tint="@android:color/white"-->
+            <!--app:srcCompat="@drawable/ic_aries" />-->
+
+            <!--
+            android:layout_gravity="bottom" - при скроле табы прижмутся к низу тулбара а не уедут
+            -->
+            <!--android:layout_margin="@dimen/activity_horizontal_margin"-->
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_weight="1"
+                app:layout_scrollFlags="noScroll"
+                app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
+                app:title="@string/app_name">
+                <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="?attr/colorPrimary"-->
+                <!--android:minHeight="?attr/actionBarSize"-->
+                <!--app:layout_collapseMode="pin"-->
+                <!--app:layout_scrollFlags="scroll"-->
+                <!--app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"-->
+                <!--app:title="@string/app_name">-->
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <LinearLayout
+                android:id="@+id/top_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_collapseMode="pin"
+                app:tabIndicatorColor="#FFAB00"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="12dp"
+                app:tabPaddingStart="12dp"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="#ff424242"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/search_panel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!--app:endIconDrawable="@drawable/ic_search_black_24dp"-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/store_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textColorHint="#000000"
+                        android:windowSoftInputMode="stateAlwaysHidden"
+                        app:expandedHintEnabled="false"
+                        app:hintEnabled="true">
+
+                        <!--                            android:textCursorDrawable="@drawable/ic_promo_0"-->
+                        <!--                            android:cursorVisible="true"-->
+
+                        <AutoCompleteTextView
+
+                            android:id="@+id/auto_text_view"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_search_g"
+                            android:drawableRight="@drawable/ic_search_g"
+                            android:fontFamily="@font/inter_regular"
+                            android:hint="@string/hint_sleep_search"
+                            android:lines="1"
+                            android:maxLength="40"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="#000000"
+                            android:windowSoftInputMode="stateAlwaysHidden" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </FrameLayout>
+
+            </LinearLayout>
+            <!--end_content-->
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabTextColor="#FFFFFF">
+
+                <!--<android.support.design.widget.TabItem-->
+                <!--android:id="@+id/tabItem"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/tab_text_1" />-->
+
+                <!--<android.support.design.widget.TabItem-->
+                <!--android:id="@+id/tabItem2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/tab_text_2" />-->
+
+                <!--<android.support.design.widget.TabItem-->
+                <!--android:id="@+id/tabItem3"-->
+                <!--android:tag="@string/tab_text_3"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/tab_text_3" />-->
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <!--<include layout="@layout/toolbar_tabbed" />-->
+        <!--content_scrolling-->
+
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:background="@android:color/holo_green_dark" />
+
+
+        <!--end_content_scrolling-->
+
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:visibility="gone"-->
+        <!--app:layout_anchor="@id/app_bar"-->
+        <!--app:layout_anchorGravity="bottom|end"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
+
+
+        <!--</android.support.design.widget.CoordinatorLayout>-->
+        <!--END_SCROLLABLE_STUFF-->
+
+
+        <ProgressBar
+            android:id="@+id/scan_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="-4dp"
+            android:foregroundGravity="bottom"
+            android:progress="0"
+            android:progressDrawable="@drawable/progressbar"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!--    <com.google.android.gms.ads.AdView-->
+    <!--        android:id="@+id/adView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_above="@+id/status"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        app:adSize="BANNER"-->
+    <!--        app:adUnitId="@string/banner_ad_unit_id" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/status"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:background="#000000"-->
+    <!--        android:gravity="center_vertical|end"-->
+    <!--        android:padding="4dp"-->
+    <!--        android:text="@string/app_name"-->
+    <!--        android:textColor="#FF6D00"-->
+    <!--        android:textSize="15sp" />-->
+
+
+    <LinearLayout
+        android:id="@+id/mm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        android:gravity="center_vertical|end"
+        android:orientation="vertical">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:adSize="SMART_BANNER"
+            app:adUnitId="@string/banner_ad_unit_id" />
+    </LinearLayout>
+</RelativeLayout>

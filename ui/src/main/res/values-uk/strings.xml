@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="rateme__dialog_first_button_rate">Оцініть наш додаток в Play Store</string>
+    <string name="rateme__dialog_first_thanks">Дякуємо вам за оцінку!</string>
+    <string name="rateme__dialog_feedback_message">Написати розробнику?</string>
+
+    <string name="action_exit">Вихід</string>
+    <string name="tab_text_1">Додатки</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="tab_text_3">Лог</string>
+
+
+    <string name="action_contact_us">Зворотній зв\'язок</string>
+    <string name="action_discover_more_app">Ще додатків…</string>
+    <string name="action_share_app">Надіслати другу</string>
+    <string name="action_rate_app">Залишити відгук</string>
+    <string name="action_about">Про додаток</string>
+
+
+    <string name="msg_no_notes">data is empty</string>
+    <!-- app rate-->
+    <string name="rateme__dialog_first_title">Оцініть це додаток!</string>
+    <string name="rateme__dialog_first_message">Якщо вам подобається додаток "%1$s", будь ласка, знайдіть хвилинку, щоб оцінити його. \nДякуємо за підтримку!</string>
+
+    <string name="action_update">Перевірка оновлень</string>
+    <string name="action_privacy_policy">Політика конфіденційності</string>
+
+    <string name="about_version">Версія</string>
+
+
+    <string name="press_again_to_exit">Натисніть ще раз, щоб вийти</string>
+
+
+    <string name="update_available">Ознайомтеся з останньою версією, доступною для отримання найновіших функцій та виправлень помилок</string>
+    <string name="update_now">Оновити зараз</string>
+    <string name="update_later">Пізніше</string>
+    <string name="update_not_available">Оновлення недоступне</string>
+    <string name="update_check_later">Немає оновлень. Перевірте оновлення пізніше!</string>
+
+
+    <!--Exit dialog-->
+    <string name="exit_dialog_title">Залишити цей додаток?</string>
+    <string name="exit_dialog_message">Дійсно закрити цю програму?</string>
+    <string name="default_location">uk</string>
+</resources>

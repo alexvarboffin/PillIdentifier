@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_menu"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tab_button_height"
+    android:layout_margin="0dp"
+    android:gravity="top|bottom"
+    android:orientation="horizontal"
+    android:paddingBottom="0dp"
+    android:weightSum="5">
+
+    <Button
+        android:id="@+id/btn_imprint"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/pill_red"
+
+        android:text="@string/tab_imprint" />
+
+    <Button
+        android:id="@+id/btn_size"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_size"
+        android:text="@string/tab_size" />
+
+    <Button
+        android:id="@+id/btn_color"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_color"
+        android:text="@string/tab_color"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btn_shape"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_shape"
+        android:text="@string/tab_shape" />
+
+    <Button
+        android:id="@+id/btn_scoring"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_scoring"
+        android:text="@string/tab_scoring"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btn_search"
+        style="@style/buttonShape"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_search"
+        android:text="@string/tab_search"
+        android:visibility="gone" />
+</LinearLayout>
