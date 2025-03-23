@@ -1,4 +1,4 @@
-package com.walhalla.health.BloodPressure;
+package com.walhalla.health.bloodPressure;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.measurement.api.AppMeasurementSdk.ConditionalUserProperty;
-import com.walhalla.health.BodyFat.BodyFatResult;
 import com.walhalla.health.IdealWeight.InnerAbstractFragment;
 import com.walhalla.health.R;
 

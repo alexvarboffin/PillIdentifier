@@ -1,108 +1,103 @@
-package com.walhalla.health.BloodPressure;
+package com.walhalla.health.bloodPressure
 
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import androidx.core.content.ContextCompat
+import com.google.android.material.textfield.TextInputLayout
+import com.walhalla.health.Constant
+import com.walhalla.health.IdealWeight.InnerAbstractFragment
+import com.walhalla.health.R
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
-import com.google.android.material.textfield.TextInputLayout;
-import com.walhalla.health.Constant;
-import com.walhalla.health.IdealWeight.InnerAbstractFragment;
-import com.walhalla.health.R;
-
-public class BloodPressureFragment extends InnerAbstractFragment {
-
+class BloodPressureFragment : InnerAbstractFragment() {
     /*
-     * lower bp=1.5 or lower
-     *
-     *
-     * */
-    int primaryColor;
-    EditText edSystolicBp, edDiastolicBp;
-    Button calc, reset;
-    TextInputLayout txtInputStstabolic;
+        * lower bp=1.5 or lower
+        *
+        *
+        * */
+    var primaryColor: Int = 0
+    var edSystolicBp: EditText? = null
+    var edDiastolicBp: EditText? = null
+    lateinit var calc: Button
+    lateinit var reset: Button
+    var txtInputStstabolic: TextInputLayout? = null
 
-    @Override
-    protected int aLayout() {
-        return R.layout.activity_bp;
+    override fun aLayout(): Int {
+        return R.layout.activity_bp
     }
 
-//    @Override
-//    protected int aTheme() {
-//        return R.style.OrangeTheme;
-//    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    //    @Override
+    //    protected int aTheme() {
+    //        return R.style.OrangeTheme;
+    //    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init(view);
-        reset.setOnClickListener(v -> {
-            edDiastolicBp.setText("");
-            edSystolicBp.setText("");
-        });
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init(view)
+        reset.setOnClickListener { v: View? ->
+            edDiastolicBp!!.setText("")
+            edSystolicBp!!.setText("")
+        }
 
-        calc.setOnClickListener(v -> {
-            if (TextUtils.isEmpty(edSystolicBp.getText().toString())) {
+        calc.setOnClickListener { v: View? ->
+            if (TextUtils.isEmpty(
+                    edSystolicBp!!.text.toString()
+                )
+            ) {
 //                    txtInputStstabolic.setError(getResources().getString(R.string.valid));
-                edSystolicBp.setError(getResources().getString(R.string.valid));
+                edSystolicBp!!.error = resources.getString(R.string.valid)
 
-                return;
-            } else if (TextUtils.isEmpty(edDiastolicBp.getText().toString())) {
-                edDiastolicBp.setError(getResources().getString(R.string.valid));
-                return;
+                return@setOnClickListener
+            } else if (TextUtils.isEmpty(edDiastolicBp!!.text.toString())) {
+                edDiastolicBp!!.error = resources.getString(R.string.valid)
+                return@setOnClickListener
             } else {
-                float sBp = Float.parseFloat(edSystolicBp.getText().toString());
-                float dBp = Float.parseFloat(edDiastolicBp.getText().toString());
-                String result = "";
-                if (sBp > 180 || dBp > 110) {
-                    result = getResources().getString(R.string.hypertensive_crisis);
+                val sBp = edSystolicBp!!.text.toString().toFloat()
+                val dBp = edDiastolicBp!!.text.toString().toFloat()
+                var result = ""
+                result = if (sBp > 180 || dBp > 110) {
+                    resources.getString(R.string.hypertensive_crisis)
                 } else if (sBp >= 160 || dBp >= 100) {
-                    result = getResources().getString(R.string.high_bp_stage2);
+                    resources.getString(R.string.high_bp_stage2)
                 } else if (sBp > 140 || dBp > 90) {
-                    result = getResources().getString(R.string.high_bp_stage1);
+                    resources.getString(R.string.high_bp_stage1)
                 } else if (sBp > 120 || dBp > 80) {
-                    result = getResources().getString(R.string.prehypertension);
+                    resources.getString(R.string.prehypertension)
                 } else if (sBp > 80 && dBp > 60) {
-                    result = getResources().getString(R.string.normal_bp);
+                    resources.getString(R.string.normal_bp)
                 } else {
-                    result = getResources().getString(R.string.low_bp);
+                    resources.getString(R.string.low_bp)
                 }
 
                 if (mainView != null) {
-                    mainView.replaceFragment(BpResult.newInstance(result));
+                    mainView.replaceFragment(BpResult.newInstance(result))
                 }
 
-//                    if (sBp < 80 && dBp < 60) {
+                //                    if (sBp < 80 && dBp < 60) {
 //                        result = getResources().getString(R.string.low_bp);
 //                    }
 //                    else if ()
-
             }
-        });
+        }
     }
 
-    private void init(View view) {
-        primaryColor = ContextCompat.getColor(getContext().getApplicationContext(), R.color.orangecolorPrimary);
-        edSystolicBp = view.findViewById(R.id.edSystolicBp);
-        edDiastolicBp = view.findViewById(R.id.edDiastolicBp);
+    private fun init(view: View) {
+        primaryColor =
+            ContextCompat.getColor(requireContext().applicationContext, R.color.orangecolorPrimary)
+        edSystolicBp = view.findViewById(R.id.edSystolicBp)
+        edDiastolicBp = view.findViewById(R.id.edDiastolicBp)
 
-        reset = view.findViewById(R.id.reset);
-        calc = view.findViewById(R.id.calc);
-        txtInputStstabolic = view.findViewById(R.id.txtInputStstabolic);
+        reset = view.findViewById(R.id.reset)
+        calc = view.findViewById(R.id.calc)
+        txtInputStstabolic = view.findViewById(R.id.txtInputStstabolic)
 
         //white btn
-        reset.setBackground(Constant.getShapeDrawable(true, primaryColor));
-        calc.setBackground(Constant.getShapeDrawable(false, primaryColor));
-
+        reset.setBackground(Constant.getShapeDrawable(true, primaryColor))
+        calc.setBackground(Constant.getShapeDrawable(false, primaryColor))
     }
 }

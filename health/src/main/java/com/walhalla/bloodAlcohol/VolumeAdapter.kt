@@ -1,44 +1,39 @@
-package com.walhalla.bloodAlcohol;
+package com.walhalla.bloodAlcohol
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import com.walhalla.health.R
 
-import androidx.annotation.NonNull;
+class VolumeAdapter internal constructor(context: Context, i: Int, strArr: Array<String>) : ArrayAdapter<String>(context, i, strArr) {
 
-import com.walhalla.health.R;
+    private val arr = arrayOf(
+        context.resources.getString(R.string.ounces),
+        context.resources.getString(R.string.ml),
+        context.resources.getString(R.string.cup)
+    )
+    private val vol_img = intArrayOf(R.drawable.volume, R.drawable.volume, R.drawable.volume)
 
-public class VolumeAdapter extends ArrayAdapter<String> {
-
-    private final String[] arr;
-    private final int[] vol_img = {R.drawable.volume, R.drawable.volume, R.drawable.volume};
-
-    VolumeAdapter(Context context, int i, String[] strArr) {
-        super(context, i, strArr);
-        arr = new String[]{
-                context.getResources().getString(R.string.ounces),
-                context.getResources().getString(R.string.ml),
-                context.getResources().getString(R.string.cup)};
-
+    override fun getDropDownView(i: Int, view: View, viewGroup: ViewGroup): View {
+        return getCustomView(i, viewGroup)
     }
 
-    public View getDropDownView(int i, View view, @NonNull ViewGroup viewGroup) {
-        return getCustomView(i, viewGroup);
+    override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
+        return getCustomView(i, viewGroup)
     }
 
-    @NonNull
-    public View getView(int i, View view, @NonNull ViewGroup viewGroup) {
-        return getCustomView(i, viewGroup);
-    }
-
-    public View getCustomView(int i, ViewGroup viewGroup) {
-        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.spinner_down_blue, viewGroup, false);
-        ((TextView) inflate.findViewById(R.id.currency)).setText(arr[i]);
-        ((ImageView) inflate.findViewById(R.id.image)).setImageResource(vol_img[i]);
-        return inflate;
+    fun getCustomView(i: Int, viewGroup: ViewGroup?): View {
+        val inflate =
+            LayoutInflater.from(context).inflate(R.layout.spinner_down_blue, viewGroup, false)
+        (inflate.findViewById<View>(R.id.currency) as TextView).text =
+            arr[i]
+        (inflate.findViewById<View>(R.id.image) as ImageView).setImageResource(
+            vol_img[i]
+        )
+        return inflate
     }
 }

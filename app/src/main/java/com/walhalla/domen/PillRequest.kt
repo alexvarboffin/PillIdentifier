@@ -8,7 +8,6 @@ import com.walhalla.pillfinder.MpcField
 enum class PillRequest {
     INSTANCE;
 
-    @JvmField
     var optionChanged: Boolean = false
 
     //API Query
@@ -33,7 +32,7 @@ enum class PillRequest {
         map[RequestMap.KEY_PAGE_SIZE] = "20"
 
 
-        //        this.var0.put("includeActive", "true");//Включите в ответ данные об активных ингредиентах.
+//        this.var0.put("includeActive", "true");//Включите в ответ данные об активных ингредиентах.
 //        this.var0.put("includeInactive", "true");//Включите в ответ данные о неактивных ингредиентах.
         map["includeIngredients"] =
             "true" //Включите в ответ данные о ингредиентах.

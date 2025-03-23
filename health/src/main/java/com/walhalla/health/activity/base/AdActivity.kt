@@ -1,109 +1,95 @@
-package com.walhalla.health.activity.base;
+package com.walhalla.health.activity.base
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.walhalla.health.R
+import com.walhalla.ui.MainPresenter
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+abstract class AdActivity : AppCompatActivity() {
+    protected var toolbar: Toolbar? = null
+    protected var presenter: MainPresenter? = null
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.walhalla.health.BuildConfig;
-import com.walhalla.health.R;
-import com.walhalla.ui.MainPresenter;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_NoActionBar)
+        super.onCreate(savedInstanceState)
+        presenter = MainPresenter(this)
+        setContentView(aLayout())
 
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class AdActivity extends AppCompatActivity {
-
-    private static final boolean ADS_ENABLED = true;
-
-    protected Toolbar toolbar;
-    protected MainPresenter presenter;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
-        super.onCreate(savedInstanceState);
-        presenter = new MainPresenter(this);
-        setContentView(aLayout());
-
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mAd = findViewById(R.id.adView);
+        mAd = findViewById(R.id.adView)
         if (ADS_ENABLED) {
-            loadAd();
+            loadAd()
         } else {
-            mAd.setVisibility(View.GONE);
+            mAd.setVisibility(View.GONE)
         }
     }
 
-    protected abstract int aLayout();
-
-    public static final String TAG = "@@@";
+    protected abstract fun aLayout(): Int
 
     /**
-     * The {@link AdView} that will display the ad.
+     * The [AdView] that will display the ad.
      * This must be set before an ad can be loaded.
      */
-    protected AdView mAd;
+    protected lateinit var mAd: AdView
 
-    @Override
-    protected void onPause() {
+    override fun onPause() {
         if (ADS_ENABLED && mAd != null) {
-            mAd.pause();
+            mAd.pause()
         } else {
-            Log.d(TAG, "mAd has not been set");
+            Log.d(TAG, "mAd has not been set")
         }
-        super.onPause();
+        super.onPause()
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    override fun onResume() {
+        super.onResume()
         if (ADS_ENABLED && mAd != null) {
-            mAd.resume();
+            mAd.resume()
         } else {
-            Log.d(TAG, "mAd has not been set");
+            Log.d(TAG, "mAd has not been set")
         }
     }
 
-    @Override
-    protected void onDestroy() {
+    override fun onDestroy() {
         if (ADS_ENABLED && mAd != null) {
-            mAd.destroy();
+            mAd.destroy()
         } else {
-            Log.d(TAG, "mAd has not been set");
+            Log.d(TAG, "mAd has not been set")
         }
 
-        super.onDestroy();
+        super.onDestroy()
     }
 
 
-    protected void loadAd() {
+    protected fun loadAd() {
         if (mAd == null) {
-            Log.e(TAG, "mAd must be set before loading an ad");
-            return;
+            Log.e(TAG, "mAd must be set before loading an ad")
+            return
         }
 
 //        String[] testDeviceIds = getResources().getStringArray(R.array.admob_test_device_ids);
 //
-        AdRequest.Builder builder = new AdRequest.Builder();
-//        builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+        val builder = AdRequest.Builder()
+
+        //        builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 //        for (String id : testDeviceIds) {
 //            builder.addTestDevice(id);
 //        }
 //        builder.tagForChildDirectedTreatment(getResources()
 //                .getBoolean(R.bool.child_directed_treatment));
+        mAd!!.loadAd(builder.build())
+    }
 
-        mAd.loadAd(builder.build());
+    companion object {
+        private const val ADS_ENABLED = true
 
+        const val TAG: String = "@@@"
     }
 }

@@ -1,72 +1,65 @@
-package com.walhalla.bloodAlcohol;
+package com.walhalla.bloodAlcohol
+
+import android.os.Bundle
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.walhalla.health.IdealWeight.InnerAbstractFragment
+import com.walhalla.health.R
 
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
+class BloodAlcoholResult : InnerAbstractFragment() {
+    private var rotate: Animation? = null
+    private var tvBloodAlcohol: TextView? = null
+    private var tvBloodAlcoholVal: TextView? = null
+    private var tvPercent: TextView? = null
+    private var value: String? = null
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import com.walhalla.health.IdealWeight.InnerAbstractFragment;
-import com.walhalla.health.R;
-
-public class BloodAlcoholResult extends InnerAbstractFragment {
-
-    private static final String ARG_VALUE = "value";
-
-    private Animation rotate;
-    private TextView tvBloodAlcohol;
-    private TextView tvBloodAlcoholVal;
-    private TextView tvPercent;
-    private String value;
-
-    public static Fragment newInstance(@NonNull String value) {
-        Fragment fragment = new BloodAlcoholResult();
-        Bundle arg = new Bundle();
-        arg.putString(ARG_VALUE, value);
-        fragment.setArguments(arg);
-        return fragment;
+    override fun aLayout(): Int {
+        return R.layout.bloodalcoholresult
     }
 
-    @Override
-    protected int aLayout() {
-        return R.layout.bloodalcoholresult;
-    }
-
-//    @Override
-//    protected int aTheme() {
-//        return R.style.GrayTheme;
-//    }
-
-    @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        if (getArguments() != null) {
-            value = getArguments().getString(ARG_VALUE);
+    //    @Override
+    //    protected int aTheme() {
+    //        return R.style.GrayTheme;
+    //    }
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
+        if (arguments != null) {
+            value = requireArguments().getString(ARG_VALUE)
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init(view);
-        ImageView imageView = view.findViewById(R.id.ivRotate);
-        rotate = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.rotate);
-        imageView.startAnimation(this.rotate);
-        tvBloodAlcoholVal.setText(value);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init(view)
+        val imageView = view.findViewById<ImageView>(R.id.ivRotate)
+        rotate = AnimationUtils.loadAnimation(requireActivity().applicationContext, R.anim.rotate)
+        imageView.startAnimation(this.rotate)
+        tvBloodAlcoholVal!!.text = value
     }
 
-    private void init(View view) {
+    private fun init(view: View) {
         if (null != mainView) {
-            mainView.setTitleNew(R.string.bloodalcohol);
+            mainView.setTitleNew(R.string.bloodalcohol)
         }
-        tvBloodAlcohol = view.findViewById(R.id.tvBloodAlcohol);
-        tvBloodAlcoholVal = view.findViewById(R.id.tvBloodAlcoholVal);
-        tvPercent = view.findViewById(R.id.tvPercent);
+        tvBloodAlcohol = view.findViewById(R.id.tvBloodAlcohol)
+        tvBloodAlcoholVal = view.findViewById(R.id.tvBloodAlcoholVal)
+        tvPercent = view.findViewById(R.id.tvPercent)
     }
 
+    companion object {
+        private const val ARG_VALUE = "value"
+
+        fun newInstance(value: String): Fragment {
+            val fragment: Fragment = BloodAlcoholResult()
+            val arg = Bundle()
+            arg.putString(ARG_VALUE, value)
+            fragment.arguments = arg
+            return fragment
+        }
+    }
 }

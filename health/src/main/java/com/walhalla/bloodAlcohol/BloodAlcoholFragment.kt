@@ -1,236 +1,245 @@
-package com.walhalla.bloodAlcohol;
+package com.walhalla.bloodAlcohol
 
-import static com.walhalla.health.Constant.getShapeDrawable;
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Spinner
+import androidx.core.content.ContextCompat
+import com.walhalla.health.BodyMassIndex.WeightAdapter
+import com.walhalla.health.Constant
+import com.walhalla.health.IdealWeight.GenderAdapter
+import com.walhalla.health.IdealWeight.InnerAbstractFragment
+import com.walhalla.health.M
+import com.walhalla.health.R
+import com.walhalla.ui.DLog.d
+import java.text.NumberFormat
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
+class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelectedListener {
+    private var alcohollevel = 0.0
+    private var bac = 0.0
+    private var check = false
+    private var edAlcoholLevel: EditText? = null
+    private var edTime: EditText? = null
+    private var edVolDrinked: EditText? = null
 
-import android.widget.Spinner;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
-import com.walhalla.health.BodyMassIndex.WeightAdapter;
-import com.walhalla.health.IdealWeight.GenderAdapter;
-import com.walhalla.health.IdealWeight.InnerAbstractFragment;
-import com.walhalla.health.R;
-import com.walhalla.health.M;
-import com.walhalla.ui.DLog;
-
-import java.text.NumberFormat;
-
-public class BloodAlcoholFragment extends InnerAbstractFragment implements AdapterView.OnItemSelectedListener {
-
-    private double alcohollevel;
-    private double bac;
-    private boolean check = false;
-    private EditText edAlcoholLevel;
-    private EditText edTime;
-    private EditText edVolDrinked;
-    
-    private int factor = 0;
-    private int factor2 = 0;
+    private var factor = 0
+    private var factor2 = 0
 
     /* renamed from: kg */
-    public boolean isKG = true;
-    public boolean male = true;
+    var isKG: Boolean = true
+    var male: Boolean = true
 
     /* renamed from: nf */
-    NumberFormat numberFormat;
-    String str_bac;
-    double time;
 
-    Spinner genderSp;
-    Spinner timeSp;
-    Spinner volumeSp;
-    Spinner weightSp;
+    var str_bac: String = ""
+    var time: Double = 0.0
 
-
-    private double volDrinked;
+    var genderSp: Spinner? = null
+    var timeSp: Spinner? = null
+    var volumeSp: Spinner? = null
+    var weightSp: Spinner? = null
 
 
-    double weight;
-    int primaryColor;
+    private var volDrinked = 0.0
 
-    @Override
-    protected int aLayout() {
-        return R.layout.bloodalcoholcalc;
+
+    var weight: Double = 0.0
+    var primaryColor: Int = 0
+
+    override fun aLayout(): Int {
+        return R.layout.bloodalcoholcalc
     }
 
     //    @Override
-//    protected int aTheme() {
-//        return R.style.GrayTheme;
-//    }
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        String[] strArr = {getResources().getString(R.string.male), getResources().getString(R.string.female)};
-        String[] strArr2 = {getResources().getString(R.string.kilograms), getResources().getString(R.string.pounds)};
-        String[] strArr3 = {getResources().getString(R.string.hour), getResources().getString(R.string.minute), getResources().getString(R.string.day)};
-        String[] strArr4 = {getResources().getString(R.string.ounces), getResources().getString(R.string.ml), getResources().getString(R.string.cup)};
+    //    protected int aTheme() {
+    //        return R.style.GrayTheme;
+    //    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val strArr =
+            arrayOf(resources.getString(R.string.male), resources.getString(R.string.female))
+        val strArr2 =
+            arrayOf(resources.getString(R.string.kilograms), resources.getString(R.string.pounds))
+        val strArr3 = arrayOf(
+            resources.getString(R.string.hour),
+            resources.getString(R.string.minute),
+            resources.getString(R.string.day)
+        )
+        val strArr4 = arrayOf(
+            resources.getString(R.string.ounces),
+            resources.getString(R.string.ml),
+            resources.getString(R.string.cup)
+        )
 
-        Button button = view.findViewById(R.id.calc);
-        Button reset = view.findViewById(R.id.reset);
-        Button chart = view.findViewById(R.id.chart);
-        init(view);
+        val button = view.findViewById<Button>(R.id.calc)
+        val reset = view.findViewById<Button>(R.id.reset)
+        val chart = view.findViewById<Button>(R.id.chart)
+        init(view)
 
-        chart.setBackground(getShapeDrawable(false, primaryColor));
-        button.setBackground(getShapeDrawable(false, primaryColor));
-        reset.setBackground(getShapeDrawable(true, primaryColor));
+        chart.background = Constant.getShapeDrawable(false, primaryColor)
+        button.background = Constant.getShapeDrawable(false, primaryColor)
+        reset.background = Constant.getShapeDrawable(true, primaryColor)
 
-        numberFormat = NumberFormat.getInstance();
-        numberFormat.setMaximumFractionDigits(3);
-        genderSp.setAdapter(new GenderAdapter(getActivity(), R.layout.spinner_down_blue, strArr));
-        volumeSp.setAdapter(new VolumeAdapter(getActivity(), R.layout.spinner_down_blue, strArr4));
-        weightSp.setAdapter(new WeightAdapter(getActivity(), R.layout.spinner_down_blue, strArr2));
-        timeSp.setAdapter(new TimeAdapter(getActivity(), R.layout.spinner_down_blue, strArr3));
+        val numberFormat = NumberFormat.getInstance()
+        numberFormat.setMaximumFractionDigits(3)
+        genderSp!!.adapter = GenderAdapter(activity, R.layout.spinner_down_blue, strArr)
+        volumeSp!!.adapter = VolumeAdapter(activity, R.layout.spinner_down_blue, strArr4)
+        weightSp!!.adapter = WeightAdapter(activity, R.layout.spinner_down_blue, strArr2)
+        timeSp!!.adapter = TimeAdapter(activity, R.layout.spinner_down_blue, strArr3)
 
-        view.findViewById(R.id.chart).setOnClickListener(view0 -> {
+        view.findViewById<View>(R.id.chart).setOnClickListener {
             if (mainView != null) {
                 mainView.replaceFragment(
-                        new Chart_Alcohol()
-                );
+                    Chart_Alcohol()
+                )
             }
-        });
+        }
 
-        weightSp.setOnItemSelectedListener(this);
+        weightSp!!.onItemSelectedListener = this
 
 
-        genderSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                male = genderSp.getSelectedItem().toString().equals(
-                        getActivity().getResources().getString(R.string.male));
+        genderSp!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View,
+                i: Int,
+                l: Long
+            ) {
+                male = genderSp!!.selectedItem.toString() == activity!!.resources.getString(R.string.male)
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {
             }
-        });
+        }
 
 
-        volumeSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String obj = volumeSp.getSelectedItem().toString();
-                if (obj.equals(getActivity().getResources().getString(R.string.ounces))) {
-                    factor = 1;
-                } else if (obj.equals(getActivity().getResources().getString(R.string.ml))) {
-                    factor = 2;
+        volumeSp!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View,
+                i: Int,
+                l: Long
+            ) {
+                val obj = volumeSp!!.selectedItem.toString()
+                factor = if (obj == activity!!.resources.getString(R.string.ounces)) {
+                    1
+                } else if (obj == activity!!.resources.getString(R.string.ml)) {
+                    2
                 } else {
-                    factor = 3;
+                    3
                 }
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {
             }
-        });
-        timeSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String obj = timeSp.getSelectedItem().toString();
-                if (obj.equals(getActivity().getResources().getString(R.string.hour))) {
-                    factor2 = 1;
-                } else if (obj.equals(getActivity().getResources().getString(R.string.minute))) {
-                    factor2 = 2;
+        }
+        timeSp!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                view: View,
+                i: Int,
+                l: Long
+            ) {
+                val obj = timeSp!!.selectedItem.toString()
+                factor2 = if (obj == activity!!.resources.getString(R.string.hour)) {
+                    1
+                } else if (obj == activity!!.resources.getString(R.string.minute)) {
+                    2
                 } else {
-                    factor2 = 3;
+                    3
                 }
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {
+            }
+        }
 
-            }
-        });
-
-        reset.setOnClickListener(view0 -> {
-            String str = "";
-            this.edAlcoholLevel.setText(str);
-            this.edWeight.setText(str);
-            this.edTime.setText(str);
-            this.edAlcoholLevel.requestFocus();
-        });
-        button.setOnClickListener(view0 -> {
+        reset.setOnClickListener { view0: View? ->
+            val str = ""
+            edAlcoholLevel!!.setText(str)
+            edWeight.setText(str)
+            edTime!!.setText(str)
+            edAlcoholLevel!!.requestFocus()
+        }
+        button.setOnClickListener { view0: View? ->
             try {
-                this.alcohollevel = Double.parseDouble(this.edAlcoholLevel.getText().toString());
-            } catch (NumberFormatException unused) {
-                this.check = true;
+                this.alcohollevel =
+                    edAlcoholLevel!!.text.toString().toDouble()
+            } catch (unused: NumberFormatException) {
+                this.check = true
             }
             try {
-                this.volDrinked = Double.parseDouble(this.edVolDrinked.getText().toString());
-            } catch (NumberFormatException unused2) {
-                this.check = true;
+                this.volDrinked = edVolDrinked!!.text.toString()
+                    .toDouble()
+            } catch (unused2: NumberFormatException) {
+                this.check = true
             }
             try {
-                this.weight = Double.parseDouble(this.edWeight.getText().toString());
-            } catch (NumberFormatException unused3) {
-                this.check = true;
+                this.weight = edWeight.text.toString().toDouble()
+            } catch (unused3: NumberFormatException) {
+                this.check = true
             }
             try {
-                this.time = Double.parseDouble(this.edTime.getText().toString());
-            } catch (NumberFormatException unused4) {
-                this.check = true;
+                this.time = edTime!!.text.toString().toDouble()
+            } catch (unused4: NumberFormatException) {
+                this.check = true
             }
             if (this.check) {
-                toast(R.string.valid);
-                this.check = false;
-                return;
+                toast(R.string.valid)
+                this.check = false
+                return@setOnClickListener
             }
             if (this.isKG) {
-                this.weight *= 2.20462d;
+                this.weight *= 2.20462
             } else {
             }
             if (this.factor == 1) {
             } else if (this.factor == 2) {
-                this.volDrinked *= 0.033814d;
+                this.volDrinked *= 0.033814
             } else {
-                this.volDrinked *= 8.0d;
+                this.volDrinked *= 8.0
             }
-            this.alcohollevel /= 100.0d;
-            this.volDrinked *= this.alcohollevel;
+            this.alcohollevel /= 100.0
+            this.volDrinked *= this.alcohollevel
             if (this.factor2 == 1) {
             } else if (this.factor2 == 2) {
-                this.time *= 0.0166d;
+                this.time *= 0.0166
             } else {
-                this.time *= 24.0d;
+                this.time *= 24.0
             }
-            this.weight = 5.14d / this.weight;
-            this.time *= 0.015d;
+            this.weight = 5.14 / this.weight
+            this.time *= 0.015
             if (this.male) {
-                this.bac = ((this.volDrinked * this.weight) * 0.73d) - this.time;
+                this.bac =
+                    ((this.volDrinked * this.weight) * 0.73) - this.time
             } else {
-                this.bac = ((this.volDrinked * this.weight) * 0.66d) - this.time;
+                this.bac =
+                    ((this.volDrinked * this.weight) * 0.66) - this.time
             }
 
-            if(bac<0){
-                bac=0.0;
+            if (bac < 0) {
+                bac = 0.0
             }
-            this.str_bac = this.numberFormat.format(this.bac);
-
+            this.str_bac = numberFormat.format(this.bac)
             if (mainView != null) {
-                mainView.replaceFragment(BloodAlcoholResult.newInstance(this.str_bac));
+                mainView.replaceFragment(BloodAlcoholResult.newInstance(this.str_bac))
             }
-        });
+        }
     }
 
-    private void init(View view) {
-
+    private fun init(view: View) {
         if (null != mainView) {
-            mainView.setTitleNew(R.string.bloodalcohol);
+            mainView.setTitleNew(R.string.bloodalcohol)
         }
 
-        edTime = view.findViewById(R.id.edTime);
-        bindWeight(view);
-        edAlcoholLevel = view.findViewById(R.id.edAlcoholLevel);
-        edVolDrinked = view.findViewById(R.id.edVolDrinked);
+        edTime = view.findViewById(R.id.edTime)
+        bindWeight(view)
+        edAlcoholLevel = view.findViewById(R.id.edAlcoholLevel)
+        edVolDrinked = view.findViewById(R.id.edVolDrinked)
+
 
         //@@@TextView tvVolDrinked = view.findViewById(R.id.tvVolDrinked);
         //@@@ TextView tvAlcoholLevel = view.findViewById(R.id.tvAlcoholLevel);
@@ -238,35 +247,29 @@ public class BloodAlcoholFragment extends InnerAbstractFragment implements Adapt
         //@@@ TextViewtvGender = view.findViewById(R.id.tvGender);
         //@@@ TextViewtvPercent = view.findViewById(R.id.tvPercent);
         //@@@ TextView//tvWeight = view.findViewById(R.id.tvWeight);
+        weightSp = view.findViewById(R.id.weightSp)
+        volumeSp = view.findViewById(R.id.volumeSp)
+        genderSp = view.findViewById(R.id.genderSp)
+        timeSp = view.findViewById(R.id.timeSp)
+        primaryColor = ContextCompat.getColor(requireActivity().applicationContext, R.color.graycolorPrimary)
 
-
-        weightSp = view.findViewById(R.id.weightSp);
-        volumeSp = view.findViewById(R.id.volumeSp);
-        genderSp = view.findViewById(R.id.genderSp);
-        timeSp = view.findViewById(R.id.timeSp);
-        primaryColor = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.graycolorPrimary);
-
-        ImageView img_gender = view.findViewById(R.id.img_gender);
-        ImageView img_cocktail = view.findViewById(R.id.img_cocktail);
-        ImageView img_drink = view.findViewById(R.id.img_drink);
-        ImageView img_time = view.findViewById(R.id.img_time);
-        ImageView img_weight = view.findViewById(R.id.img_weight);
-        M.setThemeColor(primaryColor, img_cocktail);
-        M.setThemeColor(primaryColor, img_gender);
-        M.setThemeColor(primaryColor, img_drink);
-        M.setThemeColor(primaryColor, img_time);
-        M.setThemeColor(primaryColor, img_weight);
+        val img_gender = view.findViewById<ImageView>(R.id.img_gender)
+        val img_cocktail = view.findViewById<ImageView>(R.id.img_cocktail)
+        val img_drink = view.findViewById<ImageView>(R.id.img_drink)
+        val img_time = view.findViewById<ImageView>(R.id.img_time)
+        val img_weight = view.findViewById<ImageView>(R.id.img_weight)
+        M.setThemeColor(primaryColor, img_cocktail)
+        M.setThemeColor(primaryColor, img_gender)
+        M.setThemeColor(primaryColor, img_drink)
+        M.setThemeColor(primaryColor, img_time)
+        M.setThemeColor(primaryColor, img_weight)
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        isKG = parent.getSelectedItem().toString()
-                .equals(getActivity().getResources().getString(R.string.kilograms));
-        DLog.d("@@@@"+parent.getSelectedItem().toString()+" "+position);
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        isKG = (parent.selectedItem.toString() == requireActivity().resources.getString(R.string.kilograms))
+        d("@@@@" + parent.selectedItem.toString() + " " + position)
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
+    override fun onNothingSelected(adapterView: AdapterView<*>?) {
     }
 }

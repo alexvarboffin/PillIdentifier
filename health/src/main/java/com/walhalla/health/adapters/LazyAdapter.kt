@@ -1,99 +1,89 @@
-package com.walhalla.health.adapters;
+package com.walhalla.health.adapters
 
-import android.app.Activity;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.app.Activity
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.walhalla.health.R
+import com.walhalla.health.adapters.LazyAdapter.MyViewHolder
+import com.walhalla.health.models.RowItem
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.walhalla.health.R;
-import com.walhalla.health.models.RowItem;
-
-import java.util.List;
-
-public class LazyAdapter extends RecyclerView.Adapter<LazyAdapter.MyViewHolder> {
-
-    private final List<RowItem> rowItems;
-    private final Activity activity;
-    private clickInterface anInterface;
+class LazyAdapter(private val rowItems: List<RowItem>, private val activity: Activity) : RecyclerView.Adapter<MyViewHolder>() {
+    private var anInterface: clickInterface? = null
 
 
-    public interface clickInterface {
-        void onRecItemClick(View view, int i);
+    interface clickInterface {
+        fun onRecItemClick(view: View?, i: Int)
     }
 
-    public LazyAdapter(List<RowItem> rowItems, Activity activity) {
-        this.rowItems = rowItems;
-        this.activity = activity;
+    fun setListeners(listeners: clickInterface?) {
+        anInterface = listeners
     }
 
-    public void setListeners(clickInterface listeners) {
-        anInterface = listeners;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(activity).inflate(R.layout.list_row, parent, false)
+        return MyViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public LazyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.list_row, parent, false);
-        return new MyViewHolder(view);
-    }
+    override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
+        val rowItem = rowItems[position]
+        viewHolder.list_image.setImageResource(rowItem.imageId)
+        viewHolder.img_next.setImageResource(rowItem.icon)
+        viewHolder.title.setText(rowItem.title)
+        viewHolder.description.setText(rowItem.description)
+        viewHolder.card.startAnimation(
+            AnimationUtils.loadAnimation(
+                activity,
+                R.anim.card_animation
+            )
+        )
 
-    @Override
-    public void onBindViewHolder(@NonNull LazyAdapter.MyViewHolder viewHolder, int position) {
-        RowItem rowItem = rowItems.get(position);
-        viewHolder.list_image.setImageResource(rowItem.getImageId());
-        viewHolder.img_next.setImageResource(rowItem.getIcon());
-        viewHolder.title.setText(rowItem.title);
-        viewHolder.description.setText(rowItem.description);
-        viewHolder.card.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.card_animation));
-
-        Drawable drawable = ContextCompat.getDrawable(activity, R.drawable.home_image_bg);
+        val drawable = ContextCompat.getDrawable(activity, R.drawable.home_image_bg)
         if (drawable != null) {
-            drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(activity, rowItem.getColor()), PorterDuff.Mode.SRC_IN));
-            drawable.mutate();
-            viewHolder.image_layout.setBackground(drawable);
+            drawable.colorFilter = PorterDuffColorFilter(
+                ContextCompat.getColor(activity, rowItem.color),
+                PorterDuff.Mode.SRC_IN
+            )
+            drawable.mutate()
+            viewHolder.image_layout.background = drawable
         }
     }
 
 
-    @Override
-    public int getItemCount() {
-        return rowItems.size();
+    override fun getItemCount(): Int {
+        return rowItems.size
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    inner class MyViewHolder internal constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+        var card: FrameLayout = itemView.findViewById(R.id.card)
+        var list_image: ImageView =
+            itemView.findViewById(R.id.list_image)
+        var img_next: ImageView =
+            itemView.findViewById(R.id.img_next)
+        var image_layout: RelativeLayout = itemView.findViewById(R.id.image_layout)
+        var title: TextView =
+            itemView.findViewById(R.id.title)
+        var description: TextView =
+            itemView.findViewById(R.id.description)
 
-        FrameLayout card;
-        ImageView list_image, img_next;
-        RelativeLayout image_layout;
-        TextView title, description;
-
-        MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            card = itemView.findViewById(R.id.card);
-            title = itemView.findViewById(R.id.title);
-            list_image = itemView.findViewById(R.id.list_image);
-            img_next = itemView.findViewById(R.id.img_next);
-            image_layout = itemView.findViewById(R.id.image_layout);
-            description = itemView.findViewById(R.id.description);
-            itemView.setOnClickListener(this);
+        init {
+            itemView.setOnClickListener(this)
         }
 
-        @Override
-        public void onClick(View v) {
+        override fun onClick(v: View) {
             if (anInterface != null) {
-                anInterface.onRecItemClick(v, getAdapterPosition());
+                anInterface!!.onRecItemClick(v, adapterPosition)
             }
         }
     }

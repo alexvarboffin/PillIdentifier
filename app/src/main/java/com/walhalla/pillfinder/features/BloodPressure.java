@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.walhalla.domain.repository.AdvertRepository;
 
-import com.walhalla.health.BloodPressure.BloodPressureFragment;
+import com.walhalla.health.bloodPressure.BloodPressureFragment;
 import com.walhalla.health.R;
 import com.walhalla.health.activity.base.InnerAdActivity;
 import com.walhalla.pillfinder.MyApp;
