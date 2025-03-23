@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivRotate"
+        android:layout_width="@dimen/res_img_size"
+        android:layout_height="@dimen/res_img_size"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/bloodalcohol" />
+
+    <TextView
+        android:id="@+id/tvBloodAlcohol"
+        style="@style/AppTheme.fontstylesRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/urbloodalcohol"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/font_size_15" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvBloodAlcoholVal"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/_2000"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_30" />
+
+        <TextView
+            android:id="@+id/tvPercent"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:gravity="center"
+            android:text="@string/percent"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
+</LinearLayout>

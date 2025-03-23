@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+
+        <item name="windowNoTitle">true</item>
+        <!--        <item name="android:windowBackground">@color/bg_color</item>-->
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_orange</item>
+    </style>
+
+    <style name="BlueTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/bluecolorPrimary</item>
+        <item name="colorPrimaryDark">@color/bluecolorPrimaryDark</item>
+        <item name="colorAccent">@color/bluecolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_blue</item>
+    </style>
+
+
+    <style name="YellowTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/yellowcolorPrimary</item>
+        <item name="colorPrimaryDark">@color/yellowcolorPrimaryDark</item>
+        <item name="colorAccent">@color/yellowcolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_yellow</item>
+    </style>
+
+    <style name="CyanTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/cyancolorPrimary</item>
+        <item name="colorPrimaryDark">@color/cyancolorPrimaryDark</item>
+        <item name="colorAccent">@color/cyancolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_cyan</item>
+    </style>
+
+    <style name="PinkTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/pinkcolorPrimary</item>
+        <item name="colorPrimaryDark">@color/pinkcolorPrimaryDark</item>
+        <item name="colorAccent">@color/pinkcolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_pink</item>
+    </style>
+
+    <style name="OrangeTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/orangecolorPrimary</item>
+        <item name="colorPrimaryDark">@color/orangecolorPrimaryDark</item>
+        <item name="colorAccent">@color/orangecolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_orange</item>
+    </style>
+
+    <style name="GrayTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/graycolorPrimary</item>
+        <item name="colorPrimaryDark">@color/graycolorPrimaryDark</item>
+        <item name="colorAccent">@color/graycolorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="imageBack">@drawable/arrow_gray</item>
+    </style>
+
+    <style name="CustomActivityThemeNoTitle" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+<!--        <item name="android:fontFamily">@font/popind_regular</item>-->
+    </style>
+
+    <style name="FullScreen" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+    </style>
+
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <!--        <item name="android:background">@drawable/appbar_gradient</item>-->
+        <item name="android:fontFamily">@font/popind_regular</item>
+    </style>
+
+    <style name="ToolbarThemeBold" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <!--        <item name="android:fontFamily">@font/poppins_bold</item>-->
+    </style>
+
+    <style name="AppTheme.fontstylesRegular">
+        <item name="android:fontFamily">@font/popind_regular</item>
+    </style>
+
+    <style name="AppTheme.fontstylesAge" parent="AppTheme.fontstylesRegular">
+        <item name="android:maxLength">4</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AppTheme.ParamWeight" parent="AppTheme.fontstylesRegular">
+        <item name="android:maxLength">4</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AppTheme.ParamWaist" parent="AppTheme.fontstylesRegular">
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AppTheme.ParamNeck" parent="AppTheme.fontstylesRegular">
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AppTheme.ParamHeight" parent="AppTheme.fontstylesRegular">
+        <item name="android:maxLength">6</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AppTheme.fontstylesBold">
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <style name="AppTheme.BaseButton" parent="Widget.AppCompat.Button">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="AppTheme.Calculate" parent="AppTheme.BaseButton">
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppTheme.PDFButton" parent="AppTheme.BaseButton">
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppTheme.Reset" parent="AppTheme.BaseButton">
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.Chart" parent="AppTheme.BaseButton">
+        <item name="android:fontFamily">@font/popind_regular</item>
+        <item name="android:drawableLeft">@drawable/ic_chart</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+
+    </style>
+
+</resources>

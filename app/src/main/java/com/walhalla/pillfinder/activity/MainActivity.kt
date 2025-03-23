@@ -31,7 +31,8 @@ import com.walhalla.pillfinder.fragment.main.IMainView
 import com.walhalla.ui.DLog.d
 import com.walhalla.ui.DLog.handleException
 import com.walhalla.ui.observer.AgreementObserver
-import com.walhalla.ui.plugins.Module_U.aboutDialog
+import com.walhalla.ui.plugins.DialogAbout.aboutDialog
+
 import gov.nih.nlm.model.NlmRxImage
 import java.io.IOException
 import java.net.ConnectException

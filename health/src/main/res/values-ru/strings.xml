@@ -1,0 +1,310 @@
+<resources>
+
+    <string name="ideal_weight_calculator">Калькулятор идеального веса</string>
+    <string name="title_breath_count">Счетчик дыхания</string>
+    <string name="breath_count_desc">Подсчитайте количество вдохов, которые вы сделали с момента вашего рождения.</string>
+    <string name="choose_birth_date">Выберите дату вашего рождения</string>
+    <string name="valid_date">Пожалуйста, выберите правильную дату</string>
+    <string name="no_of_breath">Количество сделанных вдохов</string>
+    <string name="blood_pressure">Артериальное давление</string>
+    <string name="systolic_blood_pressure">Систолическое артериальное давление (верхнее число)</string>
+    <string name="diastolic_blood_pressure">Диастолическое артериальное давление (нижнее число)</string>
+    <string name="calc_bp_val">Рассчитать значение АД</string>
+    <string name="low_bp">Низкое</string>
+    <string name="hypertensive_crisis">Гипертонический криз</string>
+    <string name="high_bp_stage2">Высокое артериальное давление (Стадия 2)</string>
+    <string name="high_bp_stage1">Высокое артериальное давление (Стадия 1)</string>
+    <string name="prehypertension">Предгипертония</string>
+    <string name="normal_bp">Нормальное</string>
+    <string name="your_bp">Ваше артериальное давление</string>
+    <string name="bmi_chart_title">Диаграмма индекса массы тела (ИМТ)</string>
+    <string name="enter_value_rhr">Пульс в покое</string>
+
+
+    <string name="stayhealthy">Чтобы оставаться здоровым:</string>
+    <string name="targethrrate">Ваша целевая частота сердечных сокращений при тренировке составляет</string>
+    <string name="tdeedesc">Это количество калорий, которое вы можете потреблять ежедневно, чтобы поддерживать текущий вес.</string>
+    <string name="tdeedesc2">Чтобы снизить вес, вам потребуется потреблять меньше калорий или сжигать больше калорий, чем результат, полученный здесь.</string>
+    <string name="tdeedesc3">Чтобы набрать вес, вам потребуется потреблять больше калорий, чем результат, полученный здесь.</string>
+    <string name="typicalathlete">Обычный спортсмен</string>
+    <string name="understand_bmi">Понимание результата ИМТ</string>
+    <string name="underweight">Недостаточный вес</string>
+    <string name="underweight_desc">Недостаточный вес может быть признаком недостаточного питания или заболевания. Если у вас недостаточный вес, обратитесь к врачу за помощью.</string>
+    <string name="underweight_header">Недостаточный вес</string>
+    <string name="urblddate">Ваша следующая дата, когда вы можете сдать кровь, это</string>
+    <string name="urbloodalcohol">Содержание алкоголя в вашей крови</string>
+    <string name="urbloodvol">Общий объем вашей крови составляет</string>
+    <string name="urbodyfat">Ваша оценочная процентная содержание жира в организме</string>
+    <string name="urcal">Ваша ожидаемая суточная потребность в калориях составляет</string>
+    <string name="uredd">Ваша предполагаемая дата родов</string>
+    <string name="urfer">Ваши предстоящие наиболее плодотворные дни</string>
+    <string name="uridealweight">Ваш идеальный вес составляет</string>
+    <string name="valid">Пожалуйста, введите правильные значения</string>
+    <string name="very_active">Интенсивные тренировки</string>
+    <string name="waist">Талия</string>
+    <string name="water_intake_chart">Диаграмма показывает необходимое количество воды для потребления в течение дня человеком в соответствии с его весом.\n\nУмножьте свой вес в кг на 2.2, чтобы получить вес в фунтах, используя представленный выше калькулятор.</string>
+    <string name="waterintake">Потребление воды</string>
+    <string name="waterintake_desc">Сколько воды нужно пить каждый день?</string>
+    <string name="weight">Вес:</string>
+    <string name="women">Женщины</string>
+    <string name="wrist">Запястье</string>
+
+
+    <string name="enter_value">Введите значение</string>
+    <string name="enter_value_age" translatable="false">Введите ваш возраст</string>
+    <string name="enter_value_height">Введите рост</string>
+    <string name="enter_value_weight">Введите вес</string>
+    <string name="enter_value_waist">Введите обхват талии</string>
+    <string name="enter_value_neck">Размер шеи* (в самом узком месте)</string>
+    <string name="enter_value_forearm">Введите обхват предплечья</string>
+    <string name="enter_value_wrist">Обхват запястья*</string>
+    <string name="enter_value_hip">Бедра* (в самом широком месте)</string>
+    <string name="enter_value_height2">Рост</string>
+    <string name="enter_value_alcohol_level">Процент алкоголя</string>
+    <string name="bac_hint_value_hours_drinking">Прошедшее время:</string>
+    <string name="bac_hint_value_vol_drinked">Объем выпитого:</string>
+    <string name="enter_age">Введите возраст</string>
+    <string name="feedback">Отзыв</string>
+    <string name="feedback_msg">Отзыв для Sleep sound</string>
+    <string name="app_version">Версия приложения:</string>
+    <string name="device_os">ОС устройства: Android \n Версия ОС устройства:</string>
+    <string name="device_model">Модель устройства:</string>
+    <string name="manufacturer">Производитель устройства:</string>
+    <string name="email_client">Выберите почтовый клиент:</string>
+
+    <string name="health_n_calcultor">&amp; Здоровье\nКалькулятор</string>
+    <string name="_200">200</string>
+    <string name="_2000">2000</string>
+    <string name="_0">0</string>
+    <string name="_200_220">200 – 220</string>
+    <string name="rate">Оценить</string>
+    <string name="rating_content">Если вам нравится использовать Health Calculator, пожалуйста, найдите минутку, чтобы оценить его. Спасибо за вашу поддержку!</string>
+    <string name="rating_later">Позже</string>
+    <string name="rating_never">Никогда</string>
+    <string name="rating_title">Оцените Health Calculator</string>
+    <string name="reset">Сбросить</string>
+    <string name="rhr">Пульс в покое:</string>
+    <string name="s1">Сохранить изображение</string>
+    <string name="s2">Разрешить рекламе сохранять изображение в галерее?</string>
+    <string name="s3">Принять</string>
+    <string name="s4">Отклонить</string>
+    <string name="s5">Создать событие в календаре</string>
+    <string name="s6">Разрешить рекламе создавать событие в календаре?</string>
+    <string name="s7">Тестовая реклама</string>
+    <string name="search_menu_title">Поиск</string>
+    <string name="sedentary">Сидячий</string>
+    <string name="sep">Сентябрь</string>
+    <string name="should_never_give">Вы никогда не должны сдавать кровь, если:</string>
+    <string name="should_never_give_12">Вы не должны сдавать кровь в течение 12 месяцев после секса с:</string>
+    <string name="should_never_give__desc">‣ Мужчиной, который занимается сексом с другим мужчиной (если вы женщина).\n\n‣ Проституткой.\n\n‣ Любым человеком, когда-либо колющим себя наркотиками.\n\n‣ Любым человеком с гемофилией или связанным с ней нарушением свертываемости крови, получавшим концентраты факторов свертываемости.\n\n‣ Любым человеком любой расы, который был половым партнером в странах, где СПИД/ВИЧ распространены, в том числе в странах Африки.</string>
+    <string name="should_never_give_desc">‣ У вас когда-либо была сифилис, HTLV (вирус лимфотропных T-клеток человека), ВИЧ или гепатит C.\n\n‣ Вы мужчина и занимались анальным или оральным сексом с другим мужчиной с презервативом или без него.\n\n‣ Вы когда-либо работали в сфере коммерческого секса.\n\n‣ Вы когда-либо кололи себе наркотики, даже один раз.</string>
+    <string name="should_not_donate">Вы не должны сдавать кровь, если:</string>
+    <string name="should_not_donate_desc">‣ Вы мужской донор и между сдачей крови прошло менее 12 недель.\n\n‣ Вы женский донор и между сдачей крови прошло менее 16 недель.\n\n‣ У вас болит горло, есть кашель или активная герпетическая опоясывающая лихорадка. Вы можете сдать кровь, когда почувствуете себя хорошо (после окончания простуды это допустимо) и опоясывающая лихорадка высохла и заживает.\n\n‣ Вы сейчас принимаете антибиотики или только что закончили курс в течение последних 7 дней, или у вас была инфекция в последние 2 недели.\n\n‣ У вас был гепатит или желтуха в течение последних 12 месяцев.\n\n‣ Вы делали татуировку, полуперманентный макияж или любые косметические процедуры, связанные с проколом кожи, в последние 12 месяцев.\n\n‣ Вы делали акупунктуру в течение последних 12 месяцев, если это не было выполнено в рамках национальной системы здравоохранения или квалифицированным медицинским работником, зарегистрированным в уполномоченном органе.\n\n‣ Член вашей семьи (родитель, брат, сестра или ребенок) страдал от болезни Крейтсфельда-Якоба (Creutzfeld-Jakob Disease).\n\n‣ Вы когда-либо получали экстракт гипофиза человека (который использовался в некоторых препаратах гормона роста или лечении бесплодия до 1985 года).\n\n‣ Вы получали кровь или подозреваете, что получили кровь во время любого медицинского лечения или процедуры где-либо в мире с 1 января 1980 года.</string>
+    <string name="morbid">Чрезмерно ожирелый</string>
+    <string name="mr_button_content_description">Кнопка выбора устройства</string>
+    <string name="mr_cast_button_connected">Кнопка выбора устройства. Подключено</string>
+    <string name="mr_cast_button_connecting">Кнопка выбора устройства. Подключение</string>
+    <string name="mr_cast_button_disconnected">Кнопка выбора устройства. Отключено</string>
+    <string name="mr_cast_dialog_title_view_placeholder">Нет доступной информации</string>
+    <string name="mr_chooser_searching">Поиск устройств</string>
+    <string name="mr_chooser_title">Передать на</string>
+    <string name="mr_controller_album_art">Обложка альбома</string>
+    <string name="mr_controller_casting_screen">Просмотр экрана</string>
+    <string name="mr_controller_close_description">Закрыть</string>
+    <string name="mr_controller_collapse_group">Свернуть</string>
+    <string name="mr_controller_disconnect">Отключиться</string>
+    <string name="mr_controller_expand_group">Развернуть</string>
+    <string name="mr_controller_no_info_available">Нет доступной информации</string>
+    <string name="mr_controller_no_media_selected">Нет выбранных медиа</string>
+    <string name="mr_controller_pause">Пауза</string>
+    <string name="mr_controller_play">Воспроизвести</string>
+    <string name="mr_controller_stop">Остановить</string>
+    <string name="mr_controller_stop_casting">Остановить передачу</string>
+    <string name="mr_controller_volume_slider">Регулятор громкости</string>
+    <string name="mr_dialog_device_header">Передать на устройство</string>
+    <string name="mr_dialog_route_header">Воспроизвести на группе</string>
+    <string name="mr_system_route_name">Система</string>
+    <string name="mr_user_route_category_name">Устройства</string>
+    <string name="neck">Шея</string>
+    <string name="no_net_message">Не установлено подключение к Интернету</string>
+    <string name="normalweight">Нормальный вес</string>
+    <string name="nov">Ноябрь</string>
+    <string name="obese">Ожирение</string>
+    <string name="obese_desc">Лучший способ снизить вес при ожирении — это комбинация диеты и физических упражнений, а также, в некоторых случаях, применение лекарств. Обратитесь за помощью и советом к врачу.</string>
+    <string name="obese_header">Ожирение</string>
+    <string name="obeseone">Ожирение первого класса</string>
+    <string name="obesetwo">Ожирение второго класса</string>
+    <string name="oct">Октябрь</string>
+
+    <string name="ok">ОК</string>
+    <string name="ounces">унции</string>
+    <string name="overweight">Избыточный вес</string>
+    <string name="overweight_desc">Лучший способ сбросить вес при избыточном весе - это комбинация диеты и упражнений. Калькулятор ИМТ даст вам персональное разрешение на калории, чтобы помочь вам безопасно достичь здорового веса.</string>
+    <string name="overweight_header">Избыточный вес</string>
+    <string name="ovu_header">Цель этого цикла - подготовить организм к беременности, и если это не происходит, то происходит кровотечение (менструация), и ваш цикл начинается снова.</string>
+    <string name="ovulation">Период овуляции</string>
+    <string name="ovulation_desc">Расчет самых плодородных дней</string>
+    <string name="pdf_calorie">Список калорийности продуктов</string>
+    <string name="pdf_food">Руководство по питанию при беременности</string>
+    <string name="percent">%</string>
+    <string name="physicallyfit">Физически подготовленный</string>
+    <string name="pounds">Фунты</string>
+    <string name="preg_chart">Таблица набора веса при беременности</string>
+    <string name="pregnancy">Срок родов</string>
+    <string name="pregnancy_desc">Рассчитывает срок родов вашего ребенка</string>
+    <string name="pregnancy_desc2">‣ Вы не должны сдавать кровь, если вы беременны или являетесь женщиной, которая родила в последние 6 месяцев.\n\n‣ Вы можете сдавать кровь, если вы кормите грудью.\n\n‣ Если у вас был выкидыш или аборт до 12 недель, возможно, вы сможете сдать кровь.</string>
+    <string name="pregnancy_header">Беременность</string>
+
+
+    <string name="ideal_chart">Таблица идеального веса</string>
+    <string name="idealweight">Идеальный вес</string>
+    <string name="idealweight_desc">Вес, который считается максимально полезным для человека</string>
+    <string name="in">в</string>
+    <string name="inches">Дюймы</string>
+    <string name="intensity">Интенсивность тренировки:</string>
+    <string name="iwc_header">Три самые популярные формулы для расчета идеального веса - это формулы Девина, Робинсона и Миллера.\n\nВес в фунтах (килограммах)</string>
+
+
+    <string name="jan">Январь</string>
+    <string name="jul">Июль</string>
+    <string name="jun">Июнь</string>
+    <string name="kg">кг</string>
+    <string name="kilograms">Килограммы</string>
+    <string name="lbs">фунты</string>
+
+
+    <string name="lightly_active">Мало</string>
+    <string name="litres">Литры</string>
+    <string name="lose_weight">Сбросить вес</string>
+    <string name="maintain_weight">Поддерживать вес</string>
+    <string name="male">Мужчина</string>
+    <string name="mar">Март</string>
+    <string name="maxhrrate">Ваш максимальный пульс составляет</string>
+    <string name="may">Май</string>
+    <string name="may_not_give">Вы не можете сдать кровь, если:</string>
+    <string name="pwg_header">Найдите свой рост, затем перейдите по таблице, пока не окажетесь в столбце, соответствующем вашему весу. Число в ячейке - это ваш ИМТ (округленное до ближайшего целого числа). Цвет ячейки указывает на то, какие рекомендации подходят для вас.</string>
+
+    <string name="may_not_give_desc">‣ У вас было серьезное заболевание или крупная операция в прошлом или вы находитесь на медикаментах. Причина приема лекарств может помешать вам сдать кровь.\n\n
+        ‣ У вас была сложная зубная работа. Обычные пломбы допустимы через 24 часа, обычные удаления через 7 дней.\n\n
+        ‣ Вы контактировали с инфекционным заболеванием или вам делали определенные прививки в последние 4 недели.\n\n
+        ‣ Вы находитесь в списке ожидания госпиталя или проходите медицинские тесты.\n\n
+        ‣ У вас есть или были какие-либо сердечные проблемы.\n\n
+        ‣ Ваш вес менее 7 камней 12 фунтов (50 кг). Обратите внимание, если вы женщина и возрастом от 17 до 19 лет, весите менее 10 камней 3 фунтов (65 кг) и меньше 5’6" (168 см) в высоту, нам необходимо подтвердить, что ваш объем крови превышает 3500 мл.</string>
+
+
+    <string name="men">Мужчины</string>
+    <string name="minute">Минута</string>
+    <string name="buttonClear">Очистить</string>
+    <string name="buttonDecimalPoint">.</string>
+    <string name="buttonDivide">/</string>
+    <string name="buttonEquals">=</string>
+    <string name="buttonMultiply">*</string>
+    <string name="buttonSubtract">-</string>
+    <string name="calc">Калькулятор</string>
+    <string name="calculate">Рассчитать</string>
+    <string name="calorie_chart_header">Рекомендуемая потребность в калориях в день в зависимости от возраста, пола и уровня физической активности</string>
+    <string name="calorie_desc">Рассчитайте ежедневную потребность в калориях для набора или снижения веса</string>
+    <string name="calories">Калории для набора или снижения веса</string>
+    <string name="caloriesval">калории</string>
+    <string name="cancel_text">Отмена</string>
+    <string name="canidonate">Могу ли я сдать кровь?</string>
+
+    <string name="canigiveblood_desc">‣ Мужчины-доноры могут сдавать кровь не чаще чем каждые 12 недель (4 раза в год), но обычно реже.\n\n‣ Женщины-доноры могут сдавать кровь не чаще чем каждые 16 недель (3 раза в год), но обычно реже.\n\n‣ Женщины в возрасте от 17 до 19 лет, весом менее 10 камней 3 фунтов (65 кг) и ростом ниже 5 футов 6 дюймов (168 см) должны оценить объем своей крови перед сдачей крови. Пожалуйста, обратитесь к таблице ниже. Если объем вашей крови находится в теневой области, вы не сможете сдать кровь до своего 20-летия.</string>
+    <string name="category">Категория</string>
+    <string name="centimeters">Сантиметры</string>
+    <string name="chart">Таблица ИМТ</string>
+    <string name="chart_calorie">Ежедневная таблица калорий</string>
+    <string name="chart_giving_blood">Таблица объема крови</string>
+    <string name="chart_ovulation">Календарь менструального цикла</string>
+    <string name="chart_water">Таблица ежедневного потребления воды</string>
+    <string name="choosedate">Выберите дату</string>
+    <string name="cm">см</string>
+
+    <string name="connection_problem">Проблема с соединением!</string>
+    <string name="cup">стакан</string>
+    <string name="dailywaterreq">Ваша ежедневная потребность в воде</string>
+    <string name="datechoosen">Выбранная дата:</string>
+    <string name="day">День</string>
+    <string name="dec">Декабрь</string>
+    <string name="dwrdesc">Дополнительно выпейте 2–3 стакана воды, если занимаетесь физическими упражнениями или находитесь в жаркой среде.</string>
+    <string name="edddesc">Расчет срока родов основан на среднем цикле продолжительностью 28 дней.</string>
+    <string name="edddesc2">Этот расчет основан на среднем цикле продолжительностью 28 дней.</string>
+    <string name="eligibility_check">Право сдавать кровь</string>
+    <string name="enterblddon">Выберите дату последней сдачи крови</string>
+    <string name="entercm">Вы должны быть выше 153 см, чтобы рассчитать идеальный вес</string>
+    <string name="enterfeet">Вы должны быть выше 5 футов, чтобы рассчитать идеальный вес</string>
+    <string name="enterpregdate">Выберите первый день вашего последнего менструального периода</string>
+    <string name="essential">Существенный % жира</string>
+    <string name="extremely_active">Очень интенсивные</string>
+    <string name="exunder">Сильный недостаток веса</string>
+    <string name="fat_chart">Таблица жира в организме</string>
+
+    <string name="fat_header">Как видно ниже, у вас есть таблица процента жира для женщин и теперь для мужчин (ниже), в которую вам нужно ввести значения измерений с использованием калиперов.</string>
+    <string name="feb">Февраль</string>
+    <string name="feets">Фут</string>
+    <string name="female">Женский</string>
+    <string name="forearm">Предплечье</string>
+    <string name="ft">футов</string>
+    <string name="gender">Пол</string>
+    <string name="glasses">Стаканы</string>
+    <string name="go">Перейти</string>
+    <string name="healthy_weight_desc">Продолжайте в том же духе! Для советов по поддержанию здорового веса ознакомьтесь с разделами питания и фитнеса.</string>
+    <string name="healthy_weight_header">Здоровый вес</string>
+    <string name="heart_chart">Таблица целевого пульса</string>
+    <string name="heart_chart_desc">Когда вы контролируете свой пульс во время физических упражнений и остаетесь в пределах вашей целевой зоны пульса, вы получаете максимальные преимущества для здоровья и снижаете риск травм.</string>
+    <string name="heart_desc">Целевой пульс во время аэробных упражнений в зависимости от возраста</string>
+    <string name="heartrate">Целевой пульс</string>
+    <string name="height">Рост</string>
+    <string name="hip">Бедра</string>
+    <string name="hour">Час</string>
+
+    <string name="action_important">Оценить</string>
+    <string name="age">Возраст:</string>
+    <string name="alcohol_chart">Таблица алкогольного воздействия на организм</string>
+    <string name="alcohollevel">Уровень алкоголя в напитке:</string>
+    <string name="apr">Апрель</string>
+    <string name="assessment">Оценка:</string>
+    <string name="aug">Август</string>
+    <string name="avg_cal">Среднее количество калорий</string>
+    <string name="bac_header">Самый точный способ измерить концентрацию алкоголя в крови (BAC) - использовать алкотестер, но иногда его не всегда под рукой. В таких случаях используйте таблицы ниже, чтобы планировать, сколько напитков вы можете употребить.\n\nУмножьте свой вес в кг на 2,2, чтобы получить вес в фунтах с помощью калькулятора выше.</string>
+    <string name="back_text">Назад</string>
+    <string name="beats">ударов в минуту</string>
+    <string name="blddondesc">Вы должны быть в хорошем здоровье и иметь не менее 17 лет с весом тела 50 кг или 110 фунтов.</string>
+    <string name="blood_don_desc">Рассчитайте дату следующей возможной сдачи крови</string>
+    <string name="blood_donate">Сдача крови</string>
+    <string name="bloodalcohol">Алкоголь в крови</string>
+    <string name="bloodalcohol_desc">Уровень содержания алкоголя в крови</string>
+    <string name="bloodvol">Объем крови</string>
+    <string name="bloodvol_desc">Объем крови у любого человека</string>
+    <string name="bloodvol_header">Это дополнительное руководство было разработано для минимизации риска плохого самочувствия или обморока после сдачи крови.</string>
+    <string name="bmi_chart">Чтобы узнать свой ИМТ, найдите место пересечения вашего роста и веса; ваш ИМТ указан в квадрате</string>
+    <string name="bmi_desc">Показывает, имеют ли люди правильный вес для своего роста</string>
+    <string name="bmi_title">Индекс массы тела</string>
+    <string name="bmiis">Ваш индекс массы тела</string>
+    <string name="bodyfat">Жир в организме</string>
+    <string name="bodyfat_desc">Показатель физической подготовленности человека</string>
+
+    <string name="about_desc">Здоровый калькулятор предоставлен исключительно для вашего личного пользования и должен использоваться только в качестве руководства. Медицинские и другие решения не должны основываться на результатах этого калькулятора. Несмотря на то, что этот калькулятор был протестирован, мы не можем гарантировать точность его расчетов или результатов.</string>
+    <string name="acceptable">Приемлемо</string>
+
+    <string name="ml">мл</string>
+    <string name="moderately_active">Умеренная</string>
+
+    <string name="rang1">10 – 13</string>
+    <string name="rang10">25% или больше</string>
+    <string name="rang2">2 – 5</string>
+    <string name="rang3">14 – 20</string>
+    <string name="rang4">6 – 13</string>
+    <string name="rang5">21 – 24</string>
+    <string name="rang6">14 – 17</string>
+    <string name="rang7">25 – 31</string>
+    <string name="rang8">18 – 24</string>
+    <string name="rang9">32% или больше</string>
+    <string name="range1">2000 – 2100</string>
+    <string name="range2">2700 – 2900</string>
+    <string name="range3">1400 – 1800</string>
+    <string name="range4">2200 – 2700</string>
+    <string name="status_bar_notification_info_overflow">999</string>
+
+</resources>
+

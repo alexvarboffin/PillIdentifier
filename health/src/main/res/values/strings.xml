@@ -1,0 +1,341 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="case3" translatable="false">18.6 – 25</string>
+    <string name="case4" translatable="false">25.1 – 30</string>
+    <string name="case5" translatable="false">30.1 – 35</string>
+    <string name="case6" translatable="false">35.1 – 40</string>
+    <string name="case7" translatable="false">40+</string>
+    <string name="button0" translatable="false">0</string>
+    <string name="button1" translatable="false">1</string>
+    <string name="button2" translatable="false">2</string>
+    <string name="button3" translatable="false">3</string>
+    <string name="button4" translatable="false">4</string>
+    <string name="button5" translatable="false">5</string>
+    <string name="button6" translatable="false">6</string>
+    <string name="button7" translatable="false">7</string>
+    <string name="button8" translatable="false">8</string>
+    <string name="button9" translatable="false">9</string>
+    <string name="buttonAdd" translatable="false">+</string>
+
+    <string name="about_desc">Health calculator is presented for your own personal use and is to be used as a guide only. Medical and other decisions should not be based on the results of this calculator. Although this calculator has been tested, we cannot guarantee the accuracy of its calculations or results.</string>
+    <string name="acceptable">Acceptable</string>
+
+    <string name="action_important">Rate</string>
+    <string name="age">Age :</string>
+    <string name="alcohol_chart">Blood Alcohol Chart</string>
+    <string name="alcohollevel">Drink\'s Alcohol Level:</string>
+    <string name="apr">April</string>
+    <string name="assessment">Assessment:</string>
+    <string name="aug">August</string>
+    <string name="avg_cal">Average Calories</string>
+    <string name="bac_header">The most accurate way to measure your Blood Alcohol Concentration (BAC) or alcohol level is to use a breathalyzer, but sometimes one is not readily available. In cases like this, use the charts below to plan for how many drinks you should limit yourself to.\n\nMultiply your weight in kg by 2.2 to get your weight in lbs using the calculator above.</string>
+    <string name="back_text">Back</string>
+    <string name="beats">beats/minute</string>
+    <string name="blddondesc">You should be in good health and atleast 17 years old with a body weight of 50 kg or 110 pounds.</string>
+    <string name="blood_don_desc">Calculate your next eligible donation date</string>
+    <string name="blood_donate">Blood Donation</string>
+    <string name="bloodalcohol">Blood Alcohol</string>
+    <string name="bloodalcohol_desc">Level of alcohol content in blood</string>
+    <string name="bloodvol">Blood Volume</string>
+    <string name="bloodvol_desc">Volume of blood of any individual</string>
+    <string name="bloodvol_header">This additional guideline has been introduced to minimise the risk of feeling unwell or faint after giving blood.</string>
+    <string name="bmi_chart">To find your BMI, locate where your height and weight intersect; your BMI is listed in the square</string>
+    <string name="bmi_desc">Shows whether people have the right weight for their height</string>
+    <string name="bmi_title">Body Mass Index</string>
+    <string name="bmiis">Your Body Mass Index is</string>
+    <string name="bodyfat">Body Fat</string>
+    <string name="bodyfat_desc">A measure of fitness level of an individual</string>
+
+    <string name="buttonClear">Clear</string>
+    <string name="buttonDecimalPoint">.</string>
+    <string name="buttonDivide">/</string>
+    <string name="buttonEquals">=</string>
+    <string name="buttonMultiply">*</string>
+    <string name="buttonSubtract">-</string>
+    <string name="calc">Calculator</string>
+    <string name="calculate">Calculate</string>
+    <string name="calorie_chart_header">Estimated Calorie Needs per Day, by Age, Sex, and Physical Activity Level</string>
+    <string name="calorie_desc">Calculate your daily calorie requirements for weight gain/loss</string>
+    <string name="calories">Calories for weight gain/loss</string>
+    <string name="caloriesval">calories</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="canidonate">Can I Donate?</string>
+    <string name="canigiveblood_desc">‣ Male donors could be eligible to give blood at a maximum frequency of every 12 weeks (4 times per year) but normally less often.\n\n‣ Female donors could be eligible to give blood at a maximum frequency of every 16 weeks (3 times per year) but normally less often.\n\n‣ Women between the ages of 17 and 19 who weigh less than 10 stone 3lbs (65kg) and whose height is below 5 feet 6 inches (168cm) need to have their blood volume estimated before giving blood. Please see the chart below. If your blood volume is within the shaded area you will be unable to donate until after your 20th birthday.</string>
+    <string name="category">Category</string>
+    <string name="centimeters">Centimeters</string>
+    <string name="chart">BMI chart</string>
+    <string name="chart_calorie">Daily Calorie Chart</string>
+    <string name="chart_giving_blood">Blood Volume Chart</string>
+    <string name="chart_ovulation">Menstrual Cycle Calendar</string>
+    <string name="chart_water">Daily Water Intake Chart</string>
+    <string name="choosedate">Choose Date</string>
+    <string name="cm">cm</string>
+
+<!--    <string name="common_google_play_services_unknown_issue">%1$s is having trouble with Google Play services. Please try again.</string>-->
+
+    <string name="connection_problem">Connection Problem!</string>
+    <string name="cup">cup</string>
+    <string name="dailywaterreq">Your daily water requirement is</string>
+    <string name="datechoosen">Date Chosen :</string>
+    <string name="day">Day</string>
+    <string name="dec">December</string>
+    <string name="dwrdesc">Take 2 – 3 glasses of water additionally if you exercise or if your environmental conditions are hot.</string>
+    <string name="edddesc">The due date calculation is based on the average 28-day cycle.</string>
+    <string name="edddesc2">This calculation is based on the average 28-day cycle.</string>
+    <string name="eligibility_check">Eligibility to donate</string>
+    <string name="enterblddon">Choose the date of last donation</string>
+    <string name="entercm">You must be over 153 cm to calculate ideal weight</string>
+    <string name="enterfeet">You must be over 5 feet to calculate ideal weight</string>
+    <string name="enterpregdate">Choose the 1st day of your last menstrual period</string>
+    <string name="essential">Essential % of fat</string>
+    <string name="extremely_active">Very Hard</string>
+    <string name="exunder">Extremely under weight</string>
+    <string name="fat_chart">Body Fat Chart</string>
+    <string name="fat_header">As you can see below, you have the body fat percentage chart for women and now men (below) that you need to input the numbers from your measurements using calipers.</string>
+    <string name="feb">February</string>
+    <string name="feets">Foot</string>
+    <string name="female">Female</string>
+    <string name="forearm">Forearm</string>
+    <string name="ft">ft</string>
+    <string name="gender">Gender</string>
+    <string name="glasses">Glasses</string>
+    <string name="go">Go</string>
+    <string name="healthy_weight_desc">Keep up the good work! For tips on maintaining a healthy weight, check out the food and diet and fitness sections.</string>
+    <string name="healthy_weight_header">Healthy weight</string>
+    <string name="heart_chart">Target Heart Rate Chart</string>
+    <string name="heart_chart_desc">When you monitor your heart rate during physical exercise and stay within your target heart rate zone, you reap the most health benefits and lessen your risk of injury.</string>
+    <string name="heart_desc">Pulse rate to target during aerobic exercise based on age</string>
+    <string name="heartrate">Target Heart Rate</string>
+    <string name="height">Height</string>
+    <string name="hip">Hip</string>
+    <string name="hour">Hour</string>
+
+    <string name="hypen" translatable="false">-</string>
+
+    <string name="ideal_chart">Ideal Weight Chart</string>
+    <string name="idealweight">Ideal Weight</string>
+    <string name="idealweight_desc">Weight that is believed to be maximally healthful for a person</string>
+    <string name="in">in</string>
+    <string name="inches">Inches</string>
+    <string name="intensity">Workout Intensity :</string>
+    <string name="iwc_header">The three most popular formulas for calculating ideal weight are the Devine, Robinson and Miller formulas.\n\nWeight in lbs (kg)</string>
+    <string name="jan">January</string>
+    <string name="jul">July</string>
+    <string name="jun">June</string>
+    <string name="kg">kg</string>
+    <string name="kilograms">Kilograms</string>
+    <string name="lbs">lbs</string>
+    <string name="lightly_active">Little</string>
+    <string name="litres">Liters</string>
+
+    <string name="lose_weight">Lose Weight</string>
+    <string name="maintain_weight">Maintain Weight</string>
+    <string name="male">Male</string>
+    <string name="mar">March</string>
+    <string name="maxhrrate">Your maximun heart rate is</string>
+    <string name="may">May</string>
+    <string name="may_not_give">You may not give blood if:</string>
+    <string name="may_not_give_desc">‣ You have had a serious illness or major surgery in the past or are currently on medication. The reason you are taking medication may prevent you from giving blood.\n\n‣ You have had complicated dental work. Simple fillings as OK after 24 hours; simple extractions are OK after 7 days.\n\n‣ You have been in contact with an infectious disease or have been given certain immunisation in the last 4 weeks.\n\n‣ You are presently on a hospital waiting list or undergoing medical tests.\n\n‣ You have got or had any heart conditions.\n\n‣ You do not weigh over 7stone 12lbs (50kgs). Please note, if you are female and aged between 17 and 19 years, weigh less than 10stone 3lbs (65kgs) and are less than 5’6” (168cm) in height, we need to confirm your estimated blood volume is over 3500ml.</string>
+    <string name="men">Men</string>
+    <string name="minute">Minute</string>
+
+    <string name="ml">ml</string>
+    <string name="pwg_header">Find your height, then go across the chart till you are in the column headed by your weight. The number in the cell is your BMI (rounded to the nearest whole number). The colour of the cell indicates which recommendations are right for you.</string>
+
+    <string name="moderately_active">Moderate</string>
+
+    <string name="morbid">Morbid Obese</string>
+    <string name="mr_button_content_description">Cast button</string>
+    <string name="mr_cast_button_connected">Cast button. Connected</string>
+    <string name="mr_cast_button_connecting">Cast button. Connecting</string>
+    <string name="mr_cast_button_disconnected">Cast button. Disconnected</string>
+    <string name="mr_cast_dialog_title_view_placeholder">No info available</string>
+    <string name="mr_chooser_searching">Finding devices</string>
+    <string name="mr_chooser_title">Cast to</string>
+    <string name="mr_controller_album_art">Album art</string>
+    <string name="mr_controller_casting_screen">Casting screen</string>
+    <string name="mr_controller_close_description">Close</string>
+    <string name="mr_controller_collapse_group">Collapse</string>
+    <string name="mr_controller_disconnect">Disconnect</string>
+    <string name="mr_controller_expand_group">Expand</string>
+    <string name="mr_controller_no_info_available">No info available</string>
+    <string name="mr_controller_no_media_selected">No media selected</string>
+    <string name="mr_controller_pause">Pause</string>
+    <string name="mr_controller_play">Play</string>
+    <string name="mr_controller_stop">Stop</string>
+    <string name="mr_controller_stop_casting">Stop casting</string>
+    <string name="mr_controller_volume_slider">Volume slider</string>
+    <string name="mr_dialog_device_header">Cast to a device</string>
+    <string name="mr_dialog_route_header">Play on a group</string>
+    <string name="mr_system_route_name">System</string>
+    <string name="mr_user_route_category_name">Devices</string>
+    <string name="neck">Neck</string>
+    <string name="no_net_message">Internet connection not established</string>
+    <string name="normalweight">Normal weight</string>
+    <string name="nov">November</string>
+    <string name="obese">Obese</string>
+    <string name="obese_desc">The best way to lose weight if you\'re obese is through a combination of diet and exercise, and, in some cases, medicines. See a doctor for help and advice.</string>
+    <string name="obese_header">Obese</string>
+    <string name="obeseone">Obese class one</string>
+    <string name="obesetwo">Obese class two</string>
+    <string name="oct">October</string>
+    <string name="ok">OK</string>
+    <string name="ounces">ounces</string>
+    <string name="overweight">Over weight</string>
+    <string name="overweight_desc">The best way to lose weight if you\'re overweight is through a combination of diet and exercise. The BMI calculator will give you a personal calorie allowance to help you achieve a healthy weight safely.</string>
+    <string name="overweight_header">Overweight</string>
+    <string name="ovu_header">The purpose of this cycle is to prepare the body for pregnancy, and if this does not occur then bleeding occurs (the period), and your cycle starts over again.</string>
+    <string name="ovulation">Ovulation Period</string>
+    <string name="ovulation_desc">Calculates your most fertile days</string>
+    <string name="pdf_calorie">Food Calorie List</string>
+    <string name="pdf_food">Pregnancy Food Guide</string>
+    <string name="percent">%</string>
+    <string name="physicallyfit">Physically Fit</string>
+    <string name="pounds">Pounds</string>
+    <string name="preg_chart">Pregnancy Weight Gain Chart</string>
+    <string name="pregnancy">Pregnancy Due Date</string>
+    <string name="pregnancy_desc">Calculates the pregnancy due date of your baby</string>
+    <string name="pregnancy_desc2">‣ You should not give blood if you are pregnant or you are a woman who has had a baby in the last 6 months.\n\n‣ You can donate if you are breast feeding.\n\n‣ If you have had a miscarriage or termination before 12 weeks it may be possible for you to donate.</string>
+    <string name="pregnancy_header">Pregnancy</string>
+
+<!--    <string name="privacy_text" translatable="false">NewageProductions built the Health Calculator app as a Free app. This SERVICE is provided by NewageProductions at no cost and is intended for use as is.\n\nThis page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.\n\nIf you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.\n\nThe terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Health Calculator unless otherwise defined in this Privacy Policy.\n\nInformation Collection and Use\n\nFor a better experience, while using our Service, we may require you to provide us with certain personally identifiable information. The information that we request will be retained by us and used as described in this privacy policy.\n\nThe app does use third party services that may collect information used to identify you. Link to privacy policy of third-party service providers used by the app\n\nGoogle Play Services\nAdMob\nFirebase Analytics\nLog Data\n\nWe want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.\n\nCookies\n\nCookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device\'s internal memory.\n\nThis Service does not use these “cookies” explicitly. However, the app may use third party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.\n\nService Providers\n\nWe may employ third-party companies and individuals due to the following reasons:\n\nTo facilitate our Service;\nTo provide the Service on our behalf;\nTo perform Service-related services;\nor To assist us in analyzing how our Service is used.\n\nWe want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.\n\nSecurity\n\nWe value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.\n\nLinks to Other Sites\n\nThis Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.\n\nChildren’s Privacy\n\nThese Services do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.\n\nChanges to This Privacy Policy\n\nWe may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.\n\nContact Us\n\nIf you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</string>-->
+    <string name="rang1">10 – 13</string>
+    <string name="rang10">25% or more</string>
+    <string name="rang2">2 – 5</string>
+    <string name="rang3">14 – 20</string>
+    <string name="rang4">6 – 13</string>
+    <string name="rang5">21 – 24</string>
+    <string name="rang6">14 – 17</string>
+    <string name="rang7">25 – 31</string>
+    <string name="rang8">18 – 24</string>
+    <string name="rang9">32% or more</string>
+    <string name="range1">2000 – 2100</string>
+    <string name="range2">2700 – 2900</string>
+    <string name="range3">1400 – 1800</string>
+    <string name="range4">2200 – 2700</string>
+
+    <string name="rate">Rate</string>
+    <string name="rating_content">If you like using Health Calculator, please take a moment to rate it. Thanks for your support!</string>
+    <string name="rating_later">Later</string>
+    <string name="rating_never">Never</string>
+    <string name="rating_title">Rate Health Calculator</string>
+    <string name="reset">Reset</string>
+    <string name="rhr">Resting heart rate:</string>
+    <string name="s1">Save image</string>
+    <string name="s2">Allow Ad to store image in Picture gallery?</string>
+    <string name="s3">Accept</string>
+    <string name="s4">Decline</string>
+    <string name="s5">Create calendar event</string>
+    <string name="s6">Allow Ad to create a calendar event?</string>
+    <string name="s7">Test Ad</string>
+    <string name="search_menu_title" tools:ignore="PrivateResource">Search</string>
+    <string name="sedentary">Sedentary</string>
+    <string name="sep">September</string>
+    <string name="should_never_give">You should never give blood if:</string>
+    <string name="should_never_give_12">You should not give blood for 12 months after sex with:</string>
+    <string name="should_never_give__desc">‣ A man who has sex with another man (if you’re a female).\n\n‣ A commercial sex worker.\n\n‣ Anyone who has ever injected themselves with drugs.\n\n‣ Anyone with haemophilia or a related blood clotting disorder who has received clotting factor concentrates.\n\n‣ Anyone of any race, who has been sexually active in parts of the world where AIDS/HIV is very common. This includes countries in Africa.</string>
+    <string name="should_never_give_desc">‣ You have ever had syphilis, HTLV (Human T Cell lymphotropic Virus), HIV or Hepatitis C.\n\n‣ You are a man who has had anal or oral sex with another man with or without a condom.\n\n‣ You’ve ever worked as a commercial sex worker.\n\n‣ You’ve ever injected yourself with drugs – even once.</string>
+    <string name="should_not_donate">You should not give blood if:</string>
+    <string name="should_not_donate_desc">‣ You are a male donor with less than 12 weeks interval between donations.\n\n‣ You are a female donor with less than 16 weeks interval between donations.\n\n‣ You have a sore throat, chesty cough or active cold sore. You can donate once you are feeling well (end of a cold is OK) and the cold sore is dry and healing.\n\n‣ You are currently taking antibiotics or you have just finished a course within the last 7 days or have had an infection in the last 2 weeks.\n\n‣ You have had hepatitis or jaundice in the last 12 months.\n\n‣ You have had a tattoo, semi-permanent make up or any cosmetic treatments that involves skin piercing in the last 12 months.\n\n‣ You have had acupuncture in the last 12 months, unless this was done within the NHS or by a qualified Healthcare Professional registered with a statutory body.\n\n‣ A member of your family (parent, brother, sister or child) has suffered with CJD (Creutzfeld-Jakob Disease).\n\n‣ You have ever received human pituitary extract (which was used in some growth hormone or fertility treatments before 1985)\n\n‣ You have received blood or think you may have received blood during the course of any medical treatment or procedure anywhere in the world since 1 January 1980.</string>
+
+    <string name="sixteen" translatable="false">-16</string>
+    <string name="sixteen2eight" translatable="false">16 – 18.5</string>
+    <string name="sixteenmin" translatable="false">16-</string>
+
+    <string name="stayhealthy">To stay healthy:</string>
+    <string name="targethrrate">Your training heart rate is</string>
+    <string name="tdeedesc">This will be the number of calories you can eat everyday and maintain current weight.</string>
+    <string name="tdeedesc2">In order to lose weight, you will need to take in fewer calories or have to burn more calories than this result.</string>
+    <string name="tdeedesc3">To gain weight, you will need to take in more calories than this result.</string>
+    <string name="typicalathlete">Typical Athlete</string>
+    <string name="understand_bmi">Understand your BMI result</string>
+    <string name="underweight">Under weight</string>
+    <string name="underweight_desc">Being underweight could be a sign you\'re not eating enough or you may be ill. If you\'re underweight, a doctor can help.</string>
+    <string name="underweight_header">Underweight</string>
+    <string name="urblddate">Your next eligible date is</string>
+    <string name="urbloodalcohol">Your Blood Alcohol Content is</string>
+    <string name="urbloodvol">Your total blood volume is</string>
+    <string name="urbodyfat">Your estimated body fat percentage is</string>
+    <string name="urcal">Your estimated daily caloric need is</string>
+    <string name="uredd">Your expected delivery date is</string>
+    <string name="urfer">Your upcoming most fertile days are</string>
+    <string name="uridealweight">Your ideal weight is</string>
+    <string name="valid">Please enter valid values</string>
+    <string name="very_active">Hard</string>
+    <string name="waist">Waist</string>
+    <string name="water_intake_chart">This chart shows the requirement of water in a day by a person as per his/her weight.\n\nMultiply your weight in kg by 2.2 to get your weight in lbs using the calculator above.</string>
+    <string name="waterintake">Water Intake</string>
+    <string name="waterintake_desc">How much water should you drink each day?</string>
+    <string name="weight">Weight :</string>
+    <string name="women">Women</string>
+    <string name="wrist">Wrist</string>
+
+    <!--    <string name="ADS_VISIBILITY">YES</string>-->
+    <!--    <string name="appId">ca-app-pub-3940256099942544~3347511713</string>-->
+    <string name="banner_ad_unit_id" translatable="false" />
+
+    <!--    <string name="interestial_ad_id">ca-app-pub-3940256099942544/1033173712</string>-->
+
+    <string name="enter_value">Enter value</string>
+    <string name="enter_value_age" translatable="false">Enter your age</string>
+    <string name="enter_value_height">Enter height</string>
+    <string name="enter_value_weight">Enter weight</string>
+    <string name="enter_value_waist">Enter waist</string>
+    <string name="enter_value_neck">Neck size*(At Narrowest)</string>
+    <string name="enter_value_forearm">Enter Forearm</string>
+    <string name="enter_value_wrist">Wrist Circumference*</string>
+    <string name="enter_value_hip">Hip *(At Widest)</string>
+    <string name="enter_value_height2">Height</string>
+    <string name="enter_value_alcohol_level">Percentage of alcohol</string>
+    <string name="bac_hint_value_hours_drinking">Time Passed:</string>
+    <string name="bac_hint_value_vol_drinked">Volume Drinked:</string>
+    <string name="enter_age">Enter age</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_msg">Feedback for Sleep sound</string>
+    <string name="app_version">App Version:</string>
+    <string name="device_os">Device OS: Android \n Device OS version:</string>
+    <string name="device_model">Device Model :</string>
+    <string name="manufacturer">Device Manufacturer :</string>
+    <string name="email_client">Choose an Email client :</string>
+
+    <string name="health_n_calcultor">&amp; Health\nCalculators</string>
+
+    <string name="_200">200</string>
+    <string name="_2000">2000</string>
+    <string name="_0">0</string>
+    <string name="_200_220">200 – 220</string>
+
+    <string name="todo" translatable="false">TODO</string>
+
+    <string name="_24" translatable="false">24</string>
+    <string name="_20" translatable="false">20</string>
+    <string name="_25" translatable="false">25</string>
+    <string name="_30" translatable="false">30</string>
+    <string name="_35" translatable="false">35</string>
+    <string name="_40" translatable="false">40+</string>
+
+    <string name="ideal_weight_calculator">Ideal weight calculator</string>
+    <string name="title_breath_count">Breath Count</string>
+    <string name="breath_count_desc">Calculate the number of breaths you have taken so far (i.e.,since your birth).</string>
+    <string name="choose_birth_date">Choose your birth date</string>
+    <string name="valid_date">Please select valid date</string>
+    <string name="no_of_breath">Number of breaths you have taken</string>
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="systolic_blood_pressure">Systolic blood pressure (Top number)</string>
+    <string name="diastolic_blood_pressure">Diastolic blood pressure (Bottom number)</string>
+    <string name="calc_bp_val">Calculates BP value</string>
+    <string name="low_bp">Low </string>
+    <string name="hypertensive_crisis">Hypertensive Crisis</string>
+    <string name="high_bp_stage2">High Blood Pressure (Stage 2)</string>
+    <string name="high_bp_stage1">High Blood Pressure (Stage 1)</string>
+    <string name="prehypertension">Prehypertension</string>
+    <string name="normal_bp">Normal</string>
+    <string name="your_bp">Your blood pressure is</string>
+    <string name="bmi_chart_title">Body Mass Index (BMI) Chart</string>
+    <string name="enter_value_rhr">Resting heart rate</string>
+
+
+    <string name="title_activity" translatable="false">Activity</string>
+    <string name="status_bar_notification_info_overflow">999</string>
+
+</resources>

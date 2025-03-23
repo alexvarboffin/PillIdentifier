@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv1"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/canigiveblood_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textDirection="locale"
+            android:textSize="@dimen/font_size_15" />
+
+        <Button
+            android:id="@+id/chart"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/edittextstyle_blue"
+            android:text="@string/chart_giving_blood"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_15" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

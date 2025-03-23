@@ -10,8 +10,10 @@ import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.activity.IPresenter
 import com.walhalla.pillfinder.activity.IPresenter.QEvent
 import com.walhalla.pillfinder.fragment.main.FragmentMain
+import com.walhalla.ui.DLog
 import com.walhalla.ui.DLog.d
 import com.walhalla.ui.DLog.handleException
+
 import gov.nih.nlm.model.ModelObject
 import gov.nih.nlm.model.NlmRxImage
 import gov.nih.nlm.model.ReplyStatus
@@ -98,13 +100,11 @@ class MainPresenterNew(private val main: FragmentMain?) : Constants, IPresenter 
                 }
                 wrapp1(db, documentSnapshots, map)
             }.addOnFailureListener { e: Exception ->
-                d(
-                    "Error getting documents.$e"
-                )
+                DLog.d("Error getting documents.$e")
             }
 
 
-        //        db.collection("test0")
+//        db.collection("test0")
 //                .addSnapshotListener(new EventListener<QuerySnapshot>() {
 //                    @Override
 //                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -330,7 +330,7 @@ class MainPresenterNew(private val main: FragmentMain?) : Constants, IPresenter 
             }
         } else {
             val tmp = obj.nlmRxImages
-            if (tmp != null && !tmp.isEmpty()) {
+            if (tmp != null && tmp.isNotEmpty()) {
                 //First page number
                 //mBinding.progressBar.setVisibility(View.GONE);
                 /**

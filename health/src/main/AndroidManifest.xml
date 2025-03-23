@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+
+        <activity
+            android:name="com.github.pdfviewer.PDFViewActivity"
+            android:exported="true"
+            android:theme="@style/CustomActivityThemeNoTitle">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:mimeType="application/pdf" />
+                <!-- Optionally add URL scheme and host -->
+                <!--                <data android:scheme="http" />-->
+                <!--                <data android:scheme="https" />-->
+                <data android:scheme="content" />
+                <!--                <data android:scheme="https" />-->
+            </intent-filter>
+        </activity>
+
+<!--        <activity-->
+<!--            android:name=".activity.Calculator"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/AppTheme.NoActionBar"-->
+<!--            android:windowSoftInputMode="stateAlwaysHidden" />-->
+
+        <!-- android:configChanges="screenSize|orientation|screenLayout|density"  -->
+
+    </application>
+</manifest>

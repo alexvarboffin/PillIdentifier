@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/todo"
+            android:padding="2dp"
+            android:src="@drawable/girl"
+            app:tint="#555454"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/currency"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:layout_margin="10dp"
+            android:textAlignment="gravity"
+            android:textColor="@color/txt_black"
+            android:textSize="14sp"
+            tools:text="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/imageDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/todo"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

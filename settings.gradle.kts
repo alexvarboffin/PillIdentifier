@@ -37,10 +37,10 @@ include(":features:wads")
 project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
 
 include(":pdf-viewer")
-project(":pdf-viewer").projectDir = File("E:\\src\\Med\\HealthCalculator\\pdf-viewer\\")
+project(":pdf-viewer").projectDir = File("pdf-viewer\\")
 
 include(":health")
-project(":health").projectDir = File("E:\\src\\Med\\HealthCalculator\\health\\")
+project(":health").projectDir = File("health\\")
 
 include(":threader")
 project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")

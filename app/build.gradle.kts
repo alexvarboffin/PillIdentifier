@@ -195,6 +195,8 @@ dependencies {
     implementation(project(":features:ui"))
     implementation(project(":features:wads"))
     implementation(project(":threader"))
+    implementation(project(":shared"))
+
     implementation("com.google.firebase:firebase-firestore:${rootProject.extra["firestore"]}")
     implementation("com.google.firebase:firebase-crashlytics:${rootProject.extra["crashlyticsVersion"]}")
     implementation("com.google.firebase:firebase-analytics:${rootProject.extra["analyticsVersion"]}")
@@ -205,7 +207,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-process:${rootProject.extra["lifecycle_version"]}")
     implementation("androidx.lifecycle:lifecycle-runtime:${rootProject.extra["lifecycle_version"]}")
     implementation("androidx.lifecycle:lifecycle-common-java8:${rootProject.extra["lifecycle_version"]}")
-    implementation("com.itextpdf:itextg:5.5.10")
+    implementation(libs.itextg)
     implementation("com.mikepenz:fontawesome-typeface:4.6.0.3@aar")
     implementation("com.mikepenz:iconics-core:3.1.0@aar")
     implementation("com.weiwangcn.betterspinner:library:1.1.0")

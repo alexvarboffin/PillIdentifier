@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--    HeartRateCalculator-->
+
+    <string name="activity_level_moderate">Little</string>
+    <string name="activity_level_little_diff">Moderate</string>
+    <string name="activity_level_moderately_diff">Hard</string>
+    <string name="activity_level_hard">Very Hard</string>
+
+<!--    <string-array name="activity_level">-->
+<!--        <item>@string/activity_level_moderate</item>-->
+<!--        <item>@string/activity_level_little_diff</item>-->
+<!--        <item>@string/activity_level_hard</item>-->
+<!--        <item>@string/activity_level_hard</item>-->
+<!--    </string-array>-->
+
+</resources>

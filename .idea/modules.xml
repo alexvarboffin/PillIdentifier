@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.iml" filepath="$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.main~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/-1887372123/HealthCalculator.PillIdentifier.health.unitTest~1.iml" />
       <module fileurl="file://$PROJECT_DIR$/PillIdentifier.iml" filepath="$PROJECT_DIR$/PillIdentifier.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/PillIdentifier.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/PillIdentifier.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/PillIdentifier.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/PillIdentifier.app.androidTest.iml" />
@@ -20,18 +16,22 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.main.iml" filepath="$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/548346568/PillIdentifier.features.wads.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.main.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.iml" filepath="$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-981300312/PillIdentifier.shared.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.iml" filepath="$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.main~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/-870054634/com.github.manishkummar21.PillIdentifier.pdf-viewer.unitTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.androidTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.androidTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.main~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/com.github.manishkummar21.PillIdentifier.pdf-viewer.unitTest~1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.androidTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.androidTest~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.main~1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.unitTest~1.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.unitTest~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/897112027/multithreader.PillIdentifier.threader.unitTest.iml" />
     </modules>
   </component>
 </project>

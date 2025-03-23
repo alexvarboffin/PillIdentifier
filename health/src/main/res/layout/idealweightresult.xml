@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/ivRotate"-->
+    <!--        android:layout_width="@dimen/res_img_size"-->
+    <!--        android:layout_height="@dimen/res_img_size"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        android:contentDescription="@string/todo"-->
+    <!--        android:src="@drawable/idealweight" />-->
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imgsplashicon"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/app_name"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="idealweightwomen.json"
+        app:lottie_loop="false" />
+
+    <TextView
+        android:id="@+id/tvIdealWeight"
+        style="@style/AppTheme.fontstylesRegular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/uridealweight"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/font_size_15" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvIdealWeightVal"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/_2000"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_30" />
+    </LinearLayout>
+</LinearLayout>

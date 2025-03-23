@@ -8,6 +8,7 @@ coilNetworkKtor3 = "3.1.0"
 firebaseAnalytics = "22.2.0"
 firebaseCrashlytics = "19.4.0"
 firebaseMessaging = "24.1.0"
+itextg = "5.5.10"
 koinAndroid = "4.1.0-Beta5"
 koinComposeViewmodel = "4.1.0-Beta5"
 koinComposeViewmodelNavigation = "4.1.0-Beta5"
@@ -122,6 +123,7 @@ androidx-preference = { module = "androidx.preference:preference", version.ref =
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 google-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 insert-koin-koin-core = { module = "io.insert-koin:koin-core" }
+itextg = { module = "com.itextpdf:itextg", version.ref = "itextg" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeViewmodel" }
 koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koinComposeViewmodelNavigation" }

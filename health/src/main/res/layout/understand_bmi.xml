@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv1"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/underweight_header"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv2"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/underweight_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/tv3"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/healthy_weight_header"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv4"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/healthy_weight_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/tv5"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/overweight_header"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv6"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/overweight_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/tv7"
+            style="@style/AppTheme.fontstylesBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/obese_header"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv8"
+            style="@style/AppTheme.fontstylesRegular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/obese_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/font_size_15" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

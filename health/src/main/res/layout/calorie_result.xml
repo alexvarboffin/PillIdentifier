@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/bg"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:ignore="UselessParent">
+
+            <ImageView
+                android:id="@+id/ivRotate"
+                android:layout_width="@dimen/res_img_size"
+                android:layout_height="@dimen/res_img_size"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/calorie" />
+
+            <TextView
+                android:id="@+id/tvTdee"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/urcal"
+                android:textColor="?attr/colorPrimary"
+                android:textDirection="locale"
+                android:textSize="@dimen/font_size_15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTdeeValue"
+                    style="@style/AppTheme.fontstylesBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/_2000"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="@dimen/font_size_30" />
+
+                <TextView
+                    android:id="@+id/tvCalories"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center"
+                    android:text="@string/caloriesval"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="@dimen/font_size_14" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv1"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="start"
+                android:text="@string/tdeedesc"
+                android:textColor="?attr/colorPrimary"
+                android:textDirection="locale"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/tv2"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="15dp"
+                android:gravity="start"
+                android:text="@string/tdeedesc2"
+                android:textColor="?attr/colorPrimary"
+                android:textDirection="locale"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/tv3"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="15dp"
+                android:gravity="start"
+                android:text="@string/tdeedesc3"
+                android:textColor="?attr/colorPrimary"
+                android:textDirection="locale"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/tv4"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="@string/stayhealthy"
+                android:textColor="?attr/colorPrimary"
+                android:textDirection="locale"
+                android:textSize="@dimen/font_size_15" />
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextstyle"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/header1"
+                        style="@style/AppTheme.fontstylesBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.3"
+                        android:gravity="center"
+                        android:text="@string/avg_cal"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/header2"
+                        style="@style/AppTheme.fontstylesBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/women"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/header3"
+                        style="@style/AppTheme.fontstylesBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/men"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/row11"
+                        style="@style/AppTheme.fontstylesBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.3"
+                        android:gravity="center"
+                        android:text="@string/maintain_weight"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/row12"
+                        style="@style/AppTheme.fontstylesRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/range1"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/row13"
+                        style="@style/AppTheme.fontstylesRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/range2"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/row21"
+                        style="@style/AppTheme.fontstylesBold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.3"
+                        android:gravity="center"
+                        android:text="@string/lose_weight"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/row22"
+                        style="@style/AppTheme.fontstylesRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/range3"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+
+                    <TextView
+                        android:id="@+id/row23"
+                        style="@style/AppTheme.fontstylesRegular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.85"
+                        android:gravity="center"
+                        android:text="@string/range4"
+                        android:textColor="?attr/colorPrimary"
+                        android:textDirection="locale"
+                        android:textSize="@dimen/font_size_14" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

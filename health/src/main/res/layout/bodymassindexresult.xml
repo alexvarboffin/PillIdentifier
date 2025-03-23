@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/cat"
+                    style="@style/AppTheme.fontstylesBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="@string/exunder"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="@dimen/font_size_22"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/res_img_size"
+                android:layout_height="@dimen/res_img_size"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorPrimary"
+                android:contentDescription="@string/todo"
+                android:padding="5dp"
+                android:src="@drawable/woman4" />
+
+            <TextView
+                android:id="@+id/tvOne"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/bmiis"
+                android:textColor="@color/txt_black"
+                android:textSize="@dimen/font_size_15" />
+
+            <TextView
+                android:id="@+id/tvTwo"
+                style="@style/AppTheme.fontstylesBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/_24"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/font_size_22"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:max="100"
+                android:minWidth="200dp"
+                android:minHeight="30dp"
+                android:paddingLeft="26dp"
+                android:paddingRight="26dp"
+                android:progressDrawable="@drawable/progressbar2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:weightSum="6">
+
+                <TextView
+                    android:id="@+id/sub1"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/sixteen"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/sub2"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/_20"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/sub3"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/_25"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/sub4"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/_30"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/sub5"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/_35"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+
+                <TextView
+                    android:id="@+id/sub6"
+                    style="@style/AppTheme.fontstylesRegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/_40"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/font_size_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/edittextstyle"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case1"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/sixteenmin"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy1"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/exunder"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case2"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/sixteen2eight"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy2"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/underweight"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case3"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/case3"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy3"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/normalweight"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case4"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/case4"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy4"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/overweight"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case5"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/case5"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy5"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/obeseone"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case6"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/case6"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy6"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/obesetwo"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/image7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:gravity="center"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/case7"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/case7"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+
+                        <TextView
+                            android:id="@+id/casy7"
+                            style="@style/AppTheme.fontstylesRegular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/morbid"
+                            android:textColor="@color/txt_black"
+                            android:textSize="@dimen/font_size_15" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bmi"
+                style="@style/AppTheme.fontstylesRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/edittextstyle_blue"
+                android:text="@string/understand_bmi"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_15" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
