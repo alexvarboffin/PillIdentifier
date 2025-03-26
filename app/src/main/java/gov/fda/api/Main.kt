@@ -1,17 +1,15 @@
-package gov.fda.api;
+package gov.fda.api
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-import java.util.List;
-
-public class Main {
-
+class Main {
+    @kotlin.jvm.JvmField
     @SerializedName("meta")
     @Expose
-    public Meta meta;
+    var meta: Meta? = null
+
     @SerializedName("results")
     @Expose
-    public List<Result> results = null;
-
+    var results: List<Result>? = null
 }

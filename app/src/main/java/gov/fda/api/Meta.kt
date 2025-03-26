@@ -1,24 +1,31 @@
-package gov.fda.api;
+package gov.fda.api
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-public class Meta {
-
+class Meta {
+    @JvmField
     @SerializedName("disclaimer")
     @Expose
-    public String disclaimer;
+    var disclaimer: String? = null
+
+    @JvmField
     @SerializedName("terms")
     @Expose
-    public String terms;
+    var terms: String? = null
+
+    @JvmField
     @SerializedName("license")
     @Expose
-    public String license;
+    var license: String? = null
+
+    @JvmField
     @SerializedName("last_updated")
     @Expose
-    public String lastUpdated;
+    var lastUpdated: String? = null
+
+    @JvmField
     @SerializedName("results")
     @Expose
-    public Results results;
-
+    var results: Results? = null
 }

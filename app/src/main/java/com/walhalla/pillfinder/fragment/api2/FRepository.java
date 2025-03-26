@@ -110,7 +110,7 @@ public class FRepository {
         String value = "162".toUpperCase();
         Query query = db.collection(COLLECTION_RX) //get all the users
                 .limit(3)
-                .orderBy(FieldPath.of("mpc", MpcField.IMPRINT.getValue()))
+                .orderBy(FieldPath.of("mpc", MpcField.IMPRINT.value))
                 .startAt(""+'\uf8ff')
                 .endAt(value+'\uf8ff');//"" + value + '\uf8ff'    [ok] => ""+'\uf8ff'
 

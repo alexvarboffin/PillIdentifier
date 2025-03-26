@@ -1,11 +1,10 @@
-package com.walhalla.pillfinder.fragment.api2;
+package com.walhalla.pillfinder.fragment.api2
 
 
+interface IBaseView<T> : ILoadingView {
+    fun updateData(data: T)
 
-public interface IBaseView<T> extends ILoadingView {
-    void updateData(T data);
+    fun showError(error: String)
 
-    void showError(String error);
-
-    void showSuccess(String success);
+    fun showSuccess(success: String)
 }

@@ -1,34 +1,17 @@
-package com.walhalla.pillfinder.adapter.viewHolder;
+package com.walhalla.pillfinder.adapter.viewHolder
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.walhalla.pillfinder.adapter.ComplexPresenter
 
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.walhalla.pillfinder.adapter.ComplexPresenter;
-
-
-public abstract class BaseViewHolder<R> extends RecyclerView.ViewHolder {
-
-    private final ComplexPresenter mComplexPresenter;
-
-    protected int view_state_number;
-
-    public BaseViewHolder(View view, int blocking_flag, ComplexPresenter presenter) {
-        super(view);
-
-        this.mComplexPresenter = presenter;
-        this.view_state_number = blocking_flag;
+abstract class BaseViewHolder<R>(view: View, protected var view_state_number: Int,
+    val presenter: ComplexPresenter
+) :
+    RecyclerView.ViewHolder(view) {
+    private fun inflater(viewGroup: ViewGroup): View {
+        return itemView
     }
 
-    private View inflater(ViewGroup viewGroup) {
-        return itemView;
-    }
-
-    public ComplexPresenter getPresenter() {
-        return mComplexPresenter;
-    }
-
-    public abstract void bind(@NonNull R model);
+    abstract fun bind(model: R)
 }

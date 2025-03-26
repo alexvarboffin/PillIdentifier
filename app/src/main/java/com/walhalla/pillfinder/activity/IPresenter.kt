@@ -1,24 +1,23 @@
-package com.walhalla.pillfinder.activity;
+package com.walhalla.pillfinder.activity
 
-public interface IPresenter {
+interface IPresenter {
 
-    enum QEvent {
+    enum class QEvent {
         ADD,
         REPLACE
     }
 
-    void loadNextPageRequest(int pageNumber, QEvent event);
+    fun loadNextPageRequest(pageNumber: Int, event: QEvent)
 
-    void onDestroy();
+    fun onDestroy()
 
     interface PresenterCallback {
+        fun hideRefreshLayoutProgress()
 
-        void hideRefreshLayoutProgress();
+        fun hideProgressBar()
 
-        void hideProgressBar();
+        fun showProgressBar()
 
-        void showProgressBar();
-
-        void handleThrowable(Throwable throwable);
+        fun handleThrowable(throwable: Throwable)
     }
 }

@@ -1,18 +1,21 @@
-package gov.fda.api;
+package gov.fda.api
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-public class Results {
-
+class Results {
+    @JvmField
     @SerializedName("skip")
     @Expose
-    public Integer skip;
+    var skip: Int? = null
+
+    @JvmField
     @SerializedName("limit")
     @Expose
-    public Integer limit;
+    var limit: Int? = null
+
+    @JvmField
     @SerializedName("total")
     @Expose
-    public Integer total;
-
+    var total: Int? = null
 }

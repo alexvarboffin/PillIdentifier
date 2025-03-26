@@ -155,7 +155,7 @@ class FragmentMain : BaseFragment(), PresenterCallback {
             a.findViewById<View>(R.id.btn_shape).setOnClickListener(tabListener)
             a.findViewById<View>(R.id.btn_scoring).setOnClickListener(tabListener)
 
-            //            a.findViewById(R.id.btn_search).setOnClickListener(cl);
+//            a.findViewById(R.id.btn_search).setOnClickListener(cl);
 //                ((androidx.appcompat.widget.Toolbar) a.findViewById(R.id.toolbar))
 //                        .setNavigationIcon(R.mipmap.ic_launcher_round);
             (a.findViewById<View>(R.id.toolbar) as Toolbar).navigationIcon =
@@ -182,6 +182,8 @@ class FragmentMain : BaseFragment(), PresenterCallback {
             activity.showProgressBar()
         }
     }
+
+
 
     override fun hideRefreshLayoutProgress() {
         mBinding!!.swipeRefreshLayout.isRefreshing = false

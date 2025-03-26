@@ -152,12 +152,12 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             TYPE_MPC_SHAPE -> {
                 val view1 = getContentResource(R.layout.item_mpc, viewGroup)
-                viewHolder = MpcViewHolder(view1, presenter)
+                viewHolder = MpcViewHolder(view1, presenter!!)
             }
 
             TYPE_RxCuiObjString -> {
                 val view2 = getContentResource(R.layout.item_rxcui, viewGroup)
-                viewHolder = SimpleRxCuiViewHolder(view2, presenter)
+                viewHolder = SimpleRxCuiViewHolder(view2, presenter!!)
             }
 
             else -> {

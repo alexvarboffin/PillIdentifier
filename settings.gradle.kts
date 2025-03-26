@@ -42,8 +42,8 @@ project(":pdf-viewer").projectDir = File("pdf-viewer\\")
 include(":health")
 project(":health").projectDir = File("health\\")
 
-include(":threader")
-project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")
+//include(":threader")
+//project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")
 
 include(":shared")
 project(":shared").projectDir = File("../WalhallaUI\\shared")

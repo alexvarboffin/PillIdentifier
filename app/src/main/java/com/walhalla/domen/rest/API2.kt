@@ -1,13 +1,11 @@
-package com.walhalla.domen.rest;
+package com.walhalla.domen.rest
 
-import gov.fda.api.Main;
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import gov.fda.api.Main
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-public interface API2 {
-
+interface API2 {
     @GET("drug/label.json")
-    Call<Main> searchDrag(@Query("search") String query);
-
+    fun searchDrag(@Query("search") query: String): Call<Main>
 }

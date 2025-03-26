@@ -1,157 +1,90 @@
-package com.walhalla.pillfinder.fragment.api2;
+package com.walhalla.pillfinder.fragment.api2
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import androidx.annotation.Nullable;
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
+import com.walhalla.pillfinder.adapter.obj.VieModel
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.walhalla.pillfinder.adapter.obj.VieModel;
+class CategoryListFragment : SwipeFragment<VieModel?>() {
+    protected var opCode: Int = 0
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-public class CategoryListFragment extends SwipeFragment<VieModel> {
-
-    protected int opCode;
-
-    public static final String KEY_INDEX = "key_index";
-    public static final String KEY_TAB = "key_tab";
-
-    public static CategoryListFragment newInstance(int index, ArrayList<JsonObject> list) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(CategoryListFragment.KEY_INDEX, index);
-        bundle.putSerializable(CategoryListFragment.KEY_TAB, list);
-        CategoryListFragment fragment = new CategoryListFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            Serializable tmp = getArguments().getSerializable(KEY_TAB);
+        if (arguments != null) {
+            val tmp = requireArguments().getSerializable(KEY_TAB)
             if (tmp != null) {
-                adapterSavedState = (List<VieModel>) tmp;
+                adapterSavedState = tmp as List<VieModel?>
             }
-            opCode = getArguments().getInt(KEY_INDEX, 0);
+            opCode = requireArguments().getInt(KEY_INDEX, 0)
         }
     }
 
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        makeGui();
-
+    override fun onResume() {
+        super.onResume()
+        makeGui()
     }
 
-    @Override
-    protected void setData() {
-
+    override fun setData() {
     }
 
-    @Override
-    protected void actionFilter() {
-
+    override fun actionFilter() {
     }
 
-    private void makeGui() {
+    private fun makeGui() {
+        val gson = GsonBuilder().setPrettyPrinting().create()
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         //JsonObject body = adapterSavedState.get(0);
-
-
-        switch (opCode) {
-            case 0:
-//                Response0 response0 = gson.fromJson(body.toString(), Response0.class);
-//
-//                IdGroup mm = response0.idGroup;
-//                List<String> rxnormId = mm.rxnormId;
-//                String pd = rxnormId.get(0);
-                break;
-
-            case 1:
-
-                break;
-
-            case 2:
-
-                break;
-
-            case 3:
-
-                break;
-
-            case 4:
-
-                break;
-
-            case 5:
-
-                break;
-
-            case 6:
-
-                break;
-
-            case 7:
-//                if (body != null) {
-
-//                }
-                break;
-
-            case 8:
-
-                break;
-
-            case 9:
-
-                break;
-
-
-            case 10:
-
-                break;
-
-            case 11:
-
-                break;
+        when (opCode) {
+            0 -> {}
+            1 -> {}
+            2 -> {}
+            3 -> {}
+            4 -> {}
+            5 -> {}
+            6 -> {}
+            7 -> {}
+            8 -> {}
+            9 -> {}
+            10 -> {}
+            11 -> {}
         }
 
-        Activity activity = getActivity();
-        if (activity != null && isAdded()) {
-            updateData(adapterSavedState);
+        val activity: Activity? = activity
+        if (activity != null && isAdded) {
+            updateData(adapterSavedState)
         }
     }
 
-    @Override
-    public void updateData(List<VieModel> data) {
-        super.updateData(data);
+    override fun updateData(data: List<VieModel>) {
+        super.updateData(data)
     }
 
-    @Override
-    public void onItemClicked(View v, int position) {
-
+    override fun onItemClicked(v: View, position: Int) {
     }
 
-    @Override
-    public void onItemClicked(View v, VieModel obj) {
-
+    override fun onItemClicked(v: View, obj: VieModel) {
     }
 
-    @Override
-    public void onItemClicked(int itemId, VieModel category) {
-
+    override fun onItemClicked(itemId: Int, category: VieModel) {
     }
 
 
-    
+    companion object {
+        const val KEY_INDEX: String = "key_index"
+        const val KEY_TAB: String = "key_tab"
+
+        fun newInstance(index: Int, list: ArrayList<JsonObject?>?): CategoryListFragment {
+            val bundle = Bundle()
+            bundle.putInt(KEY_INDEX, index)
+            bundle.putSerializable(KEY_TAB, list)
+            val fragment = CategoryListFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 }

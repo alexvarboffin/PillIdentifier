@@ -32,8 +32,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
@@ -54,6 +54,6 @@ dependencies {
     implementation(project(":pdf-viewer"))
     implementation(project(":features:ui"))
     implementation(project(":features:wads"))
-    implementation(project(":threader"))
+    //implementation(project(":threader"))
     implementation(libs.androidx.core.ktx)
 }

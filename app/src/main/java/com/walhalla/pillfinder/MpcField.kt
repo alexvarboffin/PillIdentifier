@@ -1,8 +1,8 @@
-package com.walhalla.pillfinder;
+package com.walhalla.pillfinder
 
-import java.io.Serializable;
+import java.io.Serializable
 
-public enum MpcField implements Serializable {
+enum class MpcField(val value: String) : Serializable {
     //Fields
     IMPRINT("imprint"),
     COLOR("color"),
@@ -14,15 +14,5 @@ public enum MpcField implements Serializable {
     //New
     IMPRINT_COLOR("imprintColor"),
     IMPRINT_TYPE("imprintType"),
-    SYMBOL("symbol");
-
-    public String getValue() {
-        return value;
-    }
-
-    private final String value;
-
-    MpcField(String value) {
-        this.value = value;
-    }
+    SYMBOL("symbol")
 }

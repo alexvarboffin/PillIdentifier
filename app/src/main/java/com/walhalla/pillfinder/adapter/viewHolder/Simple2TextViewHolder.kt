@@ -1,35 +1,26 @@
-package com.walhalla.pillfinder.adapter.viewHolder;
+package com.walhalla.pillfinder.adapter.viewHolder
 
-import android.graphics.Color;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.graphics.Color
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.walhalla.pillfinder.R
+import com.walhalla.pillfinder.adapter.obj.NValue
 
-import androidx.recyclerview.widget.RecyclerView;
+class Simple2TextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private val layout: LinearLayout = itemView.findViewById(R.id.lLayout1)
 
-import com.walhalla.pillfinder.R;
-import com.walhalla.pillfinder.adapter.obj.NValue;
-
-public class Simple2TextViewHolder extends RecyclerView.ViewHolder {
-
-    private final LinearLayout layout;
-
-    public void setText(NValue object, int position) {
+    fun setText(value: NValue, position: Int) {
         if (position % 2 > 0) {
-            this.layout.setBackgroundColor(Color.WHITE);
+            layout.setBackgroundColor(Color.WHITE)
         }
-        this.text1.setText(object.name);
-        this.text2.setText(object.value);
+        text1.text = value.name
+        text2.text = value.value
     }
 
-    private final TextView text1;
-    public final TextView text2;
-
-    public Simple2TextViewHolder(View view) {
-        super(view);
-        text1 = itemView.findViewById(R.id.textView1);
-        text2 = itemView.findViewById(R.id.textView2);
-        layout = itemView.findViewById(R.id.lLayout1);
-    }
-
+    private val text1: TextView =
+        itemView.findViewById(R.id.textView1)
+    val text2: TextView =
+        itemView.findViewById(R.id.textView2)
 }

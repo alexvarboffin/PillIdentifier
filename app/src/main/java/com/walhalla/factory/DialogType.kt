@@ -1,6 +1,6 @@
-package com.walhalla.factory;
+package com.walhalla.factory
 
-public enum DialogType {
+enum class DialogType {
     IMPRINT,
     COLOR,
     SHAPE,
