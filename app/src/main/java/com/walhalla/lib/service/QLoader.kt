@@ -1,9 +1,9 @@
-package com.walhalla.lib.service;
+package com.walhalla.lib.service
 
-public interface QLoader {
-    void showProgressBar();
+interface QLoader {
+    fun showProgressBar()
 
-    void hideProgressBar();
+    fun hideProgressBar()
 
-    void handleThrowable(Throwable tr);
+    fun handleThrowable(tr: Throwable)
 }

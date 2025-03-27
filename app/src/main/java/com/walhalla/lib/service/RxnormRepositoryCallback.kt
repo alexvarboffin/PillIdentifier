@@ -1,19 +1,17 @@
-package com.walhalla.lib.service;
+package com.walhalla.lib.service
 
-import com.google.gson.JsonObject;
-import com.walhalla.lib.datamodel.pkg0.Response0;
-import com.walhalla.lib.datamodel.pkg1.Response1;
+import com.google.gson.JsonObject
+import com.walhalla.lib.datamodel.pkg0.Response0
+import com.walhalla.lib.datamodel.pkg1.Response1
 
-public interface RxnormRepositoryCallback
-{
+interface RxnormRepositoryCallback {
+    fun successResponse(message: String)
 
-    void successResponse(String message);
+    fun successResponse(response1: Response1)
 
-    void successResponse(Response1 response1);
+    fun successResponse(opCode: Int, body: JsonObject)
 
-    void successResponse(int opCode, JsonObject body);
+    fun successResponse(response0: Response0)
 
-    void successResponse(Response0 response0);
-
-    void handleThrowable(Throwable tr);
+    fun handleThrowable(tr: Throwable)
 }

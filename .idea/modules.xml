@@ -20,11 +20,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.main.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/health/PillIdentifier.health.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf-viewer/PillIdentifier.pdf-viewer.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.iml" filepath="$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.main.iml" filepath="$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/519450269/PillIdentifier.shared.unitTest.iml" />
