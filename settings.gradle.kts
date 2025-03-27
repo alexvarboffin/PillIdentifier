@@ -33,8 +33,8 @@ include(":app")
 include(":features:ui")
 project(":features:ui").projectDir = File("../WalhallaUI\\features\\ui")
 
-include(":features:wads")
-project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
+//include(":features:wads")
+//project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
 
 include(":pdf-viewer")
 project(":pdf-viewer").projectDir = File("pdf-viewer\\")

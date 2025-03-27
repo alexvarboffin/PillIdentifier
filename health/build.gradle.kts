@@ -53,7 +53,7 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":pdf-viewer"))
     implementation(project(":features:ui"))
-    implementation(project(":features:wads"))
+    //implementation(project(":features:wads"))
     //implementation(project(":threader"))
     implementation(libs.androidx.core.ktx)
 }
