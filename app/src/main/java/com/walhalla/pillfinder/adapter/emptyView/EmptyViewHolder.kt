@@ -1,11 +1,13 @@
 package com.walhalla.pillfinder.adapter.emptyView
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.utils.sizeDp
 import com.walhalla.pillfinder.R
 
 class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -14,14 +16,18 @@ class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var secondaryText: TextView =
         view.findViewById(R.id.nothingSecondary)
 
+    val ic: IconicsDrawable = IconicsDrawable(view.context).apply {
+        //@@@@icon = FontAwesome.Icon.faw_ticket_alt
+        sizeDp = (48)
+        colorList = ColorStateList.valueOf(Color.DKGRAY)
+    }
+
     fun bind(emptyViewObj: EmptyViewObj, position: Int) {
         primaryText.text = emptyViewObj.primary
         secondaryText.text = emptyViewObj.secondary
         primaryText.setCompoundDrawablesWithIntrinsicBounds(
             null,
-            IconicsDrawable(primaryText.context)
-                .icon(FontAwesome.Icon.faw_ticket)
-                .sizeDp(48).color(Color.DKGRAY), null, null
+            ic, null, null
         )
     }
 }

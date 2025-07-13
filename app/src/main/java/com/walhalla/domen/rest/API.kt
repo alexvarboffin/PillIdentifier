@@ -9,8 +9,10 @@ import retrofit2.http.QueryMap
 interface API {
     @GET("apps/drug-fda/api/function_api.php")
     fun searchDrugsNav( //@Query("color") String imprintColor
-        @QueryMap(encoded = false) options: Map<String?, String?>?
-    ): Call<ModelObject?>?
+
+        @QueryMap(encoded = false) options: MutableMap<String, String>
+    ): Call<ModelObject>
+
 
 
     //Original API
@@ -21,6 +23,8 @@ interface API {
     //    );
     @GET("rximage/1/rxbase")
     fun searchDrugsBase( //@Query("color") String imprintColor
-        @QueryMap(encoded = false) options: Map<String?, String?>?
-    ): Call<ModelObject?>?
+
+        @QueryMap(encoded = false) options: MutableMap<String, String>
+    ): Call<ModelObject>
+
 }

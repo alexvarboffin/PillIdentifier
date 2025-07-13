@@ -16,6 +16,9 @@ import com.walhalla.domain.repository.from_internet.AdvertAdmobRepository
 import com.walhalla.domain.repository.from_internet.AdvertConfig
 import com.walhalla.domen.rest.API2
 import com.walhalla.lib.RxnormRepository
+import com.walhalla.lib.service.PrescribableRxNormApi
+import com.walhalla.lib.service.RxClassApi
+import com.walhalla.lib.service.RxTermsApi
 import com.walhalla.lib.service.RxnormApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -84,15 +87,25 @@ class MyApp : MultiDexApplication(), Constants
         @kotlin.jvm.JvmField
         val service2: API2
 
+        // --- RxNav API singletons ---
+        @JvmStatic
+        lateinit var rxnorm: RxnormApi
+        @JvmStatic
+        lateinit var rxTerms: RxTermsApi
+        @JvmStatic
+        lateinit var prescribableRxNorm: PrescribableRxNormApi
+        @JvmStatic
+        lateinit var rxClass: RxClassApi
+
         /**
          * instance
          * private static Application instance = null;
          * Convenient accessor, saves having to call and cast
-         * getApplicationContext()
+         * applicationContext
          *
          *
          * public static Application getInstance(Context ctx) {
-         * context = ctx.getApplicationContext();
+         * context = ctx.applicationContext;
          * checkInstance();
          * return instance;
          * }
@@ -106,8 +119,8 @@ class MyApp : MultiDexApplication(), Constants
         //    public static API getService1() {
         //        return service1;
         //    }
-        @kotlin.jvm.JvmField
-        val rxnorm: RxnormApi
+        //@kotlin.jvm.JvmField
+        //val rxnorm: RxnormApi
 
         //    public AdvertAdmobRepository bb() {
 
@@ -249,14 +262,22 @@ class MyApp : MultiDexApplication(), Constants
 
             // provide an instance for our static accessors
             //instance = this;
-            //context = getApplicationContext();
+            //context = applicationContext;
+            // --- RxNav API singletons ---
             val RETROFIT_RX_NORM = Retrofit.Builder()
                 .baseUrl(RxnormRepository.ENDPOINT_RXNAV)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client1)
                 .build()
 
+            // Основной RxNorm API
             rxnorm = RETROFIT_RX_NORM.create(RxnormApi::class.java)
+            // RxTerms API
+            rxTerms = RETROFIT_RX_NORM.create(RxTermsApi::class.java)
+            // Prescribable RxNorm API
+            prescribableRxNorm = RETROFIT_RX_NORM.create(PrescribableRxNormApi::class.java)
+            // RxClass API
+            rxClass = RETROFIT_RX_NORM.create(RxClassApi::class.java)
         }
 
 

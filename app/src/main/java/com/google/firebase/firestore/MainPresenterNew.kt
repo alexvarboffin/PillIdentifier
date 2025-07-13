@@ -354,9 +354,9 @@ class MainPresenterNew(private val main: FragmentMain?) : Constants, IPresenter 
                 if (bb) {
                     main.mViewAdapter?.addLoadingFooter()
                 } else {
-                    main.isLastPage = true
+                    main._isLastPage = true
                 }
-                main.isLoading = false
+                main._isLoading = false
 
                 //rr.setItemAnimator(new DefaultItemAnimator());
                 //rr.setItemAnimator(new SlideInUpAnimator());

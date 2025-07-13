@@ -197,5 +197,6 @@ expand your search, try entering only part of your imprint.</string>
     <string name="onboard_03_description">Healthcare is your key to happiness. Utilize our calculators and rise to the top!</string>
     <string name="onboard_01_description">Decode your prescriptions. Pill Identifier: Empowering you with medication knowledge.</string>
     <string name="onboard_02_description">Enter the Exact Drug/Medication name to see Details. Find answers to your medication queries. Drug Search: Unlock the secrets of pharmaceuticals.</string>
+    <string name="more_btn">Подробнее</string>
 
 </resources>

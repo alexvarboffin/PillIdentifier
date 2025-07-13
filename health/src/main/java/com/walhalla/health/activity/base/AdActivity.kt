@@ -74,7 +74,7 @@ abstract class AdActivity : AppCompatActivity() {
             return
         }
 
-//        String[] testDeviceIds = getResources().getStringArray(R.array.admob_test_device_ids);
+//        String[] testDeviceIds = resources.getStringArray(R.array.admob_test_device_ids);
 //
         val builder = AdRequest.Builder()
 
@@ -82,7 +82,7 @@ abstract class AdActivity : AppCompatActivity() {
 //        for (String id : testDeviceIds) {
 //            builder.addTestDevice(id);
 //        }
-//        builder.tagForChildDirectedTreatment(getResources()
+//        builder.tagForChildDirectedTreatment(resources
 //                .getBoolean(R.bool.child_directed_treatment));
         mAd!!.loadAd(builder.build())
     }

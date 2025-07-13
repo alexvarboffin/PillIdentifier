@@ -27,13 +27,16 @@ import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.plugins.Module_U.shareText
+import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
+import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
+import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     OnRefreshListener {
-    protected var opCode: String? = null
+    protected var opCode: String = ""
     private var index = 0
 
     private var mBinding: CategoryListFragmentBinding? = null
@@ -49,8 +52,48 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     ): View? {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter =
-                ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
+            mAdapter = ComplexRecyclerViewAdapter(requireContext(), object : OnMoreActionListener {
+                override fun onMoreAction(rxcui: String, action: MoreAction) {
+                    when (action) {
+                        MoreAction.SHOW_CLASSES -> {
+                            MyApp.rxClass.findClassesById(rxcui, "rxcui", "ATC,VA")
+                                .enqueue(object : Callback<JsonObject> {
+                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                                        val result = response.body()?.toString() ?: "Нет данных"
+                                        Toast.makeText(requireContext(), "Классы: $result", Toast.LENGTH_LONG).show()
+                                    }
+                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                        }
+                        MoreAction.SHOW_RXTERMS -> {
+                            MyApp.rxTerms.getAllRxTermInfo(rxcui)
+                                .enqueue(object : Callback<JsonObject> {
+                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                                        val result = response.body()?.toString() ?: "Нет данных"
+                                        Toast.makeText(requireContext(), "RxTerms: $result", Toast.LENGTH_LONG).show()
+                                    }
+                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                        }
+                        MoreAction.SHOW_ANALOGS -> {
+                            MyApp.prescribableRxNorm.findRxcuiById("rxcui", rxcui)
+                                .enqueue(object : Callback<JsonObject> {
+                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                                        val result = response.body()?.toString() ?: "Нет данных"
+                                        Toast.makeText(requireContext(), "Аналоги: $result", Toast.LENGTH_LONG).show()
+                                    }
+                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                        }
+                    }
+                }
+            })
             mAdapter!!.setChildItemClickListener(this)
         }
         return mBinding!!.root
@@ -74,8 +117,8 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            index = arguments!!.getInt(KEY_INDEX, 0)
-            opCode = arguments!!.getString(KEY_RXNORMID, null)
+            index = requireArguments().getInt(KEY_INDEX, 0)
+            opCode = requireArguments().getString(KEY_RXNORMID, null)
         }
     }
 

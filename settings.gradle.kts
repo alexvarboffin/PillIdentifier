@@ -1,5 +1,8 @@
 pluginManagement {
     repositories {
+        flatDir {
+            dirs("./libs") // например, "libs" или "../my-local-repo"
+        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -17,6 +20,9 @@ pluginManagement {
 dependencyResolutionManagement {
     //repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        flatDir {
+            dirs("./libs") // например, "libs" или "../my-local-repo"
+        }
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -33,8 +39,8 @@ include(":app")
 include(":features:ui")
 project(":features:ui").projectDir = File("../WalhallaUI\\features\\ui")
 
-//include(":features:wads")
-//project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
+include(":features:wads")
+project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
 
 include(":pdf-viewer")
 project(":pdf-viewer").projectDir = File("pdf-viewer\\")
@@ -42,8 +48,8 @@ project(":pdf-viewer").projectDir = File("pdf-viewer\\")
 include(":health")
 project(":health").projectDir = File("health\\")
 
-//include(":threader")
-//project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")
+include(":threader")
+project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")
 
 include(":shared")
 project(":shared").projectDir = File("../WalhallaUI\\shared")

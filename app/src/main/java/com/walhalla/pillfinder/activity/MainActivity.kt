@@ -67,7 +67,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
             //            SpannableStringBuilder builder = new SpannableStringBuilder(var1);
 //            builder.setSpan(new BackgroundColorSpan(Color.RED), 0, var1.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
 //            builder.setSpan(new ForegroundColorSpan(Color.WHITE), 0, var1.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-//            getSupportActionBar().setTitle(builder);
+//            supportActionBar.setTitle(builder);
 
             supportActionBar!!.title = var1
 
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
 ////            sp.setSpan(new BackgroundColorSpan(Color.RED), 0, var2.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
 ////            sp.setSpan(new ForegroundColorSpan(Color.WHITE), 0, var2.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
 ////            sp.setSpan(new UnderlineSpan(), 0, var2.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-////            getSupportActionBar().setSubtitle(sp);
+////            supportActionBar.setSubtitle(sp);
             supportActionBar!!.subtitle = var2
         }
     }
@@ -164,7 +164,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
 //        interactor.selectView(mBinding.bottomBanner, this);
 //        getLifecycle().addObserver(mAdmobRepository);
         //        mExtensionConfig = getExtensionConfig();
-        toolbar.setNavigationOnClickListener { v: View? ->
+        toolbar?.setNavigationOnClickListener { v: View? ->
             if (supportFragmentManager.backStackEntryCount == 0) {
                 aboutDialog(this)
             } else {
@@ -177,7 +177,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
         }
 
 
-        //        final ActionBar ab = getSupportActionBar();
+//        final ActionBar ab = supportActionBar;
 //        if (ab != null) {
 //            ab.setIcon(R.mipmap.ic_launcher);
 ////            //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -261,7 +261,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
 
     //    private boolean checkPlayServices() {
     //        try {
-    //            long versionCode = PackageInfoCompat.getLongVersionCode(getPackageManager()
+    //            long versionCode = PackageInfoCompat.getLongVersionCode(packageManager
     //                    .getPackageInfo(GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE, 0));
     //
     //
@@ -321,7 +321,7 @@ class MainActivity : BaseActivity(), FragmentCallback,
     //    @Override
     //    public boolean onCreateOptionsMenu(Menu menu) {
     //        // Inflate the menu; this adds items to the action bar if it is present.
-    //        getMenuInflater().inflate(R.menu.main, menu);
+    //        menuInflater.inflate(R.menu.main, menu);
     //        return true;
     //    }
     //    @Override

@@ -1,38 +1,32 @@
-package com.walhalla.pillfinder.features;
-import android.os.Bundle;
+package com.walhalla.pillfinder.features
 
-import com.walhalla.health.HeartRateCalculator.HeartRateCalculator;
-import com.walhalla.health.R;
-import com.walhalla.health.activity.base.InnerAdActivity;
-import com.walhalla.pillfinder.MyApp;
+import android.os.Bundle
+import com.walhalla.domain.repository.AdvertRepository
+import com.walhalla.health.HeartRateCalculator.HeartRateCalculator
+import com.walhalla.health.R
+import com.walhalla.health.activity.base.InnerAdActivity
+import com.walhalla.pillfinder.MyApp
 
-import com.walhalla.domain.repository.AdvertRepository;
-
-public class HeartRate extends InnerAdActivity {
-
-    @Override
-    protected AdvertRepository loadRepository() {
-        return MyApp.repository;
+class HeartRate : InnerAdActivity() {
+    override fun loadRepository(): AdvertRepository {
+        return MyApp.repository!!
     }
 
-    @Override
-    protected int aLayout() {
-        return R.layout.activity_container;
+    override fun aLayout(): Int {
+        return R.layout.activity_container
     }
 
-    @Override
-    protected int aTheme() {
-        return R.style.YellowTheme;
+    override fun aTheme(): Int {
+        return R.style.YellowTheme
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.scrollcontainer, new HeartRateCalculator())
-                    .commit();
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.scrollcontainer, HeartRateCalculator())
+                .commit()
         }
     }
 }

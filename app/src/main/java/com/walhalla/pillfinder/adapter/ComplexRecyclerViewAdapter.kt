@@ -22,6 +22,8 @@ import com.walhalla.pillfinder.adapter.obj.ingredient.IngredientViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.CategoryViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.HeaderViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.MpcViewHolder
+import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
+import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
 import com.walhalla.pillfinder.adapter.viewHolder.Simple2TextViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.SimpleRxCuiViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.SimpleTextViewHolder
@@ -38,6 +40,7 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     private val context: Context
 
     private var presenter: ComplexPresenter? = null
+    private var moreActionListener: OnMoreActionListener? = null
 
     var blocking_flag: Int = 0
 
@@ -48,9 +51,14 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     //    private final ComplexPresenter presenter;
-    constructor(context: Context /*ComplexPresenter presenter,*/) {
+    constructor(context: Context) {
 //        this.presenter = presenter;
         this.context = context
+    }
+
+    constructor(context: Context, moreActionListener: OnMoreActionListener?) {
+        this.context = context
+        this.moreActionListener = moreActionListener
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -127,7 +135,7 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             TYPE_SIMPLE_STRING_ -> {
                 val v20 = getContentResource(R.layout.item_string, viewGroup)
-                viewHolder = SimpleTextViewHolder(v20)
+                viewHolder = SimpleTextViewHolder(v20, moreActionListener)
             }
 
             TYPE_INGREDIENT_ -> {

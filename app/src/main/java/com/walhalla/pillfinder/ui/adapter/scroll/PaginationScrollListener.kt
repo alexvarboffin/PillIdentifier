@@ -1,43 +1,35 @@
-package com.walhalla.pillfinder.ui.adapter.scroll;
+package com.walhalla.pillfinder.ui.adapter.scroll
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
+abstract class PaginationScrollListener(private val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+    private var isLoaded = false
 
-    private final LinearLayoutManager layoutManager;
-    private boolean isLoaded;
-
-    public PaginationScrollListener(LinearLayoutManager layoutManager) {
-        this.layoutManager = layoutManager;
-    }
-
-    @Override
-    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
 
         if (isLoaded) {
-            int visibleItemCount = layoutManager.getChildCount();
-            int totalItemCount = layoutManager.getItemCount();
-            int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.getItemCount()
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-            if (!isLoading() && !isLastPage()) {
+            if (!this.isLoading && !this.isLastPage) {
                 if ((visibleItemCount + firstVisibleItemPosition) >=
-                        totalItemCount && firstVisibleItemPosition >= 0) {
-                    loadMoreItems();
+                    totalItemCount && firstVisibleItemPosition >= 0
+                ) {
+                    loadMoreItems()
                 }
             }
-
         }
-        isLoaded = true;
+        isLoaded = true
     }
 
-    protected abstract void loadMoreItems();
+    protected abstract fun loadMoreItems()
 
-    public abstract int getTotalPageCount();
+    abstract val totalPageCount: Int
 
-    public abstract boolean isLastPage();
+    abstract val isLastPage: Boolean
 
-    public abstract boolean isLoading();
+    abstract val isLoading: Boolean
 }

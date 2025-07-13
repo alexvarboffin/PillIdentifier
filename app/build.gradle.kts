@@ -31,8 +31,8 @@ android {
         }
     }
 
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    buildToolsVersion = libs.versions.android.buildTools.get()
 
     val versionPropsFile = file("version.properties")
 
@@ -65,8 +65,8 @@ android {
             )
 
             applicationId = "com.walhalla.pillfindel"
-            minSdk = rootProject.extra["minSdkVersion0"].toString().toInt()
-            targetSdk = rootProject.extra["targetSdkVersion0"].toString().toInt()
+            minSdk = libs.versions.android.minSdk.get().toInt()
+            targetSdk = libs.versions.android.targetSdk.get().toInt()
             versionCode = code
             versionName = "7.1.$code.release"
         }
@@ -167,7 +167,7 @@ tasks.register<Copy>("copyAabToBuildFolder") {
 apply(from = "../copyReports.gradle")
 
 dependencies {
-    implementation(fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
+    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -183,44 +183,55 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.multidex)
 
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.okhttp3:okhttp:${rootProject.extra["okHttpVersion"]}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${rootProject.extra["okHttpVersion"]}")
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
     implementation(libs.androidx.recyclerview)
     implementation(libs.firebase.core)
     implementation(libs.firebase.ads)
-    implementation("com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0")
+    implementation(libs.picasso2.okhttp3.downloader)
+
     implementation(libs.androidx.preference.ktx)
     implementation(project(":features:ui"))
-    //implementation(project(":features:wads"))
+    implementation(project(":features:wads"))
     //implementation(project(":threader"))
     implementation(project(":shared"))
 
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.crashlytics)
-    implementation("com.google.firebase:firebase-analytics:${rootProject.extra["analyticsVersion"]}")
+
+    implementation(libs.google.firebase.analytics)
+
     implementation(libs.androidx.swiperefreshlayout)
     implementation("com.github.kenglxn.QRGen:android:3.0.1") {
         exclude(group = "com.android.support")
     }
     implementation(libs.androidx.lifecycle.process)
-    implementation("androidx.lifecycle:lifecycle-runtime:${rootProject.extra["lifecycle_version"]}")
+
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.common.java8)
-    implementation(libs.itextg)
-    implementation("com.mikepenz:fontawesome-typeface:4.6.0.3@aar")
-    implementation("com.mikepenz:iconics-core:3.1.0@aar")
-    implementation("com.weiwangcn.betterspinner:library:1.1.0")
-    implementation("com.patrickpissurno:ripple-effect:1.3.1")
-    implementation("com.jsibbold:zoomage:1.3.1")
-    implementation(project(":pdf-viewer"))
-    implementation(project(":health"))
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
-    implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
-        exclude(group = "com.google.android.gms")
-    }
+
+
+    implementation(libs.itextg)
+    implementation(libs.fontawesome.typeface)
+    implementation(libs.iconics.core)
+    implementation(libs.library)
+    //implementation(libs.ripple.effect)
+    implementation(libs.zoomage)
+    implementation(project(":pdf-viewer"))
+    implementation(project(":health"))
+
+    implementation(libs.kotlin.stdlib.jdk8)
+//    implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
+//        exclude(group = "com.google.android.gms")
+//    }
+
+    implementation(libs.extensible.page.indicator)
+
 }
 
 fun versionCodeDate(): Int {

@@ -46,6 +46,7 @@
   <component name="EntryPointsManager">
     <pattern value="com.walhalla.domen.rest.model.ReplyStatus" method="setImageCount" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />

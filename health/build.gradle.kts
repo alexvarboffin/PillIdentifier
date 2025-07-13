@@ -13,12 +13,12 @@ android {
         buildConfig = true
     }
 
-    compileSdk = libs.versions.compileSdk.get().toInt()
-    buildToolsVersion = libs.versions.buildTools.get()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    buildToolsVersion = libs.versions.android.buildTools.get()
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         consumerProguardFiles("consumer-rules.pro")
         resConfigs("en", "ru")
@@ -32,28 +32,31 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
 dependencies {
+    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
+
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.lottie)
-    implementation("com.jsibbold:zoomage:1.3.1")
-    implementation("com.patrickpissurno:ripple-effect:1.3.1")
-    implementation("com.weiwangcn.betterspinner:library:1.1.0")
+    implementation(libs.zoomage)
+    //implementation(libs.ripple.effect)
+    implementation(libs.library)
     implementation(libs.play.services.ads)
     implementation(libs.androidx.constraintlayout)
     implementation(project(":shared"))
     implementation(project(":pdf-viewer"))
     implementation(project(":features:ui"))
-    //implementation(project(":features:wads"))
-    //implementation(project(":threader"))
+    implementation(project(":features:wads"))
+    implementation(project(":threader"))
     implementation(libs.androidx.core.ktx)
 }

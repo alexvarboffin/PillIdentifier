@@ -53,7 +53,7 @@ object AboutBox {
             .setPositiveButton(android.R.string.ok, null)
             .setView(about)
             .create()
-        //dialog.getWindow().setBackgroundDrawableResource(R.drawable.pretty_gradient);
+        //dialog.window.setBackgroundDrawableResource(R.drawable.pretty_gradient);
         dialog.show()
     }
 }

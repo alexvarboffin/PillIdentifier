@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.walhalla.lib.Export
 import com.walhalla.pillfinder.fragment.api2.FRepository
 import com.walhalla.pillfinder.fragment.api2.FRepository.RxCallback
+import com.walhalla.pillfinder.fragment.api2.getRxCollection1
 import com.walhalla.ui.DLog.d
 
 class Debug : AppCompatActivity() {
@@ -19,7 +20,7 @@ class Debug : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         val repository = FRepository()
-        FRepository.getRxCollection1(db, object : RxCallback {
+        getRxCollection1(db, object : RxCallback {
             override fun success(usersList: List<Export>) {
                 if (usersList.isEmpty()) {
                     d("@@@@@@@@@@@ EMPTY @@@@@@@@@")

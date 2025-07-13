@@ -1,90 +1,84 @@
-package com.walhalla.pillfinder.dialog;
+package com.walhalla.pillfinder.dialog
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
-import android.os.Bundle;
+import android.app.Activity
+import android.app.Dialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import com.walhalla.Util
+import com.walhalla.domen.rest.QueryConstants
+import com.walhalla.pillfinder.R
+import com.walhalla.ui.DLog.d
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
+class D_Shape : DialogFragment() {
+    private var input: String? = null
 
-import android.util.Log;
-import android.widget.Toast;
-
-import com.walhalla.Util;
-import com.walhalla.pillfinder.R;
-import com.walhalla.domen.rest.QueryConstants;
-import com.walhalla.ui.DLog;
-
-
-public class D_Shape extends DialogFragment {
-
-
-    public static final String KEY_INPUT_OUTPUT_DATA = "key_input";
-
-    private String input;
-
-//    public static D_Shape newInstance(String input) {
-//        D_Shape dialog = new D_Shape();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(KEY_INPUT_OUTPUT_DATA, input);
-//        dialog.setArguments(bundle);
-//        return dialog;
-//    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    //    public static D_Shape newInstance(String input) {
+    //        D_Shape dialog = new D_Shape();
+    //        Bundle bundle = new Bundle();
+    //        bundle.putString(KEY_INPUT_OUTPUT_DATA, input);
+    //        dialog.setArguments(bundle);
+    //        return dialog;
+    //    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(KEY_INPUT_OUTPUT_DATA, input);
-        super.onSaveInstanceState(outState);
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(KEY_INPUT_OUTPUT_DATA, input)
+        super.onSaveInstanceState(outState)
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-
-        if (getArguments() != null) {
-            input = getArguments().getString(KEY_INPUT_OUTPUT_DATA);
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (arguments != null) {
+            input = requireArguments().getString(KEY_INPUT_OUTPUT_DATA)
         }
         if (savedInstanceState != null) {
-            input = savedInstanceState.getString(KEY_INPUT_OUTPUT_DATA);
+            input = savedInstanceState.getString(KEY_INPUT_OUTPUT_DATA)
         }
-        DLog.d("Input data: " + input);
+        d("Input data: " + input)
 
-        int checkeditem = Util.findArrayIndex(input, QueryConstants.shapes);
+        val checkeditem = Util.findArrayIndex(input!!, QueryConstants.shapes)
 
 
-        AlertDialog d = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.dialog_shape_title)
-                .setIcon(R.drawable.ic_shape)
-                .setSingleChoiceItems(QueryConstants.shapes, checkeditem, (dialog, position) -> {
-                    if (position == -1) {
-                        Toast.makeText(getContext(), "No choice", Toast.LENGTH_LONG).show();
-                    } else {
-                        String shape = QueryConstants.shapes[position];
-                        Intent intent = new Intent();
-                        intent.putExtra(KEY_INPUT_OUTPUT_DATA, shape);
-                        if (getTargetFragment() != null) {
-                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                        }
+        val d = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.dialog_shape_title)
+            .setIcon(R.drawable.ic_shape)
+            .setSingleChoiceItems(
+                QueryConstants.shapes,
+                checkeditem
+            ) { dialog: DialogInterface?, position: Int ->
+                if (position == -1) {
+                    Toast.makeText(context, "No choice", Toast.LENGTH_LONG).show()
+                } else {
+                    val shape = QueryConstants.shapes[position]
+                    val intent = Intent()
+                    intent.putExtra(KEY_INPUT_OUTPUT_DATA, shape)
+                    if (getTargetFragment() != null) {
+                        getTargetFragment()!!.onActivityResult(
+                            getTargetRequestCode(),
+                            Activity.RESULT_OK,
+                            intent
+                        )
                     }
-                    dialog.dismiss();
-                })
-                .setNegativeButton(getString(android.R.string.cancel), (dialog, id) -> {
-                    dialog.cancel();
-                    //getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, getActivity().getIntent());
-                })
-                .setCancelable(true)
-                .create();
-        return d;
+                }
+                dialog!!.dismiss()
+            }
+            .setNegativeButton(
+                getString(android.R.string.cancel)
+            ) { dialog: DialogInterface?, id: Int ->
+                dialog!!.cancel()
+            }
+            .setCancelable(true)
+            .create()
+        return d
     }
 
 
+    companion object {
+        const val KEY_INPUT_OUTPUT_DATA: String = "key_input"
+    }
 }

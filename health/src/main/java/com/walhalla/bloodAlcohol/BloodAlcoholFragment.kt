@@ -85,10 +85,10 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
 
         val numberFormat = NumberFormat.getInstance()
         numberFormat.setMaximumFractionDigits(3)
-        genderSp!!.adapter = GenderAdapter(activity, R.layout.spinner_down_blue, strArr)
-        volumeSp!!.adapter = VolumeAdapter(activity, R.layout.spinner_down_blue, strArr4)
-        weightSp!!.adapter = WeightAdapter(activity, R.layout.spinner_down_blue, strArr2)
-        timeSp!!.adapter = TimeAdapter(activity, R.layout.spinner_down_blue, strArr3)
+        genderSp!!.adapter = GenderAdapter(requireActivity(), R.layout.spinner_down_blue, strArr)
+        volumeSp!!.adapter = VolumeAdapter(requireActivity(), R.layout.spinner_down_blue, strArr4)
+        weightSp!!.adapter = WeightAdapter(requireActivity(), R.layout.spinner_down_blue, strArr2)
+        timeSp!!.adapter = TimeAdapter(requireActivity(), R.layout.spinner_down_blue, strArr3)
 
         view.findViewById<View>(R.id.chart).setOnClickListener {
             if (mainView != null) {

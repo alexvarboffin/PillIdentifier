@@ -60,6 +60,15 @@ import java.util.Locale
 
 
 class FragmentMain : BaseFragment(), PresenterCallback {
+    //private List<Object> objectList = new ArrayList<>();
+    //""""""private static final int PAGE_START = -9999;
+    // Indicates if footer ProgressBar is shown (i.e. next page is loading)
+    var _isLoading: Boolean = false
+
+    // If current page is the last page (Pagination will stop after this page load)
+    var _isLastPage: Boolean = false
+
+
     private var places: HashMap<String, String>? = HashMap()
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -184,7 +193,6 @@ class FragmentMain : BaseFragment(), PresenterCallback {
     }
 
 
-
     override fun hideRefreshLayoutProgress() {
         mBinding!!.swipeRefreshLayout.isRefreshing = false
     }
@@ -227,13 +235,7 @@ class FragmentMain : BaseFragment(), PresenterCallback {
     //        mMap.put("inactive", null);
     //        mMap.put("parse", null);
     //        mMap.put(FIELD_PAGE, "0");
-    //private List<Object> objectList = new ArrayList<>();
-    //""""""private static final int PAGE_START = -9999;
-    // Indicates if footer ProgressBar is shown (i.e. next page is loading)
-    var isLoading: Boolean = false
 
-    // If current page is the last page (Pagination will stop after this page load)
-    var isLastPage: Boolean = false
 
     //private String mTitle;
     private var mVersion: String? = null
@@ -272,7 +274,7 @@ class FragmentMain : BaseFragment(), PresenterCallback {
 
     private val onnRefresh = OnRefreshListener { //??? CURRENT_PAGE_NUMBER = PAGE_START;
         mBinding!!.pageNavigation.CURRENT_PAGE_NUMBER = NavigatorView.PAGE_START_INDEX
-        isLastPage = false
+        _isLastPage = false
         //mViewAdapter.clear();
         //loadNextPage(CURRENT_PAGE_NUMBER);
         presenter!!.loadNextPageRequest(
@@ -474,10 +476,10 @@ class FragmentMain : BaseFragment(), PresenterCallback {
         if (RESIZE_ENABLED) {
             layoutManager!!.spanSizeLookup = sizeLookup
         }
-        rr.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
+        rr.addOnScrollListener(object : PaginationScrollListener(layoutManager!!) {
             override fun loadMoreItems() {
                 if (END_SCROLL_ENABLED) {
-                    this@FragmentMain.isLoading = true
+                    this@FragmentMain._isLoading = true
                     //Increment page index to load the next one
                     //CURRENT_PAGE_NUMBER++;
                     //loadNextPage(CURRENT_PAGE_NUMBER);
@@ -485,18 +487,13 @@ class FragmentMain : BaseFragment(), PresenterCallback {
                 }
             }
 
-            override fun getTotalPageCount(): Int {
-                //return TOTAL_PAGES;
-                return mBinding!!.pageNavigation.totaL_PAGES
-            }
-
-            override fun isLastPage(): Boolean {
-                return isLastPage
-            }
-
-            override fun isLoading(): Boolean {
-                return isLoading
-            }
+            override val totalPageCount: Int
+                get() = //return TOTAL_PAGES;
+                    mBinding!!.pageNavigation.totaL_PAGES
+            override val isLastPage: Boolean
+                get() = _isLastPage
+            override val isLoading: Boolean
+                get() = _isLoading
         })
         rr.layoutManager = layoutManager
         rr.adapter = mViewAdapter
@@ -549,7 +546,7 @@ class FragmentMain : BaseFragment(), PresenterCallback {
     override fun onResume() {
         super.onResume()
         //        if (BuildConfig.DEBUG) {
-//            ActionBar sab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//            ActionBar sab = ((AppCompatActivity) getActivity()).supportActionBar;
 //            sab.setDisplayHomeAsUpEnabled(true);
 //            sab.setDisplayHomeAsUpEnabled(true);
 //            Toolbar tb = ((AppCompatActivity) getActivity()).findViewById(R.id.toolbar);

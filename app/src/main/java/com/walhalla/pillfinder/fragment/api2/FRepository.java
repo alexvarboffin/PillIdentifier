@@ -31,7 +31,7 @@ import gov.nih.nlm.model.ReplyStatus;
 
 public class FRepository {
 
-    private static final String COLLECTION_RX = "rximages";
+    public static final String COLLECTION_RX = "rximages";
 
 //    public void getRxCollection1(FirebaseFirestore db, RxCallback callback) {
 //        List<Export> usersList = new ArrayList<>();
@@ -105,31 +105,7 @@ public class FRepository {
                 });
     }
 
-    public static void getRxCollection1(FirebaseFirestore db, RxCallback callback) {
-        List<Export> usersList = new ArrayList<>();
-        String value = "162".toUpperCase();
-        Query query = db.collection(COLLECTION_RX) //get all the users
-                .limit(3)
-                .orderBy(FieldPath.of("mpc", MpcField.IMPRINT.value))
-                .startAt(""+'\uf8ff')
-                .endAt(value+'\uf8ff');//"" + value + '\uf8ff'    [ok] => ""+'\uf8ff'
 
-        query.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult() != null) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                usersList.add(document.toObject(Export.class));
-                            }
-                        } else {
-                            DLog.d("@@@@ Error getting documents." + task.getException());
-                        }
-                        DLog.d("@@@@" + task.getResult().getMetadata());
-                    }
-
-                    callback.success(usersList);
-                });
-    }
 
     public static void getRxCollection(FirebaseFirestore db, RxCallback callback) {
 

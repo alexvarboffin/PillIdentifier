@@ -75,8 +75,8 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
 
     private var binding: FragmentNlmRxBinding? = null
 
-    private var imageUrl: String? = null
-    private var pname: String? = null
+    private var imageUrl: String = ""
+    private var pname: String = ""
 
 
     private var nlmRxImage: NlmRxImage? = null
@@ -376,10 +376,12 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     private fun aaaaaaaasw33() {
         val activity: Activity? = activity
         if (activity != null && isAdded) {
-            val data = Util.wrapper(getActivity(), nlmRxImage)
-            //        SpannableString sp = new SpannableString(Html.fromHtml(value.toString()));
+            nlmRxImage?.let {
+                val data = Util.wrapper(requireActivity(), it)
+//        SpannableString sp = new SpannableString(Html.fromHtml(value.toString()));
 //        mBinding.description.setText(sp, TextView.BufferType.SPANNABLE);
-            updateData(data)
+                updateData(data)
+            }
         }
     }
 
@@ -508,7 +510,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
 
     //    @Override
     //    public boolean onCreateOptionsMenu(Menu menu) {
-    //        getMenuInflater().inflate(R.menu.more_info, menu);
+    //        menuInflater.inflate(R.menu.more_info, menu);
     //        return true;
     //    }
     @SuppressLint("NonConstantResourceId")
@@ -637,6 +639,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     companion object {
         private val ARG_IMAGE = "key_image_" + R.font.opensansregular
         const val REQUEST_CODE_TO_PRINT: Int = 121
+
         @JvmStatic
         fun getInstance(image: String?): NlmRxFragment {
             val nlmRxFragment = NlmRxFragment()

@@ -1,0 +1,465 @@
+<!DOCTYPE html PUBLIC ""
+    "">
+
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>findSimilarClassesByClass
+            -
+            RxClass API</title>
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/assets/uswds-2.4.0/css/uswds.min.css" />
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/assets/stylesheets/LHC_main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/RxNav/assets/stylesheets/lhncbc-apidocs.css" />
+
+
+
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-59GQ6JK');</script>
+<!-- End Google Tag Manager -->
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59GQ6JK" height="0" width="0" style="display:none;visibility:hidden" title="googletagmanager"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="usa-overlay"></div>
+  <header class="usa-header usa-header--extended insertheader">
+
+
+
+
+
+
+
+
+
+
+   <div class="usa-nav-layout grid-row">
+     <div class="usa-logo grid-col-10" id="extended-logo">
+
+      <div class="header-logo" style="line-height:1rem;">
+        <div class="display-flex flex-row flex-align-center">
+            <div>
+              <a href="https://www.nih.gov"><img src="https://lhncbc.nlm.nih.gov/assets/images/logo-NIH-block.png" title="NIH logo chevron" /></a>
+            </div>
+            <div class="display-flex flex-column">
+              <a href="https://www.nlm.nih.gov">
+                <img src="https://lhncbc.nlm.nih.gov/assets/images/logo-NLM-block.png" title="portion of logo that reads National Library of Medicine" />
+              </a>
+              <a href="https://lhncbc.nlm.nih.gov/index.html">
+                <img src="https://lhncbc.nlm.nih.gov/assets/images/logo-LHC-block.png" title="portion of logo that reads Lister Hill National Center for Biomedical Communications" />
+              </a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="LHC-menu grid-col-2 display-flex flex-row flex-justify-end flex-align-center">
+      <button class="usa-menu-btn"><i class="fas fa-bars fa-2x" title="3 bar menu button"></i></button>
+    </div>
+  </div>
+
+
+    <nav aria-label="Primary navigation" class="usa-nav">
+      <div class="usa-nav__inner">
+        <button class="usa-nav__close"><img src="https://lhncbc.nlm.nih.gov/assets/images/close.svg" alt="close" /></button>
+        <div class="nav-container">
+          <ul class="usa-nav__primary usa-accordion">
+            <li class="usa-nav__primary-item usa-current">
+              <a href="https://lhncbc.nlm.nih.gov/RxNav/index.html" class="usa-nav__link homeButton"><span class="subproject-navtitle">RxNav:</span></a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <button class="usa-accordion__button usa-nav__link usa-current apiButton" aria-expanded="false" aria-controls="extended-nav-section-one"><span>APIs</span>
+              </button>
+              <ul id="extended-nav-section-one" class="usa-nav__submenu" hidden="">
+                <li class="usa-nav__submenu-item">
+                  <a href="index.html">Overview</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxNormAPIs.html">RxNorm API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxTermsAPIs.html">RxTerms API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="PrescribableAPIs.html">Prescribable API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxClassAPIs.html">RxClass API</a>
+                </li>
+                <!--<li class="usa-nav__submenu-item">
+                  <a href="/RxNav/APIs/InteractionAPIs.html">Drug Interaction API</a>
+                </li>-->
+              </ul>
+            </li>
+
+
+ <li class="usa-nav__primary-item">
+               <button class="usa-accordion__button usa-nav__link applicationsButton" aria-expanded="false" aria-controls="extended-nav-section-two"><span>Applications</span>
+               </button>
+               <ul id="extended-nav-section-two" class="usa-nav__submenu" hidden="">
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxNavDoc.html">RxNav Overview</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxMixTutorial.html">RxMix Tutorial</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxClassIntro.html">RxClass Overview</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html">RxNav-in-a-box</a>
+                 </li>
+               </ul>
+ </li>
+
+ <li class="usa-nav__primary-item">
+               <button class="usa-accordion__button usa-nav__link informationButton" aria-expanded="false" aria-controls="extended-nav-section-three"><span>More Information</span>
+               </button>
+               <ul id="extended-nav-section-three" class="usa-nav__submenu" hidden="">
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/information/DataSources.html">Data Sources</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://mor.nlm.nih.gov/pubs/rxnav.html">Publications</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/information/FAQs.html">FAQ</a>
+                 </li>
+               </ul>
+            </li>
+
+ <li class="usa-nav__primary-item">
+     <a class="usa-nav__link termsButton" href="https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html"><span>Terms of Service</span></a>
+ </li>
+
+
+
+
+
+          </ul>
+        </div>
+
+        <div class="usa-nav__secondary">
+
+
+                     <form class="usa-search usa-search--small" method="GET" action="https://lhncbc.nlm.nih.gov/search-results.html" target="_self" name="search" id="search" onsubmit="try{return velocityFormSubmit(this, event);}catch(e){}">
+                <div role="search">
+                  <label class="usa-sr-only" for="extended-search-field-small">Search small</label>
+                  <input class="usa-input" id="extended-search-field-small" type="search" name="query" />
+                  <button class="usa-button bg-accent-warm" type="submit"><span class="usa-sr-only">Search</span></button>
+                </div>
+              </form>
+
+                  </div>
+      </div>
+    </nav>
+
+  </header>
+
+
+
+<div id="content"><div class="rxapi"><div class="front_page"><div class="usa-layout padding-y-4"><div class="grid-row grid-gap"><div class="LHC-sidenav tablet:grid-col-3"><h6 class="usa-heading-alt"><a href="index.html">APIs</a></h6><nav aria-label="Secondary navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="index.html">Overview</a></li><li><a href="RxNormAPIs.html">RxNorm API</a></li><li><a href="RxTermsAPIs.html">RxTerms API</a></li><li><a href="PrescribableAPIs.html">Prescribable RxNorm API</a></li><li class="usa-sidenav__item"><a class="usa-current" href="RxClassAPIs.html">RxClass API</a><ul class="usa-sidenav__sublist"><li class="usa-sidenav__item"><a href="api-RxClass.findClassByName.html">findClassByName</a></li><li class="usa-sidenav__item"><a href="api-RxClass.findClassesById.html">findClassesById</a></li><li class="usa-sidenav__item"><a class="usa-current" href="api-RxClass.findSimilarClassesByClass.html#">findSimilarClassesByClass</a></li><li class="usa-sidenav__item"><a href="api-RxClass.findSimilarClassesByDrugList.html">findSimilarClassesByDrugList</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getAllClasses.html">getAllClasses</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassByRxNormDrugId.html">getClassByRxNormDrugId</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassByRxNormDrugName.html">getClassByRxNormDrugName</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassContexts.html">getClassContexts</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassGraphBySource.html">getClassGraphBySource</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassMembers.html">getClassMembers</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassTree.html">getClassTree</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getClassTypes.html">getClassTypes</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getRelaSourceVersion.html">getRelaSourceVersion</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getRelas.html">getRelas</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getSimilarityInformation.html">getSimilarityInformation</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getSourcesOfDrugClassRelations.html">getSourcesOfDrugClassRelations</a></li><li class="usa-sidenav__item"><a href="api-RxClass.getSpellingSuggestions.html">getSpellingSuggestions</a></li></ul></li></ul></nav></div><div class="desktop:grid-col-9"><p><a href="index.html">APIs</a></p><h3><a href="RxClassAPIs.html">RxClass API</a></h3><div class="grid-container pt-2 px-0"><div class="pt-2"><h2>findSimilarClassesByClass</h2><dl class="rxapi-glosslist synopsis"><dt><span class="rxapi-glossterm">Information returned</span></dt><dd>Classes with similar clinically-significant RxNorm ingredients<div></div></dd><dt><span class="rxapi-glossterm">Service domain</span></dt><dd class="rxapi-hostdomain">https://rxnav.nlm.nih.gov<div></div></dd><dt><span class="rxapi-glossterm">HTTP request</span></dt><dd>GET  /REST/rxclass/class/similar<span class="rxapi-replaceable">.xml</span>?<span class="rxapi-parameter">classId</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">relaSource</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">rela</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">scoreType</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">top</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">equivalenceThreshold</span>=<span class="rxapi-replaceable">value</span>&amp;<span class="rxapi-parameter">inclusionThreshold</span>=<span class="rxapi-replaceable">value</span></dd></dl><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.description"><h4>Description</h4><p>
+          Find similar classes of drug members. The input drug class is defined by the class identifier (<span class="rxapi-parameter">classId</span>), the source of drug relations (<span class="rxapi-parameter">relaSource</span>) and the relationship (<span class="rxapi-parameter">rela</span>) of the drugs to the class.</p><p>The <span class="rxapi-parameter">scoreType</span> parameter selects the kind of similarity to find:</p><dl class="rxapi-glosslist "><dt><span class="rxapi-glossterm">Equivalance</span></dt><dd>The class indicated by parameters has the same membership as the result class. Classes scoring lower than <span class="rxapi-parameter">equivalenceThreshold</span> are not returned.<div></div></dd><dt><span class="rxapi-glossterm">Includes</span></dt><dd>The class indicated by parameters includes the result class. That is, the resulting drug classes have a large number of members which are included in the input drug class. This would be any resulting drug classes which have an inclusion score greater than 0.  A minimum inclusion score can be set with the <span class="rxapi-parameter">inclusionThreshold</span> parameter.<div></div></dd><dt><span class="rxapi-glossterm">Included-in</span></dt><dd>The class indicated by parameters is included in the ideal result class. That is, the class indicated by parameters has a large number of members contained in the returned drug classes. This would be any resulting drug classes which have an inclusion score less than 0. Minimum inclusion quality can be set with the <span class="rxapi-parameter">inclusionThreshold</span> parameter.<div></div></dd></dl><p>For combinations of <span class="rxapi-parameter">rela</span> and <span class="rxapi-parameter">relaSrc</span> that can uniquely identify a class, see <a class="rxapi-xref" href="api-RxClass.getClassMembers.html">getClassMembers</a>. <span class="rxapi-parameter">rela</span> may be omitted only if it would be empty.</p><p>Class similarity compares clinically-significant RxNorm ingredients, which may be different from the drugs reported by <a class="rxapi-xref" href="api-RxClass.getClassMembers.html">getClassMembers</a>.  See <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxClassSimilarity.html" target="_blank" rel="noopener noreferrer">Similarity Scoring</a> for details on how the similar classes are determined.</p><p>The classes' similarity scores are returned in response elements <span class="rxapi-tag">equivalenceScore</span> and <span class="rxapi-tag">inclusionScore</span>.  A summary of the basis of computation is returned in <span class="rxapi-tag">intersection</span>, <span class="rxapi-tag">cardinality1</span>, and <span class="rxapi-tag">cardinality2</span>.  More detail about the basis of computation of the scores is available from <a class="rxapi-xref" href="api-RxClass.getSimilarityInformation.html">getSimilarityInformation</a>.</p></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.parameters"><h4>Parameters</h4><div class="usa-table-container--scrollable" tabindex="0"><table class="parameters usa-table"><thead><tr><th>Parameter</th><th>Location</th><th>Use</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><th scope="row"><span class="rxapi-parameter">format</span></th><td>Path</td><td>Optional</td><td><p>Notation for results</p><div class="rxapi-glosslist-title">One of:</div><dl class="rxapi-glosslist "><dt><span class="rxapi-glossterm">.xml</span></dt><dd>Get results in XML<div></div></dd><dt><span class="rxapi-glossterm">.json</span></dt><dd>Get results in JSON<div></div></dd></dl></td><td>.xml</td></tr><tr><th scope="row"><span class="rxapi-parameter">classId</span></th><td>Query</td><td>Required</td><td>Class identifier</td><td></td></tr><tr><th scope="row"><span class="rxapi-parameter">relaSource</span></th><td>Query</td><td>Required</td><td>Source of relationships of classId to drugs<p>(See <a href="api-RxClass.getSourcesOfDrugClassRelations.html">getSourcesOfDrugClassRelations</a> for the menu.)</p></td><td></td></tr><tr><th scope="row"><span class="rxapi-parameter">rela</span></th><td>Query</td><td>Required</td><td>Relationship of classId to its members<p>(See <a href="api-RxClass.getRelas.html">getRelas</a> for the menu.)</p></td><td></td></tr><tr><th scope="row"><span class="rxapi-parameter">scoreType</span></th><td>Query</td><td>Optional</td><td>Ranking of results<div class="rxapi-glosslist-title">One of:</div><dl class="rxapi-glosslist "><dt><span class="rxapi-glossterm">0</span></dt><dd>Parameter class Equals result classes<div></div></dd><dt><span class="rxapi-glossterm">1</span></dt><dd>Parameter class Includes result classes<div></div></dd><dt><span class="rxapi-glossterm">2</span></dt><dd>Parameter class Included-in result classes<div></div></dd></dl></td><td>0</td></tr><tr><th scope="row"><span class="rxapi-parameter">top</span></th><td>Query</td><td>Optional</td><td>Coarse control over number of results to return<p>(Range: 1 to 100.)</p></td><td>10</td></tr><tr><th scope="row"><span class="rxapi-parameter">equivalenceThreshold</span></th><td>Query</td><td>Optional</td><td>Minimum of equivalence scores to return<p>(Range: 0.0 to 1.0.)</p></td><td>0.0</td></tr><tr><th scope="row"><span class="rxapi-parameter">inclusionThreshold</span></th><td>Query</td><td>Optional</td><td>When ranking by inclusion score: Minimum of (absolute value of) inclusion scores to return<p>(Range: 0.0 to 1.0.)</p></td><td>1.0</td></tr></tbody></table></div><p>All query parameters are case-insensitive.</p><p>Note that HTTP requires that query parameters be "URL encoded". For full information on URL encoding, please refer to <a href="https://tools.ietf.org/rfc/rfc3986.txt" class="external" rel="noopener noreferrer">IETF RFC 3986, "Uniform Resource Identifier"</a>.</p></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.output"><h4>Output structure</h4><p>Results are available as either XML or JSON.  </p><ul><li><p>The XML result has the root element <span class="rxapi-tag">rxclassdata</span>.  It is described in the <a href="https://rxnav.nlm.nih.gov/rxclassrest.xsd">XML Schema for the RxClass API</a>; the relevant element structure is summarized below.  Elements that would be empty might be left out.</p></li><li><p>The JSON result is an object <span class="rxapi-varname">{...}</span>, analogous to the content of the XML <span class="rxapi-tag">rxclassdata</span>.  Fields that might occur multiple times in the XML are expressed as an array.  Fields that would be empty might be null or left out.  Numbers are expressed as strings.</p></li></ul><p>Both XML and JSON results follow the same outline:</p><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">rxclassdata</span></dt><dd>Root element in XML, or anonymous object in JSON<dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">similarityMember</span></dt><dd><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">ingredientRxcui (array)</span></dt><dd>RxNorm identifier of an ingredient<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">rankClassConcept (array)</span></dt><dd>Drug class and its similarity stats<dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">similarityEntityItem</span></dt><dd>Similarity stats<dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">equivalenceScore</span></dt><dd>Degree of overlap of two classes<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">inclusionScore</span></dt><dd>Degree to which one compared class includes the other<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">intersection</span></dt><dd>Number of drugs common to both classes<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">cardinality1</span></dt><dd>Number of drugs in class 1<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">cardinality2</span></dt><dd>Number of drugs in class 2<div></div></dd></dl></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">drugClassConceptItem</span></dt><dd>Compared class<dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">rela</span></dt><dd>Member relationship that defines the class<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">relaSource</span></dt><dd>Drug-member relationship source<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">rxclassMinConceptItem</span></dt><dd>Drug class<dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">classId</span></dt><dd>Class identifier (an ID in the namespace of the class source)<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">className</span></dt><dd>Class name<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">classType</span></dt><dd>Class type (ATC1-4, CHEM, DISPOS, EPC, VA, etc.)<div></div></dd></dl><dl class="rxapi-variablelist"><dt><span class="rxapi-variablelist-term">classUrl</span></dt><dd>Link to the class source<div></div></dd></dl></dd></dl></dd></dl></dd></dl></dd></dl></dd></dl></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.see"><h4>See also</h4><ul><li><p><a class="rxapi-xref" href="api-RxClass.findSimilarClassesByDrugList.html">findSimilarClassesByDrugList</a></p></li><li><p><a class="rxapi-xref" href="api-RxClass.getSimilarityInformation.html">getSimilarityInformation</a></p></li></ul></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.x.1"><h4>Example: Classes that are snug subsets of "SNOMED CT Carbohydrate-containing product" (id=350544001)</h4><p class="example-url">XML: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=350544001&amp;relaSource=SNOMEDCT&amp;scoreType=1&amp;rela=isa_structure&amp;top=1" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=350544001&amp;relaSource=SNOMEDCT&amp;scoreType=1&amp;rela=isa_structure&amp;top=1</a></p><p class="example-url">JSON: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=350544001&amp;relaSource=SNOMEDCT&amp;scoreType=1&amp;rela=isa_structure&amp;top=1" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=350544001&amp;relaSource=SNOMEDCT&amp;scoreType=1&amp;rela=isa_structure&amp;top=1</a></p><p>An XML result is shown below.</p><pre class="rxapi-programlisting">&lt;rxclassdata&gt;
+    &lt;similarityMember&gt;
+        &lt;ingredientRxcui&gt;10046&lt;/ingredientRxcui&gt;
+        &lt;ingredientRxcui&gt;10159&lt;/ingredientRxcui&gt;
+        ...
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.16972503&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;5&lt;/intersection&gt;
+                &lt;cardinality1&gt;27&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;5&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_ingredient&lt;/rela&gt;
+                &lt;relaSource&gt;MEDRT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;D002482&lt;/classId&gt;
+                    &lt;className&gt;Cellulose&lt;/className&gt;
+                    &lt;classType&gt;CHEM&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+    &lt;/similarityMember&gt;
+&lt;/rxclassdata&gt;</pre></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.x.2"><h4>Example: Classes similar to ATC "protein kinase inhibitors" (id=L01E)</h4><p class="example-url">XML: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=L01E&amp;relaSource=ATC&amp;scoreType=0&amp;top=4" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=L01E&amp;relaSource=ATC&amp;scoreType=0&amp;top=4</a></p><p class="example-url">JSON: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=L01E&amp;relaSource=ATC&amp;scoreType=0&amp;top=4" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=L01E&amp;relaSource=ATC&amp;scoreType=0&amp;top=4</a></p><p>An XML result is shown below.</p><pre class="rxapi-programlisting">&lt;rxclassdata&gt;
+    &lt;similarityMember&gt;
+        &lt;ingredientRxcui&gt;1098413&lt;/ingredientRxcui&gt;
+        &lt;ingredientRxcui&gt;1147220&lt;/ingredientRxcui&gt;
+        ...
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.9947229&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;0.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;76&lt;/intersection&gt;
+                &lt;cardinality1&gt;76&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;76&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela/&gt;
+                &lt;relaSource&gt;ATCPROD&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;L01E&lt;/classId&gt;
+                    &lt;className&gt;PROTEIN KINASE INHIBITORS&lt;/className&gt;
+                    &lt;classType&gt;ATC1-4&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.69806635&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;-0.77461797&lt;/inclusionScore&gt;
+                &lt;intersection&gt;73&lt;/intersection&gt;
+                &lt;cardinality1&gt;76&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;101&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_moa&lt;/rela&gt;
+                &lt;relaSource&gt;MEDRT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;N0000175082&lt;/classId&gt;
+                    &lt;className&gt;Kinase Inhibitors&lt;/className&gt;
+                    &lt;classType&gt;MOA&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.68385744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;-0.14519057&lt;/inclusionScore&gt;
+                &lt;intersection&gt;64&lt;/intersection&gt;
+                &lt;cardinality1&gt;76&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;81&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;isa_disposition&lt;/rela&gt;
+                &lt;relaSource&gt;SNOMEDCT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;427510007&lt;/classId&gt;
+                    &lt;className&gt;Protein kinase inhibitor-containing product&lt;/className&gt;
+                    &lt;classType&gt;DISPOS&lt;/classType&gt;
+                    &lt;classUrl&gt;http://snomed.info/id/427510007&lt;/classUrl&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.68385744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;-0.14519057&lt;/inclusionScore&gt;
+                &lt;intersection&gt;64&lt;/intersection&gt;
+                &lt;cardinality1&gt;76&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;81&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;isa_disposition&lt;/rela&gt;
+                &lt;relaSource&gt;SNOMEDCT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;427620008&lt;/classId&gt;
+                    &lt;className&gt;Phosphotransferase inhibitor-containing product&lt;/className&gt;
+                    &lt;classType&gt;DISPOS&lt;/classType&gt;
+                    &lt;classUrl&gt;http://snomed.info/id/427620008&lt;/classUrl&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+    &lt;/similarityMember&gt;
+&lt;/rxclassdata&gt;</pre></div><div class="rxapi-simplesect" id="RxClass.findSimilarClassesByClass.x.3"><h4>Example: Similar classes, with customized thresholds</h4><p class="example-url">XML: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=L03AB&amp;relaSource=ATC&amp;scoreType=1&amp;equivalenceThreshold=0.35&amp;inclusionThreshold=0.35" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar?classId=L03AB&amp;relaSource=ATC&amp;scoreType=1&amp;equivalenceThreshold=0.35&amp;inclusionThreshold=0.35</a></p><p class="example-url">JSON: <a href="https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=L03AB&amp;relaSource=ATC&amp;scoreType=1&amp;equivalenceThreshold=0.35&amp;inclusionThreshold=0.35" class="rxapi-hostdomain" target="_blank">https://rxnav.nlm.nih.gov/REST/rxclass/class/similar.json?classId=L03AB&amp;relaSource=ATC&amp;scoreType=1&amp;equivalenceThreshold=0.35&amp;inclusionThreshold=0.35</a></p><p>An XML result is shown below.</p><pre class="rxapi-programlisting">&lt;rxclassdata&gt;
+    &lt;similarityMember&gt;
+        &lt;ingredientRxcui&gt;120608&lt;/ingredientRxcui&gt;
+        &lt;ingredientRxcui&gt;1546168&lt;/ingredientRxcui&gt;
+        ...
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.4281744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;3&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_ingredient&lt;/rela&gt;
+                &lt;relaSource&gt;MEDRT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;D016899&lt;/classId&gt;
+                    &lt;className&gt;Interferon-beta&lt;/className&gt;
+                    &lt;classType&gt;CHEM&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.4281744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;3&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_chemical_structure&lt;/rela&gt;
+                &lt;relaSource&gt;FDASPL&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;D016899&lt;/classId&gt;
+                    &lt;className&gt;Interferon-beta&lt;/className&gt;
+                    &lt;classType&gt;CHEM&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.4281744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;3&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_chemical_structure&lt;/rela&gt;
+                &lt;relaSource&gt;DAILYMED&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;D016899&lt;/classId&gt;
+                    &lt;className&gt;Interferon-beta&lt;/className&gt;
+                    &lt;classType&gt;CHEM&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.4281744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;3&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_epc&lt;/rela&gt;
+                &lt;relaSource&gt;FDASPL&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;N0000191625&lt;/classId&gt;
+                    &lt;className&gt;Interferon beta&lt;/className&gt;
+                    &lt;classType&gt;EPC&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.4281744&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;1.0&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;3&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;has_epc&lt;/rela&gt;
+                &lt;relaSource&gt;DAILYMED&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;N0000191625&lt;/classId&gt;
+                    &lt;className&gt;Interferon beta&lt;/className&gt;
+                    &lt;classType&gt;EPC&lt;/classType&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.36700666&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;0.375&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;4&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;isa_structure&lt;/rela&gt;
+                &lt;relaSource&gt;SNOMEDCT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;768865007&lt;/classId&gt;
+                    &lt;className&gt;Interferon-containing product&lt;/className&gt;
+                    &lt;classType&gt;STRUCT&lt;/classType&gt;
+                    &lt;classUrl&gt;http://snomed.info/id/768865007&lt;/classUrl&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+        &lt;rankClassConcept&gt;
+            &lt;similarityEntityItem&gt;
+                &lt;equivalenceScore&gt;0.36700666&lt;/equivalenceScore&gt;
+                &lt;inclusionScore&gt;0.375&lt;/inclusionScore&gt;
+                &lt;intersection&gt;3&lt;/intersection&gt;
+                &lt;cardinality1&gt;6&lt;/cardinality1&gt;
+                &lt;cardinality2&gt;4&lt;/cardinality2&gt;
+            &lt;/similarityEntityItem&gt;
+            &lt;drugClassConceptItem&gt;
+                &lt;rela&gt;isa_disposition&lt;/rela&gt;
+                &lt;relaSource&gt;SNOMEDCT&lt;/relaSource&gt;
+                &lt;rxclassMinConceptItem&gt;
+                    &lt;classId&gt;768865007&lt;/classId&gt;
+                    &lt;className&gt;Interferon-containing product&lt;/className&gt;
+                    &lt;classType&gt;DISPOS&lt;/classType&gt;
+                    &lt;classUrl&gt;http://snomed.info/id/768865007&lt;/classUrl&gt;
+                &lt;/rxclassMinConceptItem&gt;
+            &lt;/drugClassConceptItem&gt;
+        &lt;/rankClassConcept&gt;
+    &lt;/similarityMember&gt;
+&lt;/rxclassdata&gt;</pre></div></div></div><div class="grid-container padding-top-4"></div></div></div></div></div></div></div>
+
+  <footer class="bg-primary text-white insertfooter">
+
+
+  <div class="container-fluid">
+  <div class="container pt-5">
+    <div class="row mt-3">
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a href="https://www.nlm.nih.gov/socialmedia/index.html" class="text-white">Connect with NLM</a></p>
+        <ul class="list-inline social_media">
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://twitter.com/NLM_NIH"><img src="https://www.nlm.nih.gov/images/Twitter_W.svg" class="img-fluid" alt="Twitter" /></a></li>
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://www.facebook.com/nationallibraryofmedicine"><img src="https://www.nlm.nih.gov/images/Facebook_W.svg" class="img-fluid" alt="Facebook" /></a></li>
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://www.youtube.com/user/NLMNIH"><img src="https://www.nlm.nih.gov/images/YouTube_W.svg" class="img-fluid" alt="You Tube" /></a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p class="address_footer text-white"> National Library of Medicine <br />
+          <a href="https://www.google.com/maps/place/8600+Rockville+Pike,+Bethesda,+MD+20894/@38.9959508,-77.101021,17z/data=!3m1!4b1!4m5!3m4!1s0x89b7c95e25765ddb:0x19156f88b27635b8!8m2!3d38.9959508!4d-77.0988323" class="text-white"> 8600 Rockville Pike <br />
+          Bethesda, MD 20894 </a></p>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a href="https://www.nlm.nih.gov/web_policies.html" class="text-white"> Web Policies </a><br />
+          <a href="https://www.nih.gov/institutes-nih/nih-office-director/office-communications-public-liaison/freedom-information-act-office" class="text-white"> FOIA </a><br /><a href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html" class="text-white">HHS Vulnerability Disclosure</a></p>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a class="supportLink text-white" href="https://support.nlm.nih.gov/?from="> NLM Support Center </a> <br />
+          <a href="https://www.nlm.nih.gov/accessibility.html" class="text-white"> Accessibility </a><br />
+          <a href="https://www.nlm.nih.gov/careers/careers.html" class="text-white"> Careers </a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="mt-2 text-center"> <a class="text-white" href="https://www.nlm.nih.gov/">NLM</a> | <a class="text-white" href="https://www.nih.gov/">NIH</a> | <a class="text-white" href="https://www.hhs.gov/">HHS</a> | <a class="text-white" href="https://www.usa.gov/">USA.gov</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+   </footer>
+<script>
+var dynHeader = "/RxNav/lhcHeader.frag";
+</script>
+<script src="https://www.nlm.nih.gov/scripts/jquery/jquery-latest.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/popper-1.14.7.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/uswds-2.4.0/js/uswds.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/headerfooter.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/supportLink.js"></script>
+
+<script src="https://lhncbc.nlm.nih.gov/RxNav/assets/javascript/apidoc.js" type="text/javascript"></script>
+
+
+</body></html>
+
