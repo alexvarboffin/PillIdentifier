@@ -217,8 +217,14 @@ dependencies {
 
 
     implementation(libs.itextg)
-    implementation(libs.fontawesome.typeface)
+
     implementation(libs.iconics.core)
+    implementation(libs.iconics.views)
+    //implementation(libs.iconics.typeface.fontawesome)
+    //implementation(libs.materialdrawer)
+
+
+
     implementation(libs.library)
     //implementation(libs.ripple.effect)
     implementation(libs.zoomage)
