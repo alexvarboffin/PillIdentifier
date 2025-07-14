@@ -6,12 +6,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import com.walhalla.lib.datamodel.pkg0.Response0;
-import com.walhalla.lib.datamodel.pkg1.Response1;
-import com.walhalla.lib.datamodel.pkg5.Response5;
-import com.walhalla.lib.datamodel.pkg6.Response6;
+import com.walhalla.lib.datamodel.common.response.Response0;
+import com.walhalla.lib.datamodel.rxnorm.response.Response6;
 import com.walhalla.lib.service.RxnormApi;
 import com.walhalla.lib.service.RxnormRepositoryCallback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -234,34 +234,34 @@ public class RxnormRepository {
     }
 
     private void next(String pd) {
-//1 [-]
-//        Call<Response1> call2 = api.searchRxcuiProp(pd, RX_NAV_CALLER);
-//        call2.enqueue(new Task111(1, callback, this));
-
-//        Call<JsonObject> call03 = api.allrelatedextension(pd, RX_NAV_CALLER);
-//        call03.enqueue(new Task111(2, callback, this));
-
-//        Call<Response4> call4 = api.allProperties(pd, RX_NAV_CALLER, "Attributes");
-//        call4.enqueue(new Task111(3, callback, this));
-
-        Call<JsonObject> call5 = api.ndcproperties(pd, RX_NAV_CALLER);
-        call5.enqueue(new Task111(4, callback, this));
-
-
-//        Call<Response6> call7 = api.interaction(pd, "DrugBank");
-//        call7.enqueue(new Task111(6, callback, this));
-
-//        Call<JsonObject> call8 = api.historystatus(pd, RX_NAV_CALLER);
-//        call8.enqueue(new Task111(7, callback, this));
-
-        Call<JsonObject> call9 = api.byRxcui(pd);
-        call9.enqueue(new Task111(8, callback, this));
-
-        Call<JsonObject> call10 = api.allhistoricalndcs(pd, RX_NAV_CALLER, 2);
-        call10.enqueue(new Task111(9, callback, this));
-
-        Call<JsonObject> call11 = api.interaction(pd, RX_NAV_CALLER, "onchigh");
-        call11.enqueue(new Task111(10, callback, this));
+////1 [-]
+////        Call<Response1> call2 = api.searchRxcuiProp(pd, RX_NAV_CALLER);
+////        call2.enqueue(new Task111(1, callback, this));
+//
+////        Call<JsonObject> call03 = api.allrelatedextension(pd, RX_NAV_CALLER);
+////        call03.enqueue(new Task111(2, callback, this));
+//
+////        Call<Response4> call4 = api.allProperties(pd, RX_NAV_CALLER, "Attributes");
+////        call4.enqueue(new Task111(3, callback, this));
+//
+//        @NotNull Call<@NotNull RxNormNDCPropertiesResponse> call5 = api.ndcproperties(pd, RX_NAV_CALLER);
+//        call5.enqueue(new Task111(4, callback, this));
+//
+//
+////        Call<Response6> call7 = api.interaction(pd, "DrugBank");
+////        call7.enqueue(new Task111(6, callback, this));
+//
+////        Call<JsonObject> call8 = api.historystatus(pd, RX_NAV_CALLER);
+////        call8.enqueue(new Task111(7, callback, this));
+//
+//        @NotNull Call<@NotNull RxClassByRxcuiResponse> call9 = api.byRxcui(pd);
+//        call9.enqueue(new Task111(8, callback, this));
+//
+//        @NotNull Call<@NotNull RxNormHistoricalNDCsResponse> call10 = api.allhistoricalndcs(pd, RX_NAV_CALLER, 2);
+//        call10.enqueue(new Task111(9, callback, this));
+//
+//        @NotNull Call<@NotNull Response6> call11 = api.interaction(pd, RX_NAV_CALLER, "onchigh");
+//        call11.enqueue(new Task111(10, callback, this));
 
     }
 

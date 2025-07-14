@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.pkg6.Response6
+import com.walhalla.lib.datamodel.rxnorm.response.Response6
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
@@ -26,15 +26,17 @@ import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.DLog.d
 import com.walhalla.ui.plugins.Module_U.shareText
-import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
-import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
-import com.google.gson.JsonObject
+
+import com.walhalla.lib.datamodel.common.response.Response5
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.TreeMap
+import com.walhalla.lib.datamodel.common.response.Response8
+import kotlin.collections.isNotEmpty
+import kotlin.collections.joinToString
 
-class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
+class Fragment6 : Fragment(), Callback<Response6>, ComplexPresenter,
     OnRefreshListener {
     protected var opCode: String = ""
     private var index = 0
@@ -52,48 +54,7 @@ class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
     ): View {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter = ComplexRecyclerViewAdapter(requireContext(), object : OnMoreActionListener {
-                override fun onMoreAction(rxcui: String, action: MoreAction) {
-                    when (action) {
-                        MoreAction.SHOW_CLASSES -> {
-                            MyApp.rxClass.findClassesById(rxcui, "rxcui", "ATC,VA")
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Классы: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_RXTERMS -> {
-                            MyApp.rxTerms.getAllRxTermInfo(rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "RxTerms: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_ANALOGS -> {
-                            MyApp.prescribableRxNorm.findRxcuiById("rxcui", rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Аналоги: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                    }
-                }
-            })
+            mAdapter = ComplexRecyclerViewAdapter(requireContext())
             mAdapter!!.setChildItemClickListener(this)
         }
         return mBinding!!.root
@@ -129,14 +90,14 @@ class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
     fun loadData() {
         //Source: onchigh = EMPTY
 
-        val response6Call = api!!.interaction(opCode, "DrugBank")
+        val response6Call = api!!.interaction(opCode, "RxNav", "DrugBank")
         response6Call.enqueue(this)
 
-        //        Call<Response6> call6 = api.rxcui_allinfo(pd, RX_NAV_CALLER);
+//        Call<Response6> call6 = api.rxcui_allinfo(pd, RX_NAV_CALLER);
 //        call6.enqueue(new RxnormRepository.Task111(5, callback, this));
     }
 
-    override fun onResponse(call: Call<Response6?>, response: Response<Response6?>) {
+    override fun onResponse(call: Call<Response6>, response: Response<Response6>) {
         val body = response.body()
         val activity: Activity? = activity
         if (activity != null && isAdded) {
@@ -188,12 +149,14 @@ class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
                                 val interactionConcept = interactionConcept1[1]
                                 val minConceptItem1 = interactionConcept.minConceptItem
                                 //name = minConceptItem1.name;
-                                hash[minConceptItem1.name] =
-                                    interactionPair.severity + "\t" + interactionPair.description
+                                if(!minConceptItem1?.name.isNullOrBlank()){
+                                    hash[minConceptItem1.name] = interactionPair.severity + "\t" + interactionPair.description
+                                }
+
                             }
 
 
-                            //                        data.add(name + "\t" + interactionPair.severity + "\t" + interactionPair.description);
+                            // data.add(name + "\t" + interactionPair.severity + "\t" + interactionPair.description);
                         }
                     }
                 }
@@ -205,7 +168,7 @@ class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
                 }
 
 
-                //            Collections.sort(vehiclearray, new Comparator<Vehicle>() {
+//            Collections.sort(vehiclearray, new Comparator<Vehicle>() {
 //                public int compare(Vehicle v1, Vehicle v2) {
 //                    return v1.getEmail().compareTo(v2.getEmail());
 //                }
@@ -222,7 +185,7 @@ class Fragment6 : Fragment(), Callback<Response6?>, ComplexPresenter,
         mAdapter!!.onRestoreInstanceState(obj)
     }
 
-    override fun onFailure(call: Call<Response6?>, t: Throwable) {
+    override fun onFailure(call: Call<Response6>, t: Throwable) {
     }
 
     override fun onItemClicked(v: View, position: Int) {

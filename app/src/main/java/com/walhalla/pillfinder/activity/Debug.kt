@@ -27,7 +27,7 @@ class Debug : AppCompatActivity() {
                 }
                 for (export in usersList) {
                     //DLog.d(export.mpc.color + " " + export.mpc.score+"");
-                    d("@@" + export.mpc.imprint + " " + export.ingredients.active.toString())
+                    d("@@" + export.mpc.imprint + " " + export.ingredients?.active.toString())
                 }
             }
 

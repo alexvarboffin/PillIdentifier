@@ -1,19 +1,26 @@
-package com.walhalla.lib.datamodel.pkg_base;
+package com.walhalla.lib.datamodel.pkg_base
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-
-public class PropConcept {
-
+class PropConcept {
     @SerializedName("propCategory")
     @Expose
-    public String propCategory;
+    var propCategory: String? = null
+
     @SerializedName("propName")
     @Expose
-    public String propName;
+    var propName: String? = null
+
     @SerializedName("propValue")
     @Expose
-    public String propValue;
+    var propValue: String? = null
 
+    @SerializedName("propSource")
+    @Expose
+    var propSource: String? = null
+
+    @SerializedName("propType")
+    @Expose
+    var propType: String? = null
 }

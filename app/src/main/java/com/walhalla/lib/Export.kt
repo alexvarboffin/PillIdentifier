@@ -1,101 +1,111 @@
-package com.walhalla.lib;
+package com.walhalla.lib
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.walhalla.lib.service.Mpc;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Export extends BaseImages
-{
+class Export : BaseImages() {
     //New v2
     @SerializedName("imp")
     @Expose
-    public List<String> imp = new ArrayList<>();
+    var imp: MutableList<String?> = ArrayList<String?>()
 
     @SerializedName("rxnavImageSize300")
     @Expose
-    public Integer rxnavImageSize300;
+    var rxnavImageSize300: Int? = null
 
     @SerializedName("nlmImageSize800")
     @Expose
-    public Integer nlmImageSize800;
+    var nlmImageSize800: Int? = null
 
     @SerializedName("ingredientsAvailable")
     @Expose
-    public Boolean ingredientsAvailable;
+    var ingredientsAvailable: Boolean? = null
+
     @SerializedName("nlmImageSizeFull")
     @Expose
-    public Integer nlmImageSizeFull;
+    var nlmImageSizeFull: Int? = null
 
     @SerializedName("acqDate")
     @Expose
-    public String acqDate;
+    var acqDate: String? = null
+
     @SerializedName("nlmImageSize600")
     @Expose
-    public Integer nlmImageSize600;
+    var nlmImageSize600: Int? = null
+
     @SerializedName("rxnavImageSize120")
     @Expose
-    public Integer rxnavImageSize120;
+    var rxnavImageSize120: Int? = null
+
     @SerializedName("rxnavImageObjectId")
     @Expose
-    public Integer rxnavImageObjectId;
+    var rxnavImageObjectId: Int? = null
+
     @SerializedName("deaSchedule")
     @Expose
-    public String deaSchedule;
+    var deaSchedule: String? = null
+
     @SerializedName("rxnavImageSize600")
     @Expose
-    public Integer rxnavImageSize600;
+    var rxnavImageSize600: Int? = null
+
     @SerializedName("rxnavImageSizeFull")
     @Expose
-    public Integer rxnavImageSizeFull;
+    var rxnavImageSizeFull: Int? = null
+
     @SerializedName("rxnavImageSize1024")
     @Expose
-    public Integer rxnavImageSize1024;
+    var rxnavImageSize1024: Int? = null
+
     @SerializedName("attribution")
     @Expose
-    public String attribution;
+    var attribution: String? = null
+
     @SerializedName("rxnavImageSize")
     @Expose
-    public Integer rxnavImageSize;
+    var rxnavImageSize: Int? = null
+
     @SerializedName("nlmImageSize120")
     @Expose
-    public Integer nlmImageSize120;
+    var nlmImageSize120: Int? = null
+
     @SerializedName("nlmImageSize300")
     @Expose
-    public Integer nlmImageSize300;
+    var nlmImageSize300: Int? = null
 
     @SerializedName("nlmImageSize")
     @Expose
-    public Integer nlmImageSize;
+    var nlmImageSize: Int? = null
 
     @SerializedName("ingredients")
     @Expose
-    public Ingredients ingredients;
+    var ingredients: Ingredients? = null
 
 
     @SerializedName("nlmImageFileName")
     @Expose
-    public String nlmImageFileName;
+    var nlmImageFileName: String? = null
 
     @SerializedName("rxnavImageFileName")
     @Expose
-    public String rxnavImageFileName;
+    var rxnavImageFileName: String? = null
 
 
+    @JvmField
     @SerializedName("_id")
     @Expose
-    public Id id;
+    var id: Id? = null
+
     @SerializedName("imageSize")
     @Expose
-    public Integer imageSize;
+    var imageSize: Int? = null
+
     @SerializedName("rxnavImageSize800")
     @Expose
-    public Integer rxnavImageSize800;
+    var rxnavImageSize800: Int? = null
 
 
     @SerializedName("nlmImageObjectId")
     @Expose
-    public Integer nlmImageObjectId;
+    var nlmImageObjectId: Int? = null
 }

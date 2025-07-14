@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.pkg2.Response2
-import com.walhalla.lib.datamodel.pkg4.Response4
+import com.walhalla.lib.datamodel.common.response.Response2
+import com.walhalla.lib.datamodel.common.response.Response4
 import com.walhalla.lib.datamodel.pkg_base.PropConcept
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
@@ -27,12 +27,11 @@ import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.plugins.Module_U.shareText
-import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
-import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
-import com.google.gson.JsonObject
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     OnRefreshListener {
@@ -52,48 +51,7 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     ): View? {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter = ComplexRecyclerViewAdapter(requireContext(), object : OnMoreActionListener {
-                override fun onMoreAction(rxcui: String, action: MoreAction) {
-                    when (action) {
-                        MoreAction.SHOW_CLASSES -> {
-                            MyApp.rxClass.findClassesById(rxcui, "rxcui", "ATC,VA")
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Классы: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_RXTERMS -> {
-                            MyApp.rxTerms.getAllRxTermInfo(rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "RxTerms: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_ANALOGS -> {
-                            MyApp.prescribableRxNorm.findRxcuiById("rxcui", rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Аналоги: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                    }
-                }
-            })
+            mAdapter = ComplexRecyclerViewAdapter(requireContext())
             mAdapter!!.setChildItemClickListener(this)
         }
         return mBinding!!.root
@@ -148,17 +106,18 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
                         val mm = aa.propConcept
 
                         for (concept in mm) {
-                            var raw = formater[concept.propCategory]
-                            if (raw == null) {
-                                raw = ArrayList()
+                            val x = concept.propCategory
+                            if (x != null) {
+                                var raw: MutableList<PropConcept> = formater[x]?:ArrayList()
+
+                                raw.add(concept)
+                                formater[x] = raw
                             }
-                            raw.add(concept)
-                            formater[concept.propCategory] = raw
                         }
                         for ((key, value) in formater) {
                             fUll.add(HeaderObject(key))
                             for (concept in value) {
-                                fUll.add(NameValue2_1(concept.propName, concept.propValue))
+                                fUll.add(NameValue2_1(concept.propName?:"", concept.propValue?:""))
                             }
                         }
                     }
@@ -276,6 +235,7 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     companion object {
         const val KEY_INDEX: String = "key_index_rxnormId"
         const val KEY_RXNORMID: String = "key_rxnormId"
+
         @JvmStatic
         fun newInstance(index: Int, rxnormId: String?): Fragment2 {
             val bundle = Bundle()

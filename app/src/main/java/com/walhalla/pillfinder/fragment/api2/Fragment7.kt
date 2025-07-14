@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.pkg7.Response7
+import com.walhalla.lib.datamodel.common.response.DerivedConcepts
+import com.walhalla.lib.datamodel.common.response.Response7
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
@@ -25,14 +26,14 @@ import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.plugins.Module_U.shareText
-import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
-import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
-import com.google.gson.JsonObject
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.collections.isNotEmpty
+import kotlin.collections.joinToString
 
-class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
+class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
     OnRefreshListener {
     protected var opCode: String = ""
     private var index = 0
@@ -50,48 +51,7 @@ class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
     ): View {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter = ComplexRecyclerViewAdapter(requireContext(), object : OnMoreActionListener {
-                override fun onMoreAction(rxcui: String, action: MoreAction) {
-                    when (action) {
-                        MoreAction.SHOW_CLASSES -> {
-                            MyApp.rxClass.findClassesById(rxcui, "rxcui", "ATC,VA")
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Классы: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_RXTERMS -> {
-                            MyApp.rxTerms.getAllRxTermInfo(rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "RxTerms: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                        MoreAction.SHOW_ANALOGS -> {
-                            MyApp.prescribableRxNorm.findRxcuiById("rxcui", rxcui)
-                                .enqueue(object : Callback<JsonObject> {
-                                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                        val result = response.body()?.toString() ?: "Нет данных"
-                                        Toast.makeText(requireContext(), "Аналоги: $result", Toast.LENGTH_LONG).show()
-                                    }
-                                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                                        Toast.makeText(requireContext(), "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                        }
-                    }
-                }
-            })
+            mAdapter = ComplexRecyclerViewAdapter(requireContext())
             mAdapter!!.setChildItemClickListener(this)
         }
         return mBinding!!.root
@@ -125,7 +85,7 @@ class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
         call8.enqueue(this)
     }
 
-    override fun onResponse(call: Call<Response7?>, response: Response<Response7?>) {
+    override fun onResponse(call: Call<Response7>, response: Response<Response7>) {
         val response7 = response.body()
         val activity: Activity? = activity
         if (activity != null && isAdded) {
@@ -133,89 +93,132 @@ class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
                 val data = ArrayList<VieModel>()
 
                 val history = response7.rxcuiStatusHistory
-                val v1 = history.attributes.rxcui
-                val v2 = history.attributes.name
-                val v3 = history.attributes.tty
-                val v4 = history.attributes.isMultipleIngredient
-                val v5 = history.attributes.isBranded
+                val v1 = history?.attributes?.rxcui ?: ""
+                val v2 = history?.attributes?.name ?: ""
+                val v3 = history?.attributes?.tty ?: ""
+                val v4 = history?.attributes?.isMultipleIngredient ?: ""
+                val v5 = history?.attributes?.isBranded ?: ""
 
                 data.add(HeaderObject(getString(R.string.header_properties)))
-                data.add(NameValue1_2(getString(R.string.rxcui), v1))
-                data.add(NameValue1_2(getString(R.string.name), v2))
-                data.add(NameValue1_2(getString(R.string.tty), v3))
-                data.add(NameValue1_2(getString(R.string.isMultipleIngredient), v4))
-                data.add(NameValue1_2(getString(R.string.isBranded), v5))
+                insertIfNotNull(data, getString(R.string.rxcui), v1)
+                insertIfNotNull(data, getString(R.string.name), v2)
+                insertIfNotNull(data, getString(R.string.tty), v3)
+                insertIfNotNull(data, getString(R.string.isMultipleIngredient), v4)
+                insertIfNotNull(data, getString(R.string.isBranded), v5)
 
                 data.add(HeaderObject(getString(R.string.header_definitional_features)))
-                val features = history.definitionalFeatures
+                val features = history?.definitionalFeatures
 
-                if (features != null) {
-                    val aaa = features.doseFormConcept
-                    for (concept in aaa) {
-                        data.add(
-                            NameValue1_2(
-                                getString(R.string.doseFormName),
-                                concept.doseFormName
-                            )
+                // ingredientAndStrength
+                features?.ingredientAndStrength?.let { ingrList ->
+                    for (ingr in ingrList) {
+                        insertIfNotNull(data, "baseName", ingr.baseName)
+                        insertIfNotNull(data, "activeIngredientName", ingr.activeIngredientName)
+                        insertIfNotNull(data, "numeratorValue", ingr.numeratorValue)
+                        insertIfNotNull(data, "numeratorUnit", ingr.numeratorUnit)
+                        insertIfNotNull(data, "denominatorValue", ingr.denominatorValue)
+                        insertIfNotNull(data, "denominatorUnit", ingr.denominatorUnit)
+                    }
+                }
+                // doseFormConcept
+                features?.doseFormConcept?.let { dfcList ->
+                    for (concept in dfcList) {
+                        insertIfNotNull(
+                            data,
+                            getString(R.string.doseFormName),
+                            concept.doseFormName
                         )
-                        data.add(
-                            NameValue1_2(
-                                getString(R.string.doseFormRxcui),
-                                concept.doseFormRxcui
-                            )
+                        insertIfNotNull(
+                            data,
+                            getString(R.string.doseFormRxcui),
+                            concept.doseFormRxcui
                         )
                     }
+                }
+                // doseFormGroupConcept
+                features?.doseFormGroupConcept?.let { dfgcList ->
+                    for (group in dfgcList) {
+                        insertIfNotNull(data, "doseFormGroupName", group.doseFormGroupName)
+                        insertIfNotNull(data, "doseFormGroupRxcui", group.doseFormGroupRxcui)
+                    }
+                }
+                // quantityFactor
+                features?.quantityFactor?.let { qf ->
+                    insertIfNotNull(data, "quantityFactorValue", qf.quantityFactorValue)
+                    insertIfNotNull(data, "quantityFactorUnit", qf.quantityFactorUnit)
+                }
+                // qualitativeDistinction
+                features?.qualitativeDistinction?.let { qd ->
+                    insertIfNotNull(data, "qualitativeDistinction", qd)
                 }
 
                 data.add(HeaderObject(getString(R.string.header_pack_components)))
-                val pack = history.pack //always empty
-
-                data.add(HeaderObject(getString(R.string.header_metadata)))
-                val metadata = history.metaData
-                if (metadata != null) {
-                    data.add(NameValue1_2(getString(R.string.status), metadata.status))
-                    data.add(NameValue1_2(getString(R.string.source), metadata.source))
-                    data.add(
-                        NameValue1_2(
-                            getString(R.string.activeStartDate),
-                            metadata.activeStartDate
-                        )
-                    )
-                    data.add(
-                        NameValue1_2(
-                            getString(R.string.activeEndDate),
-                            metadata.activeEndDate
-                        )
-                    )
-                    data.add(NameValue1_2(getString(R.string.isCurrent), metadata.isCurrent))
-                    data.add(
-                        NameValue1_2(
-                            getString(R.string.releaseStartDate),
-                            metadata.releaseStartDate
-                        )
-                    )
-                    data.add(
-                        NameValue1_2(
-                            getString(R.string.releaseEndDate),
-                            metadata.releaseEndDate
-                        )
-                    )
-                }
-                data.add(HeaderObject(getString(R.string.header_derived_concepts)))
-                val concepts = history.derivedConcepts
-                if (concepts != null) {
-                    val aaa = concepts.ingredientConcept
-                    val _w = getString(R.string.ingredient)
-                    for (concept in aaa) {
-                        data.add(NameValue1_2(_w, concept.ingredientName)) //@@@
+                val pack = history?.pack
+                pack?.packAlias?.let { insertIfNotNull(data, "packAlias", it) }
+                pack?.packConcept?.let { pcList ->
+                    for (pc in pcList) {
+                        insertIfNotNull(data, "packName", pc.packName)
+                        insertIfNotNull(data, "packRxcui", pc.packRxcui)
+                        insertIfNotNull(data, "packNumber", pc.packNumber)
                     }
                 }
 
+                data.add(HeaderObject(getString(R.string.header_metadata)))
+                val meta = history?.metaData
+                insertIfNotNull(data, "status", meta?.status)
+                insertIfNotNull(data, "source", meta?.source)
+                insertIfNotNull(data, "releaseStartDate", meta?.releaseStartDate)
+                insertIfNotNull(data, "releaseEndDate", meta?.releaseEndDate)
+                insertIfNotNull(data, "isCurrent", meta?.isCurrent)
+                insertIfNotNull(data, "activeStartDate", meta?.activeStartDate)
+                insertIfNotNull(data, "activeEndDate", meta?.activeEndDate)
+                insertIfNotNull(data, "remappedDate", meta?.remappedDate)
 
-                //    04-2005  (opCode + ""
-//                    (response7.rxcuiStatusHistory.attributes.);
+                data.add(HeaderObject("Derived Concepts"))
+                val derived = history?.derivedConcepts
+                derived?.ingredientConcept?.let { icList ->
+                    for (ic in icList) {
+                        insertIfNotNull(data, "ingredientName", ic.ingredientName)
+                        insertIfNotNull(data, "ingredientRxcui", ic.ingredientRxcui)
+                    }
+                }
+                derived?.qdFreeConcept?.let { qdList ->
+                    for (qd in qdList) {
+                        insertIfNotNull(data, "qdFreeName", qd.qdFreeName)
+                        insertIfNotNull(data, "qdFreeRxcui", qd.qdFreeRxcui)
+                    }
+                }
+                derived?.quantifiedConcept?.let { qcList ->
+                    for (qc in qcList) {
+                        insertIfNotNull(data, "quantifiedName", qc.quantifiedName)
+                        insertIfNotNull(data, "quantifiedRxcui", qc.quantifiedRxcui)
+                        insertIfNotNull(data, "quantifiedTTY", qc.quantifiedTTY)
+                        insertIfNotNull(data, "quantifiedActive", qc.quantifiedActive)
+                    }
+                }
+                derived?.remappedConcept?.let { rcList ->
+                    for (rc in rcList) {
+                        insertIfNotNull(data, "remappedName", rc.remappedName)
+                        insertIfNotNull(data, "remappedRxCui", rc.remappedRxCui)
+                        insertIfNotNull(data, "remappedTTY", rc.remappedTTY)
+                        insertIfNotNull(data, "remappedActive", rc.remappedActive)
+                    }
+                }
+                derived?.scdConcept?.let { scdList ->
+                    for (scd in scdList) {
+                        insertIfNotNull(data, "scdConceptName", scd.scdConceptName)
+                        insertIfNotNull(data, "scdConceptRxcui", scd.scdConceptRxcui)
+                    }
+                }
+
                 updateData(data)
             }
+        }
+    }
+
+    fun insertIfNotNull(data: ArrayList<VieModel>, title: String, value: String?) {
+        if (!value.isNullOrBlank()) {
+            data.add(NameValue1_2(title, value))
         }
     }
 
@@ -225,7 +228,7 @@ class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
         mAdapter!!.onRestoreInstanceState(obj)
     }
 
-    override fun onFailure(call: Call<Response7?>, t: Throwable) {
+    override fun onFailure(call: Call<Response7>, t: Throwable) {
     }
 
     override fun onItemClicked(v: View, position: Int) {
@@ -273,6 +276,7 @@ class Fragment7 : Fragment(), Callback<Response7?>, ComplexPresenter,
     companion object {
         const val KEY_INDEX: String = "key_index_rxnormId"
         const val KEY_RXNORMID: String = "key_rxnormId"
+
         @JvmStatic
         fun newInstance(index: Int, rxnormId: String?): Fragment7 {
             val bundle = Bundle()

@@ -1,346 +1,300 @@
-package com.walhalla.pillfinder.fragment.api2;
+package com.walhalla.pillfinder.fragment.api2
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.app.Activity
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.common.util.CollectionUtils.listOf
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
+import com.google.gson.JsonObject
+import com.walhalla.Util
+import com.walhalla.lib.RxnormRepository
+import com.walhalla.lib.datamodel.common.response.Response0
+import com.walhalla.lib.datamodel.common.response.Response1
+import com.walhalla.lib.service.RxnormApi
+import com.walhalla.lib.service.RxnormRepositoryCallback
+import com.walhalla.pillfinder.MyApp
+import com.walhalla.pillfinder.R
+import com.walhalla.pillfinder.adapter.DynamicModifyViewPagerAdapter
+import com.walhalla.pillfinder.fragment.api2.Fragment5.Companion.newInstance
+import com.walhalla.pillfinder.fragment.main.BaseFragment
+import com.walhalla.ui.DLog.d
+import java.io.IOException
+import java.net.ConnectException
+import java.net.UnknownHostException
 
-import android.os.Handler;
-import android.os.Looper;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
+import javax.net.ssl.SSLHandshakeException
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+class RxNorm : BaseFragment(), RxnormRepositoryCallback {
+    private var repo: RxnormRepository? = null
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.JsonObject;
-import com.walhalla.Util;
-import com.walhalla.lib.RxnormRepository;
-import com.walhalla.lib.datamodel.pkg0.IdGroup;
-import com.walhalla.lib.datamodel.pkg0.Response0;
-import com.walhalla.lib.datamodel.pkg1.Response1;
-import com.walhalla.lib.service.RxnormApi;
-import com.walhalla.lib.service.RxnormRepositoryCallback;
-import com.walhalla.pillfinder.MyApp;
-import com.walhalla.pillfinder.R;
-import com.walhalla.pillfinder.adapter.DynamicModifyViewPagerAdapter;
-
-import com.walhalla.pillfinder.fragment.main.BaseFragment;
-import com.walhalla.ui.DLog;
-
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-public class RxNorm extends BaseFragment
-        implements RxnormRepositoryCallback {
-
-    public static final String KEY_RXNORMID = "key_rx_norm_Id";
-    public static final String KEY_INGREDIENT = "key_Ingredien";
-
-    private static final boolean NOT_ONE_CATEGORY = true;
-
-    private RxnormRepository repo;
-
-    private DynamicModifyViewPagerAdapter mPagerAdapter;
+    private var mPagerAdapter: DynamicModifyViewPagerAdapter? = null
 
     //private final ArrayList<JsonObject> data = new ArrayList<>();
-    Map<String, JsonObject> data = new HashMap<String, JsonObject>();
-    List<String> titles = new ArrayList<>();
-    private RxnormApi api;
-    private Handler handler0;
+    var data: MutableMap<String?, JsonObject?>? = HashMap<String?, JsonObject?>()
+    var titles: MutableList<String?> = ArrayList<String?>()
+    private var api: RxnormApi? = null
+    private var handler0: Handler? = null
 
-    private String query0;
+    private var query0: String? = null
 
     //rxcui or ingredient
-    private String rxcui;
-    private String ingredient;
+    private var rxcui: String? = null
+    private var ingredient: String? = null
 
 
-    public static Fragment newInstance(String rxnormId) {
-        Fragment a = new RxNorm();
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_RXNORMID, rxnormId);
-        a.setArguments(bundle);
-        return a;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_rxnorm, container, false)
     }
 
-
-    //!!!! without KEY_RXNORMID
-
-    public static Fragment newInstance() {
-        return new RxNorm();
-    }
-
-    public static Fragment newIngredientInstance(String ingredient) {
-        Fragment a = new RxNorm();
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_INGREDIENT, ingredient);
-        a.setArguments(bundle);
-        return a;
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_rxnorm, container, false);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         if (getArguments() != null) {
-            rxcui = getArguments().getString(KEY_RXNORMID, null);
-            ingredient = getArguments().getString(KEY_INGREDIENT, null);
+            rxcui = requireArguments().getString(KEY_RXNORMID, null)
+            ingredient = requireArguments().getString(KEY_INGREDIENT, null)
         }
 
-        api = MyApp.rxnorm;
-        handler0 = new Handler(Looper.getMainLooper());
+        api = MyApp.rxnorm
+        handler0 = Handler(Looper.getMainLooper())
 
-//        for (int i1 = 0; i1 < 12; i1++) {
+        //        for (int i1 = 0; i1 < 12; i1++) {
 //            data.put("" + i1, new JsonObject());
 //            titles.add("" + i1);
 //        }
-
         if (!TextUtils.isEmpty(ingredient)) {
-            AutoCompleteTextView autoTextView = getActivity().findViewById(R.id.auto_text_view);
+            val autoTextView =
+                requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
             if (autoTextView != null) {
-                autoTextView.setText(ingredient);
-                searchIngredient(ingredient);
+                autoTextView.setText(ingredient)
+                searchIngredient(ingredient)
             }
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        View fab = view.findViewById(R.id.fab);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fab = view.findViewById<View>(R.id.fab)
 
         if (!TextUtils.isEmpty(rxcui)) {
-            fab.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE)
         } else {
-            fab.setOnClickListener(v -> {
-                AutoCompleteTextView t = getActivity().findViewById(R.id.auto_text_view);
-                String query = t.getText().toString();
-                searchIngredient(query);
-            });
+            fab.setOnClickListener(View.OnClickListener { v: View? ->
+                val t = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
+                val query = t.getText().toString()
+                searchIngredient(query)
+            })
         }
-        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        val tabLayout = requireActivity().findViewById<TabLayout?>(R.id.tabs)
         if (null != tabLayout) {
-            tabLayout.setVisibility(View.VISIBLE);
-            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
+            tabLayout.setVisibility(View.VISIBLE)
+            tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
                     //DLog.d("" + tab.getText() + " ");
-                    invalidateFragmentMenus(tab.getPosition()); //api v2
-                    if (getActivity() != null) {
-                        Util.hideKeyboardFrom(getActivity(),
-                                //getActivity().findViewById(R.id.et_user_input)
-                                getActivity().getWindow().getDecorView()
-                        );
+                    invalidateFragmentMenus(tab.position) //api v2
+                    if (activity != null) {
+                        Util.hideKeyboardFrom(
+                            requireActivity(),  //getActivity().findViewById(R.id.et_user_input)
+                            requireActivity().window.decorView
+                        )
                     }
                 }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
                 }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-
+                override fun onTabReselected(tab: TabLayout.Tab?) {
                 }
-            });
-
+            })
         }
 
-        ViewPager2 viewPager = view.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        val viewPager = view.findViewById<ViewPager2>(R.id.viewpager)
+        setupViewPager(viewPager)
 
         if (null != tabLayout) {
-            new TabLayoutMediator(tabLayout, viewPager,
-                    (tab, position) -> tab.setText(titles.get(position))).attach();
+            TabLayoutMediator(
+                tabLayout, viewPager,
+                TabConfigurationStrategy { tab: TabLayout.Tab?, position: Int ->
+                    tab!!.setText(
+                        titles.get(position)
+                    )
+                }).attach()
             viewPager.setOffscreenPageLimit(
-                    (tabLayout.getTabCount() > 0) ? tabLayout.getTabCount() : ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
-            );
+                if (tabLayout.getTabCount() > 0) tabLayout.getTabCount() else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+            )
         }
     }
 
-    private void searchIngredient(String query) {
-        this.query0 = query;
-        repo = new RxnormRepository(api, this);
+    private fun searchIngredient(query: String?) {
+        this.query0 = query
+        repo = RxnormRepository(api, this)
         if (!isValidQuery(query)) {
-            mainView.mSnackbar("Please enter Query");
-            return;
+            mainView.mSnackbar("Please enter Query")
+            return
         }
         //repo.globalRequest(query);
-        mainView.showProgressBar();
-        repo.globalRequest(query);
+        mainView.showProgressBar()
+        repo!!.globalRequest(query)
     }
 
-    private boolean isValidQuery(String query) {
-        return query != null && query.length() > 0;
+    private fun isValidQuery(query: String?): Boolean {
+        return query != null && query.length > 0
     }
 
-    @Override
-    public void successResponse(Response0 response) {
+    override fun successResponse(response: Response0) {
         if (mainView != null) {
-            mainView.hideProgressBar();
+            mainView.hideProgressBar()
         }
 
         if (response != null) {
-            IdGroup idGroup = response.idGroup;
-            List<String> rxnormId = idGroup.rxnormId;
-            if (rxnormId.isEmpty()) {
-                handler0.post(() -> {
+            val idGroup = response.idGroup
+            val rxnormId: List<String>? = idGroup?.rxnormId
+            if (rxnormId.isNullOrEmpty()) {
+                handler0!!.post(Runnable {
                     if (mainView != null) {
-                        mainView.mSnackbar("There is no result for '" + query0 + "' (as String)");
+                        mainView.mSnackbar("There is no result for '$query0' (as String)")
                     }
-                    mPagerAdapter.updateEmployeeListItems("There is no result for '" + query0 + "' (as String)");
-                });
+                    mPagerAdapter!!.updateEmployeeListItems("There is no result for '$query0' (as String)")
+                })
             } else {
-                String pd = rxnormId.get(0);
-                makeInformationGui(pd);
+                val pd = rxnormId[0]
+                makeInformationGui(pd)
             }
         }
     }
 
-    private void makeInformationGui(final String pd) {
+    private fun makeInformationGui(pd: String?) {
         //DLog.d("@@@@@@@@@@" + pd);
-        List<Fragment> buffer = new ArrayList<>();
-        buffer.add(Fragment5.newInstance(1, pd, query0));
-        buffer.add(Fragment6.newInstance(1, pd));
-        buffer.add(Fragment7.newInstance(1, pd));
-        buffer.add(Fragment2.newInstance(1, pd));
+        val buffer: MutableList<Fragment?> = ArrayList<Fragment?>()
+        buffer.add(newInstance(1, pd, query0))
+        buffer.add(Fragment6.newInstance(1, pd))
+        buffer.add(Fragment7.newInstance(1, pd))
+        buffer.add(Fragment2.newInstance(1, pd))
 
-        titles.add("[INFO]");//titles.add("[" + pd + "]");
-        titles.add("Interaction");
-        titles.add("Status");
-        titles.add("RxNorm Properties");
-        mPagerAdapter.updateEmployeeListItems(buffer);
+        titles.add("[INFO]") //titles.add("[" + pd + "]");
+        titles.add("Interaction")
+        titles.add("Status")
+        titles.add("RxNorm Properties")
+        mPagerAdapter!!.updateEmployeeListItems(buffer)
     }
 
 
-    @Override
-    public void successResponse(Response1 response1) {
-
+    override fun successResponse(response1: Response1) {
     }
 
-    @Override
-    public void successResponse(int opCode, JsonObject body) {
-
+    override fun successResponse(opCode: Int, body: JsonObject) {
     }
 
 
-    @Override
-    public void handleThrowable(Throwable throwable) {
+    override fun handleThrowable(throwable: Throwable) {
         if (mainView != null) {
-            mainView.hideProgressBar();
+            mainView.hideProgressBar()
             //JsonSyntaxException
             //no_parameters_reply
-            String err;
-            if (throwable instanceof ConnectException) {
-                err = getString(R.string.err_connection);
-            } else if (throwable instanceof javax.net.ssl.SSLHandshakeException) {
-                err = throwable.getLocalizedMessage();
-            } else if (throwable instanceof UnknownHostException) {
-                err = getString(R.string.err_connection);
-            } else if (throwable instanceof java.io.IOException) {
-                DLog.d("@" + throwable.getMessage());
-                err = getString(R.string.err_connection);
+            val err: String?
+            if (throwable is ConnectException) {
+                err = getString(R.string.err_connection)
+            } else if (throwable is SSLHandshakeException) {
+                err = throwable.localizedMessage
+            } else if (throwable is UnknownHostException) {
+                err = getString(R.string.err_connection)
+            } else if (throwable is IOException) {
+                d("@" + throwable.message)
+                err = getString(R.string.err_connection)
             } else {
-                err = throwable.getLocalizedMessage();//getString(R.string.err_refine_query);
+                err = throwable.localizedMessage //getString(R.string.err_refine_query);
             }
-            mainView.mSnackbar(err);
+            mainView.mSnackbar(err)
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.getItemId() == R.id.action_clear) {
-            AutoCompleteTextView textView = getActivity().findViewById(R.id.auto_text_view);
-            textView.setText("");
-            titles.clear();
-            mPagerAdapter.updateEmployeeListItems(new ArrayList<>());
-            return true;
+            val textView = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
+            textView.setText("")
+            titles.clear()
+            mPagerAdapter!!.updateEmployeeListItems(ArrayList<Fragment?>())
+            return true
         }
-//        else if (item.getItemId() == R.id.action_help) {
+        //        else if (item.getItemId() == R.id.action_help) {
 //            return true;
 //        }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void invalidateFragmentMenus(int position) {
-        for (int i = 0; i < mPagerAdapter.getItemCount(); i++) {
-            mPagerAdapter.getItem(i).setHasOptionsMenu(i == position);
+    private fun invalidateFragmentMenus(position: Int) {
+        for (i in 0..<mPagerAdapter!!.itemCount) {
+            mPagerAdapter!!.getItem(i).setHasOptionsMenu(i == position)
         }
-        if (getActivity() != null) {
-            getActivity().invalidateOptionsMenu(); //or respectively its support method.
+        if (activity != null) {
+            requireActivity().invalidateOptionsMenu() //or respectively its support method.
         }
     }
 
-    private void setupViewPager(ViewPager2 viewPager) {
-        mPagerAdapter = new DynamicModifyViewPagerAdapter(this);
-        viewPager.setAdapter(mPagerAdapter);
+    private fun setupViewPager(viewPager: ViewPager2) {
+        mPagerAdapter = DynamicModifyViewPagerAdapter(this)
+        viewPager.setAdapter(mPagerAdapter)
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        DLog.d("<resume>: " + rxcui);
+    override fun onResume() {
+        super.onResume()
+        d("<resume>: $rxcui")
 
-        AppCompatActivity aa = (AppCompatActivity) getActivity();
+        val aa = activity as AppCompatActivity?
         if (aa != null) {
-            aa.getSupportActionBar().setTitle(R.string.drugsearch);
-            aa.getSupportActionBar().setSubtitle(null);//DLog.getAppVersion(getContext())
-            aa.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            aa.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            aa.supportActionBar!!.setTitle(R.string.drugsearch)
+            aa.supportActionBar!!.subtitle = null //DLog.getAppVersion(getContext())
+            aa.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            aa.supportActionBar!!.setDisplayShowHomeEnabled(false)
         }
 
         if (!TextUtils.isEmpty(rxcui)) {
-            makeInformationGui(rxcui);
-        } else if (/*!onSaveInstanceCalled*/ data == null || data.isEmpty()) {
-            DLog.d("LOAD NEW DATA");
-            emptyView();
-            loadData(0);
+            makeInformationGui(rxcui)
+        } else if ( /*!onSaveInstanceCalled*/data == null || data!!.isEmpty()) {
+            d("LOAD NEW DATA")
+            emptyView()
+            loadData(0)
         } else {
-            Activity activity = getActivity();
-            if (activity != null && isAdded()) {
-                updateData();
-            }//restore data
+            val activity: Activity? = getActivity()
+            if (activity != null && isAdded) {
+                updateData()
+            } //restore data
+
             //mScreenCategoryListPresenter.setData(data);
         }
     }
 
-    private void loadData(int i) {
-
+    private fun loadData(i: Int) {
     }
 
-    private void emptyView() {
-
+    private fun emptyView() {
     }
 
 
-    private void updateData() {
-        DLog.d("!!!" + data.size());
+    private fun updateData() {
+        d("!!!" + data!!.size)
 
         //titles = new ArrayList<>();
-        List<Fragment> buffer = new ArrayList<>();
+        val buffer: MutableList<Fragment?> = ArrayList<Fragment?>()
 
-//        buffer.add(new CalculatorFragment());
+
+        //        buffer.add(new CalculatorFragment());
 //        titles.add(getString(R.string.tab_calculator));
 
 //        for (Tab tab : data) {
@@ -351,17 +305,49 @@ public class RxNorm extends BaseFragment
         //Fragment t1 = new Fragment();
 
         //this.titles.add(getString(R.string.tab_title_0));
-        for (int i = 0; i < 1; i++) {
-            JsonObject aa = data.get("" + i);
-            CategoryListFragment t1 = CategoryListFragment.newInstance(1, new ArrayList<>(List.of(aa)));
-            buffer.add(t1);
+        for (i in 0..0) {
+            val aa = data!!.get("" + i)
+            val t1 = CategoryListFragment.newInstance(
+                1,
+                ArrayList(listOf<JsonObject>(aa))
+            )
+            buffer.add(t1)
         }
-        mPagerAdapter.updateEmployeeListItems(new ArrayList<>());
+        mPagerAdapter!!.updateEmployeeListItems(ArrayList<Fragment?>())
     }
 
-    @Override
-    public void successResponse(String message) {
-        DLog.d("@@@" + message);
+    override fun successResponse(message: String) {
+        d("@@@$message")
     }
 
+    companion object {
+        const val KEY_RXNORMID: String = "key_rx_norm_Id"
+        const val KEY_INGREDIENT: String = "key_Ingredien"
+
+        private const val NOT_ONE_CATEGORY = true
+
+        @JvmStatic
+        fun newInstance(rxnormId: String?): Fragment {
+            val a: Fragment = RxNorm()
+            val bundle = Bundle()
+            bundle.putString(KEY_RXNORMID, rxnormId)
+            a.setArguments(bundle)
+            return a
+        }
+
+
+        //!!!! without KEY_RXNORMID
+        fun newInstance(): Fragment {
+            return RxNorm()
+        }
+
+        @JvmStatic
+        fun newIngredientInstance(ingredient: String?): Fragment {
+            val a: Fragment = RxNorm()
+            val bundle = Bundle()
+            bundle.putString(KEY_INGREDIENT, ingredient)
+            a.setArguments(bundle)
+            return a
+        }
+    }
 }

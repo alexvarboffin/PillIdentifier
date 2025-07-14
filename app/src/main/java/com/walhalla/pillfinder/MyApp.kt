@@ -28,6 +28,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 //import android.app.Application;
@@ -168,12 +169,10 @@ class MyApp : MultiDexApplication(), Constants
 
             //Optional
             val builder0 = OkHttpClient.Builder()
-            //        if(BuildConfig.DEBUG){
-//            //logger
-//            okhttp3.logging.HttpLoggingInterceptor logging = new okhttp3.logging.HttpLoggingInterceptor();
-//            logging.setLevel(okhttp3.logging.HttpLoggingInterceptor.Level.BASIC);
-//            builder0.addInterceptor(logging);
-//        }
+            // Добавляем логирование HTTP-запросов
+            val logging = HttpLoggingInterceptor()
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            builder0.addInterceptor(logging)
             builder0.followRedirects(true)
                 .followSslRedirects(true)
                 .retryOnConnectionFailure(true)

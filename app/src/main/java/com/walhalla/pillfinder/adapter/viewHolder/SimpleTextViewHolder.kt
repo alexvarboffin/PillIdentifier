@@ -31,12 +31,15 @@ class SimpleTextViewHolder(view: View, private val moreActionListener: OnMoreAct
             this.text1.setBackgroundColor(Color.WHITE)
         }
         this.text1.text = text1
-        moreBtn.setOnClickListener { v ->
-            showMoreMenu(v, text1)
+        moreActionListener?.let {
+            moreBtn.visibility = View.VISIBLE
+            moreBtn.setOnClickListener { v ->
+                showMoreMenu(v, text1, it)
+            }
         }
     }
 
-    private fun showMoreMenu(anchor: View, rxcui: String?) {
+    private fun showMoreMenu(anchor: View, rxcui: String?, moreActionListener: OnMoreActionListener) {
         val popup = PopupMenu(itemView.context, anchor)
         popup.menu.add("Показать классы препарата")
         popup.menu.add("Показать RxTerms")
@@ -44,15 +47,15 @@ class SimpleTextViewHolder(view: View, private val moreActionListener: OnMoreAct
         popup.setOnMenuItemClickListener { item ->
             when (item.title) {
                 "Показать классы препарата" -> {
-                    moreActionListener?.onMoreAction(rxcui ?: "", MoreAction.SHOW_CLASSES)
+                    moreActionListener.onMoreAction(rxcui ?: "", MoreAction.SHOW_CLASSES)
                     true
                 }
                 "Показать RxTerms" -> {
-                    moreActionListener?.onMoreAction(rxcui ?: "", MoreAction.SHOW_RXTERMS)
+                    moreActionListener.onMoreAction(rxcui ?: "", MoreAction.SHOW_RXTERMS)
                     true
                 }
                 "Показать аналоги" -> {
-                    moreActionListener?.onMoreAction(rxcui ?: "", MoreAction.SHOW_ANALOGS)
+                    moreActionListener.onMoreAction(rxcui ?: "", MoreAction.SHOW_ANALOGS)
                     true
                 }
                 else -> false

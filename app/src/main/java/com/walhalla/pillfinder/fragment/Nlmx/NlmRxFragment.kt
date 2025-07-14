@@ -35,6 +35,10 @@ import com.itextpdf.text.DocumentException
 import com.walhalla.FileSystem
 import com.walhalla.PDFUtil2
 import com.walhalla.Util
+
+import com.walhalla.lib.datamodel.common.response.Response5
+import com.walhalla.lib.datamodel.common.response.Response8
+import com.walhalla.lib.service.RxIdType
 import com.walhalla.pillfinder.BuildConfig
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.PermissionUtil.Companion.on
@@ -47,6 +51,8 @@ import com.walhalla.pillfinder.adapter.obj.RxCuiObjString
 import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.adapter.obj.ingredient.IngredientString
+import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
+import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
 import com.walhalla.pillfinder.databinding.FragmentNlmRxBinding
 import com.walhalla.pillfinder.fragment.main.BaseFragment
 import com.walhalla.pillfinder.fragment.main.FragmentMain.Companion.newInstance
@@ -69,6 +75,8 @@ import java.io.IOException
 import java.io.OutputStream
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+import kotlin.collections.isNotEmpty
+import kotlin.collections.joinToString
 
 class NlmRxFragment : BaseFragment(), ComplexPresenter {
     private var mAdapter: ComplexRecyclerViewAdapter? = null
@@ -151,8 +159,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     ): View {
         binding = FragmentNlmRxBinding.inflate(inflater, container, false)
         if (mAdapter == null) {
-            mAdapter =
-                ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
+            mAdapter = ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
             mAdapter!!.setChildItemClickListener(this)
         }
         return binding!!.root

@@ -1,207 +1,245 @@
-package com.walhalla.pillfinder.fragment.api2;
+package com.walhalla.pillfinder.fragment.api2
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.app.Activity
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.walhalla.lib.datamodel.common.response.Response5
+import com.walhalla.pillfinder.MyApp.Companion.rxTerms
+import com.walhalla.pillfinder.R
+import com.walhalla.pillfinder.adapter.ComplexPresenter
+import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
+import com.walhalla.pillfinder.adapter.emptyView.EmptyViewObj
+import com.walhalla.pillfinder.adapter.obj.NameValue1_2
+import com.walhalla.pillfinder.adapter.obj.NameValue2_1
+import com.walhalla.pillfinder.adapter.obj.VieModel
+import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
+import com.walhalla.ui.DLog.d
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshListener {
+    protected var rxcui: String? = null
+    private var index = 0
 
-import com.walhalla.lib.RxnormRepository;
-;
-import com.walhalla.lib.datamodel.pkg5.Response5;
-import com.walhalla.lib.datamodel.pkg5.RxtermsProperties;
-import com.walhalla.lib.service.RxnormApi;
-import com.walhalla.pillfinder.MyApp;
-import com.walhalla.pillfinder.R;
-import com.walhalla.pillfinder.adapter.ComplexPresenter;
-import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter;
-import com.walhalla.pillfinder.adapter.emptyView.EmptyViewObj;
-import com.walhalla.pillfinder.adapter.obj.NameValue1_2;
-import com.walhalla.pillfinder.adapter.obj.NameValue2_1;
-import com.walhalla.pillfinder.adapter.obj.SimpleString;
-import com.walhalla.pillfinder.adapter.obj.VieModel;
-import com.walhalla.pillfinder.adapter.obj.ingredient.IngredientString;
-import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding;
-import com.walhalla.ui.DLog;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class Fragment5 extends Fragment
-        implements Callback<Response5>,
-        ComplexPresenter, SwipeRefreshLayout.OnRefreshListener {
+    private var mBinding: CategoryListFragmentBinding? = null
 
 
-    protected String rxcui;
-    private int index;
-
-    public static final String KEY_INDEX = "key_index_rxnormId";
-    public static final String KEY_RXNORMID = "key_rxnormId";
-    private static final String KEY_QUERY = "key_query";
-
-    private CategoryListFragmentBinding mBinding;
-
-    private RxnormApi api;
-    private ComplexRecyclerViewAdapter mAdapter;
-    private String query;
+    private var mAdapter: ComplexRecyclerViewAdapter? = null
+    private var query: String? = null
 
 
-    public static Fragment5 newInstance(int index, String rxnormId, String query) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(KEY_INDEX, index);
-        bundle.putString(KEY_RXNORMID, rxnormId);
-        bundle.putString(KEY_QUERY, query);
-        Fragment5 fragment = new Fragment5();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = CategoryListFragmentBinding.inflate(inflater);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter = new ComplexRecyclerViewAdapter(getContext()/*, presenter*/);//new AlbumsAdapter(getContext());//
-            mAdapter.setChildItemClickListener(this);
+            mAdapter =
+                ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
+            mAdapter!!.setChildItemClickListener(this)
         }
-        return mBinding.getRoot();
+        return mBinding!!.getRoot()
     }
 
-    @Override
-    public void onViewCreated(@NonNull final View view, final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-        mBinding.recyclerView.setLayoutManager(layoutManager);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(getContext(), 1)
+        mBinding!!.recyclerView.setLayoutManager(layoutManager)
         //mBinding.recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, Helpers.dpToPx(getContext(), 2), true));
-        mBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mBinding!!.recyclerView.setItemAnimator(DefaultItemAnimator())
+        //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 //        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mBinding.recyclerView.setAdapter(mAdapter);
-        api = MyApp.rxnorm;
-
+        mBinding!!.recyclerView.setAdapter(mAdapter)
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        if (getArguments() != null) {
-            index = getArguments().getInt(KEY_INDEX, 0);
-            rxcui = getArguments().getString(KEY_RXNORMID, null);
-            query = getArguments().getString(KEY_QUERY, null);
+        if (arguments != null) {
+            index = requireArguments().getInt(KEY_INDEX, 0)
+            rxcui = requireArguments().getString(KEY_RXNORMID, null)
+            query = requireArguments().getString(KEY_QUERY, null)
         }
     }
 
-    public void loadData() {
-        Call<Response5> allinfo = api.getAllRxTermInfo(rxcui, RxnormRepository.RX_NAV_CALLER);
-        allinfo.enqueue(this);
+    fun loadData() {
+        val allinfo: Call<Response5> = rxTerms.getAllRxTermInfo(rxcui!! /*, RxnormRepository.RX_NAV_CALLER*/)
+        allinfo.enqueue(this)
     }
 
 
-    public void updateData(List<VieModel> data) {
-        List<VieModel> obj = new ArrayList<>(data);
-        mAdapter.onRestoreInstanceState(obj);
+    fun updateData(data: MutableList<VieModel?>) {
+        val obj: MutableList<VieModel> = _root_ide_package_.java.util.ArrayList<VieModel>(data)
+        mAdapter!!.onRestoreInstanceState(obj)
     }
 
 
-    @Override
-    public void onItemClicked(View v, int position) {
-
+    override fun onItemClicked(v: View, position: Int) {
     }
 
-    @Override
-    public void onItemClicked(View v, VieModel obj) {
-
+    override fun onItemClicked(v: View, obj: VieModel) {
     }
 
-    @Override
-    public void onItemClicked(int itemId, VieModel category) {
-
+    override fun onItemClicked(itemId: Int, category: VieModel) {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        DLog.d("resume");
-        mBinding.swiperefresh.setOnRefreshListener(this);
-        loadData();
-        if (mBinding.swiperefresh.isRefreshing()) {
-            mBinding.swiperefresh.setRefreshing(false);
+    override fun onResume() {
+        super.onResume()
+        d("resume")
+        mBinding!!.swiperefresh.setOnRefreshListener(this)
+        loadData()
+        if (mBinding!!.swiperefresh.isRefreshing) {
+            mBinding!!.swiperefresh.isRefreshing = false
         }
     }
 
-    @Override
-    public void onRefresh() {
-        if (mBinding.swiperefresh.isRefreshing()) {
-            mBinding.swiperefresh.setRefreshing(false);
+    override fun onRefresh() {
+        if (mBinding!!.swiperefresh.isRefreshing) {
+            mBinding!!.swiperefresh.isRefreshing = false
         }
     }
 
     //*** Fragment not attached to a context
-
-    @Override
-    public void onResponse(@NonNull Call<Response5> call, Response<Response5> response) {
-        Response5 body = response.body();
-        ArrayList<VieModel> data = new ArrayList<>();
-        Activity activity = getActivity();
-        if (activity != null && isAdded()) {
+    override fun onResponse(call: Call<Response5?>, response: Response<Response5?>) {
+        val body = response.body()
+        val data = ArrayList<VieModel?>()
+        val activity: Activity? = getActivity()
+        if (activity != null && isAdded) {
             if (body != null) {
-                RxtermsProperties prop = body.rxtermsProperties;
+                val prop = body.rxtermsProperties
                 if (prop != null) {
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_brandName), prop.brandName));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_displayName), prop.displayName));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_synonym), prop.synonym));
-                    data.add(new NameValue2_1(getResources().getString(R.string.rx_5_fullName), prop.fullName));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_fullGenericName), prop.fullGenericName));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_strength), prop.strength));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_rxtermsDoseForm), prop.rxtermsDoseForm));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_route), prop.route));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_termType), prop.termType));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_rxcui), prop.rxcui));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_genericRxcui), prop.genericRxcui));
-                    data.add(new NameValue2_1(getResources().getString(R.string.rx_5_rxnormDoseForm), prop.rxnormDoseForm));
-                    data.add(new NameValue1_2(getResources().getString(R.string.rx_5_suppress), prop.suppress));
-                    updateData(data);
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_brandName),
+                            prop.brandName?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_displayName),
+                            prop.displayName?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_synonym),
+                            prop.synonym?:""
+                        )
+                    )
+                    data.add(
+                        NameValue2_1(
+                            resources.getString(R.string.rx_5_fullName),
+                            prop.fullName?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_fullGenericName),
+                            prop.fullGenericName?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_strength),
+                            prop.strength?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_rxtermsDoseForm),
+                            prop.rxtermsDoseForm?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_route),
+                            prop.route?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_termType),
+                            prop.termType?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_rxcui),
+                            prop.rxcui?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_genericRxcui),
+                            prop.genericRxcui?:""
+                        )
+                    )
+                    data.add(
+                        NameValue2_1(
+                            resources.getString(R.string.rx_5_rxnormDoseForm),
+                            prop.rxnormDoseForm?:""
+                        )
+                    )
+                    data.add(
+                        NameValue1_2(
+                            resources.getString(R.string.rx_5_suppress),
+                            prop.suppress?:""
+                        )
+                    )
+                    updateData(data)
                 } else {
-
                     //Вернулся null данных нет
                     //DLog.d("<@@@>EEEEEEEEEEEEE" + body.toString());
-                    data.add(new EmptyViewObj(
-                            "No data found for given Rxcui (" + rxcui + ")", query));
-                    updateData(data);
+
+                    data.add(
+                        EmptyViewObj(
+                            "No data found for given Rxcui ($rxcui)", query!!
+                        )
+                    )
+                    updateData(data)
                 }
 
                 //Response{protocol=h2, code=200, message=, url=https://rxnav.nlm.nih.gov/REST/RxTerms/rxcui/317482/allinfo.json?caller=RxNav} █
                 //DLog.d("<@@@>EEEEEEEEEEEEE" + prop.toString());
             } else {
-                DLog.d("<@@@>EEEEEEEEEEEEE");
+                d("<@@@>EEEEEEEEEEEEE")
             }
-
-
         }
     }
 
-    @Override
-    public void onFailure(@NonNull Call<Response5> call, @NonNull Throwable t) {
-        Activity activity = getActivity();
-        if (activity != null && isAdded()) {
+    override fun onFailure(call: Call<Response5?>, t: Throwable) {
+        val activity: Activity? = getActivity()
+        if (activity != null && isAdded) {
             //DLog.d("<@@@>WWWWWWWWWWWWWWWWWWWWW");
             //Toast.makeText(getContext(), "@@@", Toast.LENGTH_SHORT).show();
         }
     }
 
 
+    companion object {
+        const val KEY_INDEX: String = "key_index_rxnormId"
+        const val KEY_RXNORMID: String = "key_rxnormId"
+        private const val KEY_QUERY = "key_query"
+
+        @JvmStatic
+        fun newInstance(index: Int, rxnormId: String?, query: String?): Fragment5 {
+            val bundle = Bundle()
+            bundle.putInt(KEY_INDEX, index)
+            bundle.putString(KEY_RXNORMID, rxnormId)
+            bundle.putString(KEY_QUERY, query)
+            val fragment = Fragment5()
+            fragment.setArguments(bundle)
+            return fragment
+        }
+    }
 }
