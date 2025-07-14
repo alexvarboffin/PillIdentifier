@@ -23,6 +23,7 @@ import com.walhalla.Util
 import com.walhalla.lib.RxnormRepository
 import com.walhalla.lib.datamodel.common.response.Response0
 import com.walhalla.lib.datamodel.common.response.Response1
+import com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.lib.service.RxnormRepositoryCallback
 import com.walhalla.pillfinder.MyApp
@@ -73,17 +74,43 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
         api = MyApp.rxnorm
         handler0 = Handler(Looper.getMainLooper())
-
-        //        for (int i1 = 0; i1 < 12; i1++) {
+        val autoTextView = requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
+//        for (int i1 = 0; i1 < 12; i1++) {
 //            data.put("" + i1, new JsonObject());
 //            titles.add("" + i1);
 //        }
         if (!TextUtils.isEmpty(ingredient)) {
-            val autoTextView =
-                requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
+
             if (autoTextView != null) {
                 autoTextView.setText(ingredient)
                 searchIngredient(ingredient)
+            }
+        }
+
+        if (autoTextView != null) {
+            if (USE_SPELLING_SUGGESTIONS) {
+                autoTextView.threshold = 1
+                autoTextView.setAdapter(null)
+                autoTextView.addTextChangedListener(object : android.text.TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        val query = s?.toString() ?: ""
+                        if (query.length < 2) return
+                        api?.getSpellingSuggestions(query)?.enqueue(object : retrofit2.Callback<com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse?> {
+                            override fun onResponse(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, response: retrofit2.Response<RxNormSpellingSuggestionsResponse?>) {
+                                val suggestions = response.body()?.suggestionGroup?.suggestion ?: emptyList()
+                                val adapter = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions)
+                                autoTextView.setAdapter(adapter)
+                                adapter.notifyDataSetChanged()
+                                if (suggestions.isNotEmpty()) autoTextView.showDropDown()
+                            }
+                            override fun onFailure(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, t: Throwable) {}
+                        })
+                    }
+                    override fun afterTextChanged(s: android.text.Editable?) {}
+                })
+            } else {
+                autoTextView.setAdapter(null)
             }
         }
     }
@@ -184,6 +211,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         val buffer: MutableList<Fragment?> = ArrayList<Fragment?>()
         buffer.add(newInstance(1, pd, query0))
         buffer.add(FragmentRelated.newInstance(1, pd))
+        buffer.add(FragmentRelatedByType.newInstance(1, pd))
         buffer.add(FragmentNdc.newInstance(1, pd))
         buffer.add(FragmentNdcHistory.newInstance(1, pd))
         buffer.add(FragmentProperties.newInstance(1, pd))
@@ -193,6 +221,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
         titles.add("[INFO]") //titles.add("[" + pd + "]");
         titles.add("Related")
+        titles.add("Related by Type")
         titles.add("NDC")
         titles.add("NDC History")
         titles.add("Properties")
@@ -333,6 +362,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         const val KEY_INGREDIENT: String = "key_Ingredien"
 
         private const val NOT_ONE_CATEGORY = true
+
+        var USE_SPELLING_SUGGESTIONS = true // переключатель автодополнения
 
         @JvmStatic
         fun newInstance(rxnormId: String?): Fragment {

@@ -139,15 +139,15 @@ interface RxnormApi {
     fun getPropCategories(): Call<RxNormPropCategoriesResponse>
 
     // Имена свойств RxNav
-    @GET("propnames")
+    @GET("propnames.json")
     fun getPropNames(): Call<RxNormPropNamesResponse>
 
     // Концепты, связанные по reformulation_of
-    @GET("reformulationConcepts")
+    @GET("reformulationConcepts.json")
     fun getReformulationConcepts(): Call<RxNormReformulationConceptsResponse>
 
     // Пути отношений
-    @GET("relapaths")
+    @GET("relapaths.json")
     fun getRelaPaths(): Call<RxNormRelaPathsResponse>
 
     // Типы отношений RxNorm
@@ -155,19 +155,19 @@ interface RxnormApi {
     fun getRelaTypes(): Call<RxNormRelaTypesResponse>
 
     // Источники словарей
-    @GET("sourcetypes")
+    @GET("sourcetypes.json")
     fun getSourceTypes(): Call<RxNormSourceTypesResponse>
 
     // Подсказки по написанию
-    @GET("spellingsuggestions")
-    fun getSpellingSuggestions(@Query("term") term: String): Call<RxNormSpellingSuggestionsResponse>
+    @GET("spellingsuggestions.json")
+    fun getSpellingSuggestions(@Query("name") term: String): Call<RxNormSpellingSuggestionsResponse>
 
     // Типы терминов
-    @GET("termtypes")
+    @GET("termtypes.json")
     fun getTermTypes(): Call<RxNormTermTypesResponse>
 
     // Версия RxNorm
-    @GET("version")
+    @GET("version.json")
     fun getRxNormVersion(): Call<RxNormVersionResponse>
 
     // Получить NDCs, связанные с концептом
@@ -195,15 +195,15 @@ interface RxnormApi {
     fun getRxcuiHistoryStatus(@Path("rxcui") rxcui: String): Call<Response7>
 
     // Получить связанные концепты по relationship
-    @GET("rxcui/{rxcui}/related")
+    @GET("rxcui/{rxcui}/related.json")
     fun getRelatedByRelationship(@Path("rxcui") rxcui: String, @Query("rela") rela: String): Call<RxNormRelatedResponse>
 
     // Получить связанные концепты по типу
-    @GET("rxcui/{rxcui}/related")
+    @GET("rxcui/{rxcui}/related.json")
     fun getRelatedByType(@Path("rxcui") rxcui: String, @Query("tty") tty: String): Call<RxNormRelatedResponse>
 
     // Получить проприетарную информацию
-    @GET("rxcui/{rxcui}/proprietary")
+    @GET("rxcui/{rxcui}/proprietary.json")
     fun getProprietaryInformation(@Path("rxcui") rxcui: String): Call<RxNormProprietaryResponse>
 
     // --- RxClass API методы в RxNorm ---
@@ -560,7 +560,7 @@ interface RxClassApi {
     // Получить подсказки по написанию
     @GET("rxclass/class/spellingsuggestions.json")
     fun getSpellingSuggestionsRxClass(
-        @Query("term") term: String
+        @Query("name") term: String
     ): Call<RxClassSpellingSuggestionsResponse>
 
     // Получить типы классов
