@@ -171,15 +171,15 @@ interface RxnormApi {
     fun getRxNormVersion(): Call<RxNormVersionResponse>
 
     // Получить NDCs, связанные с концептом
-    @GET("rxcui/{rxcui}/ndcs")
+    @GET("rxcui/{rxcui}/ndcs.json")
     fun getNDCs(@Path("rxcui") rxcui: String): Call<RxNormNDCsResponse>
 
     // Получить все связанные концепты
-    @GET("rxcui/{rxcui}/allrelated")
+    @GET("rxcui/{rxcui}/allrelated.json")
     fun getAllRelatedInfo(@Path("rxcui") rxcui: String): Call<RxNormAllRelatedResponse>
 
     // Получить свойства концепта
-    @GET("rxcui/{rxcui}/properties")
+    @GET("rxcui/{rxcui}/properties.json")
     fun getRxConceptProperties(@Path("rxcui") rxcui: String): Call<RxNormPropertiesResponse>
 
     // Получить имя концепта

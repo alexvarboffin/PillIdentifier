@@ -66,7 +66,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (getArguments() != null) {
+        if (arguments != null) {
             rxcui = requireArguments().getString(KEY_RXNORMID, null)
             ingredient = requireArguments().getString(KEY_INGREDIENT, null)
         }
@@ -93,17 +93,17 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         val fab = view.findViewById<View>(R.id.fab)
 
         if (!TextUtils.isEmpty(rxcui)) {
-            fab.setVisibility(View.GONE)
+            fab.visibility = View.GONE
         } else {
             fab.setOnClickListener(View.OnClickListener { v: View? ->
                 val t = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
-                val query = t.getText().toString()
+                val query = t.text.toString()
                 searchIngredient(query)
             })
         }
         val tabLayout = requireActivity().findViewById<TabLayout?>(R.id.tabs)
         if (null != tabLayout) {
-            tabLayout.setVisibility(View.VISIBLE)
+            tabLayout.visibility = View.VISIBLE
             tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     //DLog.d("" + tab.getText() + " ");
@@ -132,11 +132,11 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
                 tabLayout, viewPager,
                 TabConfigurationStrategy { tab: TabLayout.Tab?, position: Int ->
                     tab!!.setText(
-                        titles.get(position)
+                        titles[position]
                     )
                 }).attach()
             viewPager.setOffscreenPageLimit(
-                if (tabLayout.getTabCount() > 0) tabLayout.getTabCount() else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+                if (tabLayout.tabCount > 0) tabLayout.tabCount else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
             )
         }
     }
@@ -183,11 +183,19 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         //DLog.d("@@@@@@@@@@" + pd);
         val buffer: MutableList<Fragment?> = ArrayList<Fragment?>()
         buffer.add(newInstance(1, pd, query0))
-        buffer.add(Fragment6.newInstance(1, pd))
+        buffer.add(FragmentRelated.newInstance(1, pd))
+        buffer.add(FragmentNdc.newInstance(1, pd))
+        buffer.add(FragmentNdcHistory.newInstance(1, pd))
+        buffer.add(FragmentProperties.newInstance(1, pd))
+        buffer.add(FragmentInteraction.newInstance(1, pd))
         buffer.add(Fragment7.newInstance(1, pd))
         buffer.add(Fragment2.newInstance(1, pd))
 
         titles.add("[INFO]") //titles.add("[" + pd + "]");
+        titles.add("Related")
+        titles.add("NDC")
+        titles.add("NDC History")
+        titles.add("Properties")
         titles.add("Interaction")
         titles.add("Status")
         titles.add("RxNorm Properties")
@@ -225,7 +233,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.getItemId() == R.id.action_clear) {
+        if (item.itemId == R.id.action_clear) {
             val textView = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
             textView.setText("")
             titles.clear()
@@ -306,7 +314,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
         //this.titles.add(getString(R.string.tab_title_0));
         for (i in 0..0) {
-            val aa = data!!.get("" + i)
+            val aa = data!!["" + i]
             val t1 = CategoryListFragment.newInstance(
                 1,
                 ArrayList(listOf<JsonObject>(aa))

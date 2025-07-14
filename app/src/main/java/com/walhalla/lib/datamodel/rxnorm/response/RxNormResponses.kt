@@ -203,6 +203,16 @@ data class RxNormNDCsResponse(
 
 @Keep
 data class RxNormNdcGroup(
+    @SerializedName("ndcList")
+    @Expose
+    val ndcList: RxNormNdcList? = null,
+    @SerializedName("rxcui")
+    @Expose
+    val rxcui: String? = null
+)
+
+@Keep
+data class RxNormNdcList(
     @SerializedName("ndc")
     @Expose
     val ndc: List<String> = emptyList()
@@ -210,7 +220,7 @@ data class RxNormNdcGroup(
 
 @Keep
 data class RxNormAllRelatedResponse(
-    @SerializedName("relatedGroup")
+    @SerializedName("allRelatedGroup")
     @Expose
     val relatedGroup: RxNormRelatedGroup? = null
 )
@@ -259,16 +269,34 @@ data class RxNormRelatedConceptProperty(
 
 @Keep
 data class RxNormPropertiesResponse(
-    @SerializedName("propConceptGroup")
+    @SerializedName("properties")
     @Expose
-    val propConceptGroup: RxNormPropConceptGroup? = null
+    val properties: RxNormProperties? = null
 )
 
 @Keep
-data class RxNormPropConceptGroup(
-    @SerializedName("propConcept")
+data class RxNormProperties(
+    @SerializedName("rxcui")
     @Expose
-    val propConcept: List<PropConcept> = emptyList()
+    val rxcui: String? = null,
+    @SerializedName("name")
+    @Expose
+    val name: String? = null,
+    @SerializedName("synonym")
+    @Expose
+    val synonym: String? = null,
+    @SerializedName("tty")
+    @Expose
+    val tty: String? = null,
+    @SerializedName("language")
+    @Expose
+    val language: String? = null,
+    @SerializedName("suppress")
+    @Expose
+    val suppress: String? = null,
+    @SerializedName("umlscui")
+    @Expose
+    val umlscui: String? = null
 )
 
 @Keep
@@ -355,16 +383,42 @@ data class RxNormProprietaryConceptProperty(
 
 @Keep
 data class RxNormHistoricalNDCsResponse(
-    @SerializedName("historicalNdcGroup")
+    @SerializedName("historicalNdcConcept")
     @Expose
-    val historicalNdcGroup: RxNormHistoricalNdcGroup? = null
+    val historicalNdcConcept: HistoricalNdcConcept? = null
 )
 
 @Keep
-data class RxNormHistoricalNdcGroup(
+data class HistoricalNdcConcept(
+    @SerializedName("historicalNdcTime")
+    @Expose
+    val historicalNdcTime: List<HistoricalNdcTime> = emptyList()
+)
+
+@Keep
+data class HistoricalNdcTime(
+    @SerializedName("status")
+    @Expose
+    val status: String? = null,
+    @SerializedName("rxcui")
+    @Expose
+    val rxcui: String? = null,
+    @SerializedName("ndcTime")
+    @Expose
+    val ndcTime: List<NdcTime> = emptyList()
+)
+
+@Keep
+data class NdcTime(
     @SerializedName("ndc")
     @Expose
-    val ndc: List<String> = emptyList()
+    val ndc: List<String> = emptyList(),
+    @SerializedName("startDate")
+    @Expose
+    val startDate: String? = null,
+    @SerializedName("endDate")
+    @Expose
+    val endDate: String? = null
 )
 
 @Keep

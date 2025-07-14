@@ -33,8 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
-    OnRefreshListener {
+class Fragment2 : Fragment(), ComplexPresenter, OnRefreshListener {
     protected var opCode: String = ""
     private var index = 0
 
@@ -134,61 +133,12 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     }
 
 
-    //    GENERAL_CARDINALITY	SINGLE
-    //    PRESCRIBABLE	Y
-    //    RXNAV_HUMAN_DRUG	US
-    //    RXNAV_VET_DRUG	US
-    //    TTY	IN
-    //https://rxnav.nlm.nih.gov/REST/rxcui/1186300/allProperties?caller=RxNav&prop=Attributes
-    override fun onResponse(call: Call<Response2?>, response: Response<Response2?>) {
-        val response2 = response.body()
-        val data = ArrayList<VieModel>()
-        val activity: Activity? = activity
-        if (activity != null && isAdded) {
-            if (response2 != null) {
-                val group = response2.allRelatedGroup
-                val aa = group.conceptGroup
-                //--> group.rxcui
-                for (conceptGroup in aa) {
-                    val prop = conceptGroup.conceptProperties
 
-                    //String aaa = conceptGroup.tty;
-                    for (property in prop) {
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.general_cardinality),
-                                property.genCard
-                            )
-                        )
-                        data.add(NameValue2_1(getString(R.string.prescribable), property.pres))
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.rxnav_human_drug),
-                                property.humandrug
-                            )
-                        )
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.rxnav_vet_drug),
-                                property.inferedhuman
-                            )
-                        )
-                        data.add(NameValue2_1(getString(R.string.tty0), property.tty))
-                    }
-                }
-            }
-
-            updateData(data)
-        }
-    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()
         obj.addAll(data)
         mAdapter!!.onRestoreInstanceState(obj)
-    }
-
-    override fun onFailure(call: Call<Response2?>, t: Throwable) {
     }
 
     override fun onItemClicked(v: View, position: Int) {

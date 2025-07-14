@@ -27,16 +27,12 @@ import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.DLog.d
 import com.walhalla.ui.plugins.Module_U.shareText
 
-import com.walhalla.lib.datamodel.common.response.Response5
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.TreeMap
-import com.walhalla.lib.datamodel.common.response.Response8
-import kotlin.collections.isNotEmpty
-import kotlin.collections.joinToString
 
-class Fragment6 : Fragment(), Callback<Response6>, ComplexPresenter,
+class FragmentInteraction : Fragment(), Callback<Response6>, ComplexPresenter,
     OnRefreshListener {
     protected var opCode: String = ""
     private var index = 0
@@ -234,11 +230,11 @@ class Fragment6 : Fragment(), Callback<Response6>, ComplexPresenter,
         const val KEY_INDEX: String = "key_index_rxnormId"
         const val KEY_RXNORMID: String = "key_rxnormId"
         @JvmStatic
-        fun newInstance(index: Int, rxnormId: String?): Fragment6 {
+        fun newInstance(index: Int, rxnormId: String?): FragmentInteraction {
             val bundle = Bundle()
             bundle.putInt(KEY_INDEX, index)
             bundle.putString(KEY_RXNORMID, rxnormId)
-            val fragment = Fragment6()
+            val fragment = FragmentInteraction()
             fragment.arguments = bundle
             return fragment
         }
