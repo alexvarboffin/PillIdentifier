@@ -9,15 +9,15 @@
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
+            <option value="C:/src/Synced/WalhallaUI/features/ui" />
+            <option value="C:/src/Synced/WalhallaUI/features/wads" />
+            <option value="C:/src/Synced/WalhallaUI/shared" />
+            <option value="$PROJECT_DIR$/../Compatibility/threader" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/health" />
             <option value="$PROJECT_DIR$/pdf-viewer" />
-            <option value="$PROJECT_DIR$/../WalhallaUI/features/ui" />
-            <option value="$PROJECT_DIR$/../WalhallaUI/features/wads" />
-            <option value="$PROJECT_DIR$/../WalhallaUI/shared" />
-            <option value="D:/walhalla/sdk/android/multithreader/threader" />
           </set>
         </option>
       </GradleProjectSettings>

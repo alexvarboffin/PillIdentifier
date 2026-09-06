@@ -13,15 +13,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
-import com.walhalla.boilerplate.domain.executor.impl.ThreadExecutor
-import com.walhalla.boilerplate.threading.MainThreadImpl
 import com.walhalla.domain.interactors.AdvertInteractor
 import com.walhalla.domain.interactors.impl.AdvertInteractorImpl
-import com.walhalla.domain.interactors.impl.AdvertInteractorImplOld
 import com.walhalla.domain.repository.AdvertRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import com.walhalla.health.IdealWeight.InnerAbstractFragment.FInnerCallback
 import com.walhalla.health.R
 import com.walhalla.ui.DLog
@@ -80,6 +81,7 @@ abstract class InnerAdActivity : AppCompatActivity(), FInnerCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -224,9 +226,10 @@ abstract class InnerAdActivity : AppCompatActivity(), FInnerCallback {
 //            }
 //        });
 //        addLayoutToContent(linearLayout);
-        val interactor = AdvertInteractorImplOld(
-            ThreadExecutor.instance,
-            MainThreadImpl.instance, loadRepository()
+        val interactor = AdvertInteractorImpl(
+            CoroutineScope(Dispatchers.IO),
+            MainScope(),
+            loadRepository()
         )
         //aa.attach(this);
         //DLog.d("---->" + aa.hashCode());

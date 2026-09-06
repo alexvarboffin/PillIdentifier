@@ -37,10 +37,10 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 
 include(":features:ui")
-project(":features:ui").projectDir = File("../WalhallaUI\\features\\ui")
+project(":features:ui").projectDir = File("C:\\src\\Synced\\WalhallaUI\\features\\ui\\")
 
 include(":features:wads")
-project(":features:wads").projectDir = File("../WalhallaUI\\features\\wads\\")
+project(":features:wads").projectDir = File("C:\\src\\Synced\\WalhallaUI\\features\\wads\\")
 
 include(":pdf-viewer")
 project(":pdf-viewer").projectDir = File("pdf-viewer\\")
@@ -49,7 +49,7 @@ include(":health")
 project(":health").projectDir = File("health\\")
 
 include(":threader")
-project(":threader").projectDir = File("D:\\walhalla\\sdk\\android\\multithreader\\threader\\")
+project(":threader").projectDir = File("D:\\dev\\android\\Compatibility\\threader\\")
 
 include(":shared")
-project(":shared").projectDir = File("../WalhallaUI\\shared")
+project(":shared").projectDir = File("C:\\src\\Synced\\WalhallaUI\\shared\\")
