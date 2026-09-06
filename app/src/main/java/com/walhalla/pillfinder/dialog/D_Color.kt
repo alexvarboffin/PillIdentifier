@@ -1,30 +1,27 @@
 package com.walhalla.pillfinder.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.ToggleButton
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.size
 import androidx.fragment.app.DialogFragment
 import com.walhalla.pillfinder.R
 import com.walhalla.ui.DLog.d
 import java.util.Arrays
-import androidx.core.view.size
 
 class D_Color : DialogFragment(), CompoundButton.OnCheckedChangeListener {
     private var selected_tags = arrayOfNulls<String>(COUNT_OF_COLOR_MAX)
     private lateinit var view1: View
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        view1 = inflater.inflate(R.layout.dialog_color, container, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        view1 = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_color, null)
         val colorMenu1 = view1.findViewById<LinearLayout>(R.id.line1)
         val colorMenu2 = view1.findViewById<LinearLayout>(R.id.line2)
         val colorMenu3 = view1.findViewById<LinearLayout>(R.id.line3)
@@ -45,14 +42,15 @@ class D_Color : DialogFragment(), CompoundButton.OnCheckedChangeListener {
             isSelectedOrNot0(button)
             button.setOnCheckedChangeListener(this)
         }
-        (view1.findViewById<View?>(R.id.no)).setOnClickListener { v: View? -> this@D_Color.dismiss() }
-        (view1.findViewById<View?>(R.id.yes11))
-            .setOnClickListener(View.OnClickListener { v: View? ->
+
+        return AlertDialog.Builder(requireContext())
+            .setView(view1)
+            .setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
                 okRequest()
-                this@D_Color.dismiss()
-            })
-        //getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        return view1
+                dismiss()
+            }
+            .create()
     }
 
     private fun restoreSelect(bundle: Bundle?) {

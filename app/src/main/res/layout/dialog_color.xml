@@ -160,46 +160,6 @@ style/OurThemeName - disable  ON/OFF com.walhalla.pillfinder.ui.custom.SquareTog
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <Button
-                android:id="@+id/no"
-                style="?attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@android:string/cancel"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/yes11"
-                style="?attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="@android:string/ok"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
         <!--<View-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="2dp"-->
