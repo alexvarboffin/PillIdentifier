@@ -33,6 +33,7 @@
 -keep class com.google.firebase.provider.FirebaseInitProvider { <init>(); }
 -keep class com.google.firebase.sessions.SessionLifecycleService { <init>(); }
 -keep class com.walhalla.pillfinder.MyApp { <init>(); }
+-keep class com.walhalla.pillfinder.activity.AnalogsActivity { <init>(); }
 -keep class com.walhalla.pillfinder.activity.HealthMainActivity { <init>(); }
 -keep class com.walhalla.pillfinder.activity.MainA2 { <init>(); }
 -keep class com.walhalla.pillfinder.activity.MainActivity { <init>(); }
@@ -184,6 +185,8 @@
 -keep class com.merhold.extensiblepageindicator.ExtensiblePageIndicator { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class com.ratingdialog.simple.RotationRatingBar { <init>(android.content.Context, android.util.AttributeSet); }
+
+-keep class com.walhalla.pillfinder.activity.InstantAutoComplete { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class com.walhalla.pillfinder.ui.MyView { <init>(android.content.Context, android.util.AttributeSet); }
 

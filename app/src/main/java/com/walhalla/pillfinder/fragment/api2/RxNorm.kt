@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.common.util.CollectionUtils.listOf
@@ -100,6 +102,16 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fab = view.findViewById<View>(R.id.fab)
+        ViewCompat.setOnApplyWindowInsetsListener(fab) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val base = resources.getDimensionPixelSize(R.dimen.fab_margin)
+            val lp = v.layoutParams as ViewGroup.MarginLayoutParams
+            lp.bottomMargin = base + bars.bottom
+            lp.marginEnd = base + bars.right
+            v.layoutParams = lp
+            insets
+        }
+        ViewCompat.requestApplyInsets(fab)
 
         if (!TextUtils.isEmpty(rxcui)) {
             fab.visibility = View.GONE
