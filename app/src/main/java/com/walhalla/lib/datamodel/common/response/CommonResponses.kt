@@ -431,7 +431,13 @@ data class RxclassDrugInfo(
     val rxclassMinConceptItem: RxclassMinConceptItem? = null,
     @SerializedName("minConcept")
     @Expose
-    val minConcept: MinConcept? = null
+    val minConcept: MinConcept? = null,
+    @SerializedName("rela")
+    @Expose
+    val rela: String? = null,
+    @SerializedName("relaSource")
+    @Expose
+    val relaSource: String? = null
 )
 
 /**

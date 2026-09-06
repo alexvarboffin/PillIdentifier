@@ -27,9 +27,15 @@ import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
 import com.walhalla.pillfinder.adapter.viewHolder.Simple2TextViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.SimpleRxCuiViewHolder
 import com.walhalla.pillfinder.adapter.viewHolder.SimpleTextViewHolder
+import com.walhalla.pillfinder.adapter.obj.ClickableClassItem
+import com.walhalla.pillfinder.adapter.obj.ClassCardItem
+import com.walhalla.pillfinder.adapter.obj.ClassMemberItem
 
 class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private val TYPE_RxCuiObjString = 334
+    private val TYPE_CLICKABLE_CLASS = 335
+    private val TYPE_CLASS_CARD = 336
+    private val TYPE_CLASS_MEMBER = 337
 
     private val EMPTY_VIEW_DEFAULT = 777
     private val EMPTY_VIEW_FROM_OBJECT = 778
@@ -114,6 +120,12 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             return TYPE_RxCuiObjString
         } else if (datalist[position] is MpcObj) {
             return TYPE_MPC_SHAPE
+        } else if (datalist[position] is ClickableClassItem) {
+            return TYPE_CLICKABLE_CLASS
+        } else if (datalist[position] is ClassCardItem) {
+            return TYPE_CLASS_CARD
+        } else if (datalist[position] is ClassMemberItem) {
+            return TYPE_CLASS_MEMBER
         }
         return -1
     }
@@ -166,6 +178,20 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             TYPE_RxCuiObjString -> {
                 val view2 = getContentResource(R.layout.item_rxcui, viewGroup)
                 viewHolder = SimpleRxCuiViewHolder(view2, presenter!!)
+            }
+
+            TYPE_CLICKABLE_CLASS -> {
+                val v = getContentResource(R.layout.item_clickable_class, viewGroup)
+                viewHolder = ClickableClassViewHolder(v)
+            }
+
+            TYPE_CLASS_CARD -> {
+                val v = getContentResource(R.layout.item_class_card, viewGroup)
+                viewHolder = ClassCardViewHolder(v)
+            }
+            TYPE_CLASS_MEMBER -> {
+                val v = getContentResource(R.layout.item_class_member, viewGroup)
+                viewHolder = ClassMemberViewHolder(v)
             }
 
             else -> {
@@ -248,6 +274,57 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                 (viewHolder as SimpleRxCuiViewHolder).bind(kk as RxCuiObjString, position)
             }
 
+            TYPE_CLICKABLE_CLASS -> {
+                val item = datalist[position] as ClickableClassItem
+                val holder = viewHolder as ClickableClassViewHolder
+                holder.tvClassName.text = item.name
+                holder.tvClassType.text = item.value
+                holder.itemView.setOnClickListener { v ->
+                    presenter?.onItemClicked(v, item)
+                }
+            }
+
+            TYPE_CLASS_CARD -> {
+                val item = datalist[position] as ClassCardItem
+                val holder = viewHolder as ClassCardViewHolder
+                holder.tvClassName.text = item.className
+                holder.tvClassType.text = item.classType
+                holder.llMembers.removeAllViews()
+                val inflater = LayoutInflater.from(holder.itemView.context)
+                // Клик по всей карточке класса
+                holder.itemView.setOnClickListener { v ->
+                    presenter?.onItemClicked(v, item)
+                }
+                for (member in item.members) {
+                    val memberView = inflater.inflate(R.layout.item_class_member, holder.llMembers, false)
+                    val tvName = memberView.findViewById<TextView>(R.id.tvMemberName)
+                    val tvTty = memberView.findViewById<TextView>(R.id.tvMemberTty)
+                    val tvRela = memberView.findViewById<TextView>(R.id.tvMemberRela)
+                    val tvRelaSource = memberView.findViewById<TextView>(R.id.tvMemberRelaSource)
+                    tvName.text = member.minConceptName
+                    tvTty.text = member.minConceptTty
+                    tvRela.text = if (member.rela.isNotEmpty()) member.rela else ""
+                    tvRelaSource.text = if (member.relaSource.isNotEmpty()) member.relaSource else ""
+                    // Клик по строке препарата
+                    memberView.setOnClickListener { v ->
+                        presenter?.onItemClicked(v, member)
+                    }
+                    // Клик по типу связи (rela) — показать справку
+                    tvRela.setOnClickListener { v ->
+                        presenter?.onItemClicked(v, member)
+                    }
+                    holder.llMembers.addView(memberView)
+                }
+            }
+            TYPE_CLASS_MEMBER -> {
+                val item = datalist[position] as ClassMemberItem
+                val holder = viewHolder as ClassMemberViewHolder
+                holder.tvMemberName.text = item.minConceptName
+                holder.tvMemberTty.text = item.minConceptTty
+                holder.tvMemberRela.text = item.rela
+                holder.tvMemberRelaSource.text = item.relaSource
+            }
+
             EMPTY_VIEW_FROM_OBJECT -> {
                 val emptyViewObj = datalist[position] as EmptyViewObj
                 (viewHolder as EmptyViewHolder).bind(emptyViewObj, position)
@@ -313,6 +390,23 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         RecyclerView.ViewHolder(itemView) {
         var label: TextView =
             itemView.findViewById(android.R.id.text1)
+    }
+
+    class ClickableClassViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvClassName: TextView = itemView.findViewById(R.id.tvClassName)
+        val tvClassType: TextView = itemView.findViewById(R.id.tvClassType)
+    }
+
+    class ClassCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvClassName: TextView = itemView.findViewById(R.id.tvClassName)
+        val tvClassType: TextView = itemView.findViewById(R.id.tvClassType)
+        val llMembers: ViewGroup = itemView.findViewById(R.id.llMembers)
+    }
+    class ClassMemberViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvMemberName: TextView = itemView.findViewById(R.id.tvMemberName)
+        val tvMemberTty: TextView = itemView.findViewById(R.id.tvMemberTty)
+        val tvMemberRela: TextView = itemView.findViewById(R.id.tvMemberRela)
+        val tvMemberRelaSource: TextView = itemView.findViewById(R.id.tvMemberRelaSource)
     }
 
     companion object {

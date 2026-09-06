@@ -93,9 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-
                 android:gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_collapseMode="pin"
                 app:tabIndicatorColor="#FFAB00"
                 app:tabIndicatorHeight="3dp"
@@ -105,6 +104,17 @@
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabTextColor="#ff424242"
                 tools:visibility="visible">
+
+
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/autoCompleteTextView1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_marginTop="65dp"-->
+<!--                    android:ems="10" />-->
+
 
                 <FrameLayout
                     android:id="@+id/header"
@@ -121,7 +131,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <!--app:endIconDrawable="@drawable/ic_search_black_24dp"-->
+<!--                    app:endIconDrawable="@drawable/ic_search_black_24dp"-->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/store_til"
                         android:layout_width="match_parent"
@@ -134,15 +144,12 @@
 
                         <!--                            android:textCursorDrawable="@drawable/ic_promo_0"-->
                         <!--                            android:cursorVisible="true"-->
-
-                        <AutoCompleteTextView
-
+<!--                        android:drawableEnd="@drawable/ic_search_g"-->
+                        <com.walhalla.pillfinder.activity.InstantAutoComplete
                             android:id="@+id/auto_text_view"
                             android:layout_width="match_parent"
-
                             android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/ic_search_g"
-                            android:drawableRight="@drawable/ic_search_g"
+
                             android:fontFamily="@font/inter_regular"
                             android:hint="@string/hint_sleep_search"
                             android:lines="1"
@@ -150,6 +157,7 @@
                             android:maxLines="1"
                             android:singleLine="true"
                             android:textColor="#000000"
+                            android:textColorHint="#121111"
                             android:windowSoftInputMode="stateAlwaysHidden" />
 
                     </com.google.android.material.textfield.TextInputLayout>
