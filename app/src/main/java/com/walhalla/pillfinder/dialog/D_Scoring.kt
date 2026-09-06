@@ -36,7 +36,7 @@ class D_Scoring : DialogFragment() {
         }
         d("Input data: " + input)
 
-        val checkeditem = Util.findArrayIndex(input!!, QueryConstants.scoring)
+        val checkeditem = Util.findArrayIndex(input ?: "", QueryConstants.scoring)
 
         val d = AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_scoring_title)

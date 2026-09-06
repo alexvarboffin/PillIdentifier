@@ -41,7 +41,7 @@ class D_Shape : DialogFragment() {
         }
         d("Input data: $input")
 
-        val checkeditem = Util.findArrayIndex(input!!, QueryConstants.shapes)
+        val checkeditem = Util.findArrayIndex(input ?: "", QueryConstants.shapes)
 
 
         val d = AlertDialog.Builder(requireContext())

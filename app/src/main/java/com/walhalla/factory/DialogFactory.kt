@@ -50,10 +50,11 @@ object DialogFactory : Constants {
             dialog.setTargetFragment(rootFragment, FragmentMain.REQUEST_SCORING_OPTION)
             return dialog
         } else if (type == DialogType.SHAPE) {
+            val shape = PillRequest.INSTANCE.get(MpcField.SHAPE)
             dialog = D_Shape()
             bundle.putString(
-                D_Scoring.KEY_INPUT_OUTPUT_DATA,
-                PillRequest.INSTANCE.get(MpcField.SHAPE)
+                D_Shape.KEY_INPUT_OUTPUT_DATA,
+                if (shape == null) "" else shape
             )
             dialog.setArguments(bundle)
             dialog.setTargetFragment(rootFragment, FragmentMain.REQUEST_SHAPE_OPTION)
