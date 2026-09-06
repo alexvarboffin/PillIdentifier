@@ -9,7 +9,7 @@ style/OurThemeName - disable  ON/OFF com.walhalla.pillfinder.ui.custom.SquareTog
 
     <!--android:background="@drawable/ic_dialog_color_bg"-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="0dp"

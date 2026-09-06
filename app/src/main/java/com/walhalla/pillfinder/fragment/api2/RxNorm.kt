@@ -193,7 +193,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         val buffer: MutableList<Fragment?> = ArrayList<Fragment?>()
         buffer.add(newInstance(1, pd, query0))
         buffer.add(FragmentRelated.newInstance(1, pd))
-        buffer.add(com.walhalla.pillfinder.fragment.api2.FragmentRelatedByType.newInstance(1, pd))
+        buffer.add(FragmentRelatedByType.newInstance(1, pd))
         buffer.add(FragmentNdc.newInstance(1, pd))
         buffer.add(FragmentNdcHistory.newInstance(1, pd))
         buffer.add(FragmentProperties.newInstance(1, pd))
