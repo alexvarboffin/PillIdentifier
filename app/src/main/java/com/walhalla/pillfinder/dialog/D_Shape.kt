@@ -33,13 +33,13 @@ class D_Shape : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (arguments != null) {
-            input = requireArguments().getString(KEY_INPUT_OUTPUT_DATA)
+        arguments?.let {
+            input = it.getString(KEY_INPUT_OUTPUT_DATA)
         }
         if (savedInstanceState != null) {
             input = savedInstanceState.getString(KEY_INPUT_OUTPUT_DATA)
         }
-        d("Input data: " + input)
+        d("Input data: $input")
 
         val checkeditem = Util.findArrayIndex(input!!, QueryConstants.shapes)
 
