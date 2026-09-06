@@ -1,0 +1,43 @@
+# RxClass API JSON endpoints (основные)
+
+# Получить классы по RxCUI (препарат)
+https://rxnav.nlm.nih.gov/REST/rxclass/class/byRxcui.json?rxcui=...
+
+# Получить все классы определённого типа
+https://rxnav.nlm.nih.gov/REST/rxclass/allClasses.json?classTypes=...
+
+# Найти класс по имени
+https://rxnav.nlm.nih.gov/REST/rxclass/class/byName.json?className=...
+
+# Получить членов класса (аналоги)
+https://rxnav.nlm.nih.gov/REST/rxclass/class/classMembers.json?classId=...&relaSource=...&rela=...&ttys=...
+
+# Получить контексты класса (иерархия)
+https://rxnav.nlm.nih.gov/REST/rxclass/classContext.json?classId=...
+
+# Получить дерево классов
+https://rxnav.nlm.nih.gov/REST/rxclass/class/classTree.json?classId=...&classType=...
+
+# Получить типы классов
+https://rxnav.nlm.nih.gov/REST/rxclass/classTypes.json
+
+# Получить источники связей для класса
+https://rxnav.nlm.nih.gov/REST/rxclass/class/sourcesOfDrugClassRelations.json?classId=...&classType=...
+
+# Получить отношения для класса
+https://rxnav.nlm.nih.gov/REST/rxclass/class/relas.json?classId=...&classType=...
+
+# Получить похожие классы по классу
+https://rxnav.nlm.nih.gov/REST/rxclass/class/similarByClass.json?classId=...&classType=...
+
+# Получить похожие классы по списку препаратов
+https://rxnav.nlm.nih.gov/REST/rxclass/class/similarByDrugList.json?rxcuis=...
+
+# Получить граф класса по источнику
+https://rxnav.nlm.nih.gov/REST/rxclass/class/classGraphBySource.json?classId=...&classType=...&source=...
+
+# Получить версию источника отношений
+https://rxnav.nlm.nih.gov/REST/rxclass/class/relaSourceVersion.json?source=...
+
+# Получить подсказки по написанию класса
+https://rxnav.nlm.nih.gov/REST/rxclass/class/spellingsuggestions.json?term=... 

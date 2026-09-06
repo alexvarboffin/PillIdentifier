@@ -241,7 +241,7 @@ interface RxnormApi {
     ): Call<Response8>
 
     // Получить класс по RxNorm drug id
-    @GET("rxclass/class/classByRxNormDrugId.json")
+    @GET("rxclass/class/byRxcui.json")
     fun getClassByRxNormDrugId(
         @Query("rxcui") rxcui: String
     ): Call<Response8>
@@ -490,7 +490,7 @@ interface RxClassApi {
     ): Call<Response8>
 
     // Получить класс по RxNorm drug id
-    @GET("rxclass/class/classByRxNormDrugId.json")
+    @GET("rxclass/class/byRxcui.json")
     fun getClassByRxNormDrugId(
         @Query("rxcui") rxcui: String
     ): Call<Response8>
@@ -519,6 +519,21 @@ interface RxClassApi {
     // Получить участников класса
     @GET("rxclass/class/classMembers.json")
     fun getClassMembers(
+        @Query("classId") classId: String,
+        @Query("classType") classType: String
+    ): Call<Response8>
+
+    // Получить членов класса с указанием источника
+    @GET("rxclass/class/classMembers.json")
+    fun getClassMembersWithSource(
+        @Query("classId") classId: String,
+        @Query("classType") classType: String,
+        @Query("relaSource") relaSource: String
+    ): Call<Response8>
+
+    // Получить участников класса (правильный эндпоинт)
+    @GET("rxclass/class/byClass.json")
+    fun getClassMembersByClass(
         @Query("classId") classId: String,
         @Query("classType") classType: String
     ): Call<Response8>
@@ -566,4 +581,10 @@ interface RxClassApi {
     // Получить типы классов
     @GET("rxclass/classTypes.json")
     fun getClassTypes(): Call<RxClassTypesResponse>
+
+    // Получить классы по RxCUI
+    @GET("rxclass/class/byRxcui.json")
+    fun byRxcui(
+        @Query("rxcui") id: String?
+    ): Call<RxClassByRxcuiResponse>
 }

@@ -168,6 +168,16 @@ data class RxNormSpellingSuggestionsResponse(
 
 @Keep
 data class RxNormSuggestionGroup(
+    @SerializedName("name")
+    @Expose
+    val name: String? = null,
+    @SerializedName("suggestionList")
+    @Expose
+    val suggestionList: RxNormSuggestionList? = null
+)
+
+@Keep
+data class RxNormSuggestionList(
     @SerializedName("suggestion")
     @Expose
     val suggestion: List<String> = emptyList()

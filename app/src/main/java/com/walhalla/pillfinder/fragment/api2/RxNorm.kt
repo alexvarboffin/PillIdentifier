@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -17,7 +19,6 @@ import com.google.android.gms.common.util.CollectionUtils.listOf
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.google.gson.JsonObject
 import com.walhalla.Util
 import com.walhalla.lib.RxnormRepository
@@ -37,11 +38,14 @@ import java.net.ConnectException
 import java.net.UnknownHostException
 
 import javax.net.ssl.SSLHandshakeException
+import com.walhalla.pillfinder.fragment.api2.SuggestionAdapter
 
 class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     private var repo: RxnormRepository? = null
 
     private var mPagerAdapter: DynamicModifyViewPagerAdapter? = null
+    val suggestions = mutableListOf<String>("@@@@", "@@@@@")
+
 
     //private final ArrayList<JsonObject> data = new ArrayList<>();
     var data: MutableMap<String?, JsonObject?>? = HashMap<String?, JsonObject?>()
@@ -64,6 +68,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         return inflater.inflate(R.layout.fragment_rxnorm, container, false)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,7 +79,9 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
         api = MyApp.rxnorm
         handler0 = Handler(Looper.getMainLooper())
-        val autoTextView = requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
+        val autoTextView: AutoCompleteTextView =
+            requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
+
 //        for (int i1 = 0; i1 < 12; i1++) {
 //            data.put("" + i1, new JsonObject());
 //            titles.add("" + i1);
@@ -87,32 +94,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
             }
         }
 
-        if (autoTextView != null) {
-            if (USE_SPELLING_SUGGESTIONS) {
-                autoTextView.threshold = 1
-                autoTextView.setAdapter(null)
-                autoTextView.addTextChangedListener(object : android.text.TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                        val query = s?.toString() ?: ""
-                        if (query.length < 2) return
-                        api?.getSpellingSuggestions(query)?.enqueue(object : retrofit2.Callback<com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse?> {
-                            override fun onResponse(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, response: retrofit2.Response<RxNormSpellingSuggestionsResponse?>) {
-                                val suggestions = response.body()?.suggestionGroup?.suggestion ?: emptyList()
-                                val adapter = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, suggestions)
-                                autoTextView.setAdapter(adapter)
-                                adapter.notifyDataSetChanged()
-                                if (suggestions.isNotEmpty()) autoTextView.showDropDown()
-                            }
-                            override fun onFailure(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, t: Throwable) {}
-                        })
-                    }
-                    override fun afterTextChanged(s: android.text.Editable?) {}
-                })
-            } else {
-                autoTextView.setAdapter(null)
-            }
-        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,11 +104,11 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         if (!TextUtils.isEmpty(rxcui)) {
             fab.visibility = View.GONE
         } else {
-            fab.setOnClickListener(View.OnClickListener { v: View? ->
+            fab.setOnClickListener { v: View? ->
                 val t = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
                 val query = t.text.toString()
                 searchIngredient(query)
-            })
+            }
         }
         val tabLayout = requireActivity().findViewById<TabLayout?>(R.id.tabs)
         if (null != tabLayout) {
@@ -156,12 +138,12 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
         if (null != tabLayout) {
             TabLayoutMediator(
-                tabLayout, viewPager,
-                TabConfigurationStrategy { tab: TabLayout.Tab?, position: Int ->
-                    tab!!.setText(
-                        titles[position]
-                    )
-                }).attach()
+                tabLayout, viewPager
+            ) { tab: TabLayout.Tab?, position: Int ->
+                tab!!.setText(
+                    titles[position]
+                )
+            }.attach()
             viewPager.setOffscreenPageLimit(
                 if (tabLayout.tabCount > 0) tabLayout.tabCount else ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
             )
@@ -215,6 +197,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         buffer.add(FragmentNdc.newInstance(1, pd))
         buffer.add(FragmentNdcHistory.newInstance(1, pd))
         buffer.add(FragmentProperties.newInstance(1, pd))
+        buffer.add(FragmentClass.newInstance(1, pd))
         buffer.add(FragmentInteraction.newInstance(1, pd))
         buffer.add(Fragment7.newInstance(1, pd))
         buffer.add(Fragment2.newInstance(1, pd))
@@ -225,6 +208,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         titles.add("NDC")
         titles.add("NDC History")
         titles.add("Properties")
+        titles.add("Classes")
         titles.add("Interaction")
         titles.add("Status")
         titles.add("RxNorm Properties")
@@ -315,7 +299,54 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
 
             //mScreenCategoryListPresenter.setData(data);
         }
+
+
+        val autoTextView: AutoCompleteTextView = requireActivity().findViewById<AutoCompleteTextView?>(R.id.auto_text_view)
+        if (autoTextView != null) {
+            if (USE_SPELLING_SUGGESTIONS) {
+                // Программно задаём inputType, если не задано в xml
+                autoTextView.inputType = android.text.InputType.TYPE_CLASS_TEXT
+
+                val suggestions = mutableListOf<String>()
+                val suggestionAdapter = SuggestionAdapter(requireContext(), suggestions)
+                autoTextView.threshold = 1
+                autoTextView.hint = "Search for a drug or ingredient"
+                autoTextView.setAdapter(suggestionAdapter)
+                autoTextView.requestFocus()
+                val debounceDelay = 300L // миллисекунд
+                val handler = Handler(Looper.getMainLooper())
+                var debounceRunnable: Runnable? = null
+                var lastQuery: String? = null
+                autoTextView.addTextChangedListener(object : android.text.TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        val query = s?.toString() ?: ""
+                        if (query.length < 1) return
+                        if (query == lastQuery) return
+                        debounceRunnable?.let { handler.removeCallbacks(it) }
+                        debounceRunnable = Runnable {
+                            lastQuery = query
+                            api?.getSpellingSuggestions(query)?.enqueue(object : retrofit2.Callback<RxNormSpellingSuggestionsResponse?> {
+                                override fun onResponse(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, response: retrofit2.Response<RxNormSpellingSuggestionsResponse?>) {
+                                    val newSuggestions = response.body()?.suggestionGroup?.suggestionList?.suggestion ?: emptyList()
+                                    suggestionAdapter.updateData(newSuggestions)
+                                    if (newSuggestions.isNotEmpty()) {
+                                        autoTextView.post { autoTextView.showDropDown() }
+                                    }
+                                }
+                                override fun onFailure(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, t: Throwable) {}
+                            })
+                        }
+                        handler.postDelayed(debounceRunnable!!, debounceDelay)
+                    }
+                    override fun afterTextChanged(s: android.text.Editable?) {}
+                })
+            } else {
+                autoTextView.setAdapter(null)
+            }
+        }
     }
+
 
     private fun loadData(i: Int) {
     }
@@ -388,5 +419,11 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
             a.setArguments(bundle)
             return a
         }
+    }
+}
+
+fun AutoCompleteTextView.showDropdown0(adapter: ArrayAdapter<String>?) {
+    if (!TextUtils.isEmpty(this.text.toString())) {
+        adapter?.filter?.filter(null)
     }
 }
