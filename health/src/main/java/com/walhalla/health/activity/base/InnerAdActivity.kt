@@ -13,14 +13,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
-import com.walhalla.boilerplate.domain.executor.impl.ThreadExecutor
-import com.walhalla.boilerplate.threading.MainThreadImpl
 import com.walhalla.domain.interactors.AdvertInteractor
 import com.walhalla.domain.interactors.impl.AdvertInteractorImpl
 import com.walhalla.domain.repository.AdvertRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import com.walhalla.health.IdealWeight.InnerAbstractFragment.FInnerCallback
 import com.walhalla.health.R
 import com.walhalla.ui.DLog
@@ -79,8 +81,9 @@ abstract class InnerAdActivity : AppCompatActivity(), FInnerCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (aTheme() > 0) {
             setTheme(aTheme())
@@ -153,14 +156,14 @@ abstract class InnerAdActivity : AppCompatActivity(), FInnerCallback {
     //            return;
     //        }
     //
-    ////        String[] testDeviceIds = getResources().getStringArray(R.array.admob_test_device_ids);
+    ////        String[] testDeviceIds = resources.getStringArray(R.array.admob_test_device_ids);
     ////
     //        AdRequest.Builder builder = new AdRequest.Builder();
     ////        builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
     ////        for (String id : testDeviceIds) {
     ////            builder.addTestDevice(id);
     ////        }
-    ////        builder.tagForChildDirectedTreatment(getResources()
+    ////        builder.tagForChildDirectedTreatment(resources
     ////                .getBoolean(R.bool.child_directed_treatment));
     //
     //        mAd.loadAd(builder.build());
@@ -224,8 +227,9 @@ abstract class InnerAdActivity : AppCompatActivity(), FInnerCallback {
 //        });
 //        addLayoutToContent(linearLayout);
         val interactor = AdvertInteractorImpl(
-            ThreadExecutor.getInstance(),
-            MainThreadImpl.getInstance(), loadRepository()
+            CoroutineScope(Dispatchers.IO),
+            MainScope(),
+            loadRepository()
         )
         //aa.attach(this);
         //DLog.d("---->" + aa.hashCode());

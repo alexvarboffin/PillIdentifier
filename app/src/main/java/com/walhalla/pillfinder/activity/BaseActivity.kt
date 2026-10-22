@@ -80,7 +80,7 @@ abstract class BaseActivity : AdActivity() {
 //            return false;
 //        }
 //        else if (itemId == R.id.action_bookmark) {
-//            getSupportFragmentManager().beginTransaction()
+//            supportFragmentManager.beginTransaction()
 //                    .replace(R.id.container, new BookmarkFragment())
 //                    .addToBackStack(null)
 //                    .commit();

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.pkg2.Response2
-import com.walhalla.lib.datamodel.pkg4.Response4
+import com.walhalla.lib.datamodel.common.response.Response2
+import com.walhalla.lib.datamodel.common.response.Response4
 import com.walhalla.lib.datamodel.pkg_base.PropConcept
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
@@ -27,13 +27,14 @@ import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.plugins.Module_U.shareText
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
-    OnRefreshListener {
-    protected var opCode: String? = null
+
+class Fragment2 : Fragment(), ComplexPresenter, OnRefreshListener {
+    protected var opCode: String = ""
     private var index = 0
 
     private var mBinding: CategoryListFragmentBinding? = null
@@ -49,8 +50,7 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     ): View? {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
         if (mAdapter == null) {
-            mAdapter =
-                ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
+            mAdapter = ComplexRecyclerViewAdapter(requireContext())
             mAdapter!!.setChildItemClickListener(this)
         }
         return mBinding!!.root
@@ -74,8 +74,8 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            index = arguments!!.getInt(KEY_INDEX, 0)
-            opCode = arguments!!.getString(KEY_RXNORMID, null)
+            index = requireArguments().getInt(KEY_INDEX, 0)
+            opCode = requireArguments().getString(KEY_RXNORMID, null)
         }
     }
 
@@ -105,17 +105,18 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
                         val mm = aa.propConcept
 
                         for (concept in mm) {
-                            var raw = formater[concept.propCategory]
-                            if (raw == null) {
-                                raw = ArrayList()
+                            val x = concept.propCategory
+                            if (x != null) {
+                                var raw: MutableList<PropConcept> = formater[x]?:ArrayList()
+
+                                raw.add(concept)
+                                formater[x] = raw
                             }
-                            raw.add(concept)
-                            formater[concept.propCategory] = raw
                         }
                         for ((key, value) in formater) {
                             fUll.add(HeaderObject(key))
                             for (concept in value) {
-                                fUll.add(NameValue2_1(concept.propName, concept.propValue))
+                                fUll.add(NameValue2_1(concept.propName?:"", concept.propValue?:""))
                             }
                         }
                     }
@@ -132,61 +133,12 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     }
 
 
-    //    GENERAL_CARDINALITY	SINGLE
-    //    PRESCRIBABLE	Y
-    //    RXNAV_HUMAN_DRUG	US
-    //    RXNAV_VET_DRUG	US
-    //    TTY	IN
-    //https://rxnav.nlm.nih.gov/REST/rxcui/1186300/allProperties?caller=RxNav&prop=Attributes
-    override fun onResponse(call: Call<Response2?>, response: Response<Response2?>) {
-        val response2 = response.body()
-        val data = ArrayList<VieModel>()
-        val activity: Activity? = activity
-        if (activity != null && isAdded) {
-            if (response2 != null) {
-                val group = response2.allRelatedGroup
-                val aa = group.conceptGroup
-                //--> group.rxcui
-                for (conceptGroup in aa) {
-                    val prop = conceptGroup.conceptProperties
 
-                    //String aaa = conceptGroup.tty;
-                    for (property in prop) {
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.general_cardinality),
-                                property.genCard
-                            )
-                        )
-                        data.add(NameValue2_1(getString(R.string.prescribable), property.pres))
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.rxnav_human_drug),
-                                property.humandrug
-                            )
-                        )
-                        data.add(
-                            NameValue2_1(
-                                getString(R.string.rxnav_vet_drug),
-                                property.inferedhuman
-                            )
-                        )
-                        data.add(NameValue2_1(getString(R.string.tty0), property.tty))
-                    }
-                }
-            }
-
-            updateData(data)
-        }
-    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()
         obj.addAll(data)
         mAdapter!!.onRestoreInstanceState(obj)
-    }
-
-    override fun onFailure(call: Call<Response2?>, t: Throwable) {
     }
 
     override fun onItemClicked(v: View, position: Int) {
@@ -233,6 +185,7 @@ class Fragment2 : Fragment(), Callback<Response2?>, ComplexPresenter,
     companion object {
         const val KEY_INDEX: String = "key_index_rxnormId"
         const val KEY_RXNORMID: String = "key_rxnormId"
+
         @JvmStatic
         fun newInstance(index: Int, rxnormId: String?): Fragment2 {
             val bundle = Bundle()

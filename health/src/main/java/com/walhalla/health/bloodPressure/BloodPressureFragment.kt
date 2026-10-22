@@ -49,7 +49,7 @@ class BloodPressureFragment : InnerAbstractFragment() {
                     edSystolicBp!!.text.toString()
                 )
             ) {
-//                    txtInputStstabolic.setError(getResources().getString(R.string.valid));
+//                    txtInputStstabolic.setError(resources.getString(R.string.valid));
                 edSystolicBp!!.error = resources.getString(R.string.valid)
 
                 return@setOnClickListener
@@ -79,7 +79,7 @@ class BloodPressureFragment : InnerAbstractFragment() {
                 }
 
                 //                    if (sBp < 80 && dBp < 60) {
-//                        result = getResources().getString(R.string.low_bp);
+//                        result = resources.getString(R.string.low_bp);
 //                    }
 //                    else if ()
             }

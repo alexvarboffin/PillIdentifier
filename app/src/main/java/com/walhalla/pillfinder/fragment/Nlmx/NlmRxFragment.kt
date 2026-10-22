@@ -35,6 +35,10 @@ import com.itextpdf.text.DocumentException
 import com.walhalla.FileSystem
 import com.walhalla.PDFUtil2
 import com.walhalla.Util
+
+import com.walhalla.lib.datamodel.common.response.Response5
+import com.walhalla.lib.datamodel.common.response.Response8
+import com.walhalla.lib.service.RxIdType
 import com.walhalla.pillfinder.BuildConfig
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.PermissionUtil.Companion.on
@@ -47,6 +51,8 @@ import com.walhalla.pillfinder.adapter.obj.RxCuiObjString
 import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.adapter.obj.ingredient.IngredientString
+import com.walhalla.pillfinder.adapter.viewHolder.MoreAction
+import com.walhalla.pillfinder.adapter.viewHolder.OnMoreActionListener
 import com.walhalla.pillfinder.databinding.FragmentNlmRxBinding
 import com.walhalla.pillfinder.fragment.main.BaseFragment
 import com.walhalla.pillfinder.fragment.main.FragmentMain.Companion.newInstance
@@ -69,14 +75,16 @@ import java.io.IOException
 import java.io.OutputStream
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+import kotlin.collections.isNotEmpty
+import kotlin.collections.joinToString
 
 class NlmRxFragment : BaseFragment(), ComplexPresenter {
     private var mAdapter: ComplexRecyclerViewAdapter? = null
 
     private var binding: FragmentNlmRxBinding? = null
 
-    private var imageUrl: String? = null
-    private var pname: String? = null
+    private var imageUrl: String = ""
+    private var pname: String = ""
 
 
     private var nlmRxImage: NlmRxImage? = null
@@ -151,8 +159,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     ): View {
         binding = FragmentNlmRxBinding.inflate(inflater, container, false)
         if (mAdapter == null) {
-            mAdapter =
-                ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
+            mAdapter = ComplexRecyclerViewAdapter(requireContext() /*, presenter*/) //new AlbumsAdapter(getContext());//
             mAdapter!!.setChildItemClickListener(this)
         }
         return binding!!.root
@@ -376,10 +383,12 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     private fun aaaaaaaasw33() {
         val activity: Activity? = activity
         if (activity != null && isAdded) {
-            val data = Util.wrapper(getActivity(), nlmRxImage)
-            //        SpannableString sp = new SpannableString(Html.fromHtml(value.toString()));
+            nlmRxImage?.let {
+                val data = Util.wrapper(requireActivity(), it)
+//        SpannableString sp = new SpannableString(Html.fromHtml(value.toString()));
 //        mBinding.description.setText(sp, TextView.BufferType.SPANNABLE);
-            updateData(data)
+                updateData(data)
+            }
         }
     }
 
@@ -508,7 +517,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
 
     //    @Override
     //    public boolean onCreateOptionsMenu(Menu menu) {
-    //        getMenuInflater().inflate(R.menu.more_info, menu);
+    //        menuInflater.inflate(R.menu.more_info, menu);
     //        return true;
     //    }
     @SuppressLint("NonConstantResourceId")
@@ -637,6 +646,7 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
     companion object {
         private val ARG_IMAGE = "key_image_" + R.font.opensansregular
         const val REQUEST_CODE_TO_PRINT: Int = 121
+
         @JvmStatic
         fun getInstance(image: String?): NlmRxFragment {
             val nlmRxFragment = NlmRxFragment()

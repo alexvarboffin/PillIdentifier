@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.walhalla.health.R
@@ -17,6 +18,7 @@ abstract class AdActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         presenter = MainPresenter(this)
         setContentView(aLayout())
 
@@ -74,7 +76,7 @@ abstract class AdActivity : AppCompatActivity() {
             return
         }
 
-//        String[] testDeviceIds = getResources().getStringArray(R.array.admob_test_device_ids);
+//        String[] testDeviceIds = resources.getStringArray(R.array.admob_test_device_ids);
 //
         val builder = AdRequest.Builder()
 
@@ -82,7 +84,7 @@ abstract class AdActivity : AppCompatActivity() {
 //        for (String id : testDeviceIds) {
 //            builder.addTestDevice(id);
 //        }
-//        builder.tagForChildDirectedTreatment(getResources()
+//        builder.tagForChildDirectedTreatment(resources
 //                .getBoolean(R.bool.child_directed_treatment));
         mAd!!.loadAd(builder.build())
     }

@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.walhalla.pillfinder.adapter.obj.VieModel
 
-class CategoryListFragment : SwipeFragment<VieModel?>() {
+class CategoryListFragment : SwipeFragment<VieModel>() {
     protected var opCode: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +78,8 @@ class CategoryListFragment : SwipeFragment<VieModel?>() {
         const val KEY_INDEX: String = "key_index"
         const val KEY_TAB: String = "key_tab"
 
-        fun newInstance(index: Int, list: ArrayList<JsonObject?>?): CategoryListFragment {
+        @JvmStatic
+        fun newInstance(index: Int, list: ArrayList<JsonObject>?): CategoryListFragment {
             val bundle = Bundle()
             bundle.putInt(KEY_INDEX, index)
             bundle.putSerializable(KEY_TAB, list)

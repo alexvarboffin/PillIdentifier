@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC ""
+    "">
+
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>RxNorm API - APIs</title>
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/assets/uswds-2.4.0/css/uswds.min.css" />
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/assets/stylesheets/LHC_main.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://lhncbc.nlm.nih.gov/RxNav/assets/stylesheets/lhncbc-apidocs.css" />
+
+
+
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-59GQ6JK');</script>
+<!-- End Google Tag Manager -->
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59GQ6JK" height="0" width="0" style="display:none;visibility:hidden" title="googletagmanager"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div class="usa-overlay"></div>
+  <header class="usa-header usa-header--extended insertheader">
+
+
+
+
+
+
+
+
+
+
+   <div class="usa-nav-layout grid-row">
+     <div class="usa-logo grid-col-10" id="extended-logo">
+
+      <div class="header-logo" style="line-height:1rem;">
+        <div class="display-flex flex-row flex-align-center">
+            <div>
+              <a href="https://www.nih.gov"><img src="https://lhncbc.nlm.nih.gov/assets/images/logo-NIH-block.png" title="NIH logo chevron" /></a>
+            </div>
+            <div class="display-flex flex-column">
+              <a href="https://www.nlm.nih.gov">
+                <img src="https://lhncbc.nlm.nih.gov/assets/images/logo-NLM-block.png" title="portion of logo that reads National Library of Medicine" />
+              </a>
+              <a href="https://lhncbc.nlm.nih.gov/index.html">
+                <img src="https://lhncbc.nlm.nih.gov/assets/images/logo-LHC-block.png" title="portion of logo that reads Lister Hill National Center for Biomedical Communications" />
+              </a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="LHC-menu grid-col-2 display-flex flex-row flex-justify-end flex-align-center">
+      <button class="usa-menu-btn"><i class="fas fa-bars fa-2x" title="3 bar menu button"></i></button>
+    </div>
+  </div>
+
+
+    <nav aria-label="Primary navigation" class="usa-nav">
+      <div class="usa-nav__inner">
+        <button class="usa-nav__close"><img src="https://lhncbc.nlm.nih.gov/assets/images/close.svg" alt="close" /></button>
+        <div class="nav-container">
+          <ul class="usa-nav__primary usa-accordion">
+            <li class="usa-nav__primary-item usa-current">
+              <a href="https://lhncbc.nlm.nih.gov/RxNav/index.html" class="usa-nav__link homeButton"><span class="subproject-navtitle">RxNav:</span></a>
+            </li>
+            <li class="usa-nav__primary-item">
+              <button class="usa-accordion__button usa-nav__link usa-current apiButton" aria-expanded="false" aria-controls="extended-nav-section-one"><span>APIs</span>
+              </button>
+              <ul id="extended-nav-section-one" class="usa-nav__submenu" hidden="">
+                <li class="usa-nav__submenu-item">
+                  <a href="index.html">Overview</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxNormAPIs.html">RxNorm API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxTermsAPIs.html">RxTerms API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="PrescribableAPIs.html">Prescribable API</a>
+                </li>
+                <li class="usa-nav__submenu-item">
+                  <a href="RxClassAPIs.html">RxClass API</a>
+                </li>
+                <!--<li class="usa-nav__submenu-item">
+                  <a href="/RxNav/APIs/InteractionAPIs.html">Drug Interaction API</a>
+                </li>-->
+              </ul>
+            </li>
+
+
+ <li class="usa-nav__primary-item">
+               <button class="usa-accordion__button usa-nav__link applicationsButton" aria-expanded="false" aria-controls="extended-nav-section-two"><span>Applications</span>
+               </button>
+               <ul id="extended-nav-section-two" class="usa-nav__submenu" hidden="">
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxNavDoc.html">RxNav Overview</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxMixTutorial.html">RxMix Tutorial</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxClassIntro.html">RxClass Overview</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html">RxNav-in-a-box</a>
+                 </li>
+               </ul>
+ </li>
+
+ <li class="usa-nav__primary-item">
+               <button class="usa-accordion__button usa-nav__link informationButton" aria-expanded="false" aria-controls="extended-nav-section-three"><span>More Information</span>
+               </button>
+               <ul id="extended-nav-section-three" class="usa-nav__submenu" hidden="">
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/information/DataSources.html">Data Sources</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://mor.nlm.nih.gov/pubs/rxnav.html">Publications</a>
+                 </li>
+                 <li class="usa-nav__submenu-item">
+                   <a href="https://lhncbc.nlm.nih.gov/RxNav/information/FAQs.html">FAQ</a>
+                 </li>
+               </ul>
+            </li>
+
+ <li class="usa-nav__primary-item">
+     <a class="usa-nav__link termsButton" href="https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html"><span>Terms of Service</span></a>
+ </li>
+
+
+
+
+
+          </ul>
+        </div>
+
+        <div class="usa-nav__secondary">
+
+
+                     <form class="usa-search usa-search--small" method="GET" action="https://lhncbc.nlm.nih.gov/search-results.html" target="_self" name="search" id="search" onsubmit="try{return velocityFormSubmit(this, event);}catch(e){}">
+                <div role="search">
+                  <label class="usa-sr-only" for="extended-search-field-small">Search small</label>
+                  <input class="usa-input" id="extended-search-field-small" type="search" name="query" />
+                  <button class="usa-button bg-accent-warm" type="submit"><span class="usa-sr-only">Search</span></button>
+                </div>
+              </form>
+
+                  </div>
+      </div>
+    </nav>
+
+  </header>
+
+
+
+<div id="content"><div class="rxapi"><div class="front_page"><div class="usa-layout padding-y-4"><div class="grid-row grid-gap"><div class="LHC-sidenav tablet:grid-col-3"><h6 class="usa-heading-alt"><a href="index.html">APIs</a></h6><nav aria-label="Secondary navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="index.html">Overview</a></li><li><a class="usa-current" href="RxNormAPIs.html#">RxNorm API</a></li><li><a href="RxTermsAPIs.html">RxTerms API</a></li><li><a href="PrescribableAPIs.html">Prescribable RxNorm API</a></li><li><a href="RxClassAPIs.html">RxClass API</a></li></ul></nav></div><div class="desktop:grid-col-9"><p><a href="index.html">APIs</a></p><div class="grid-container pt-2 px-0"><div class="pt-2"><h2>RxNorm API</h2><div class="rxapi-simplesect"><p>The RxNorm API is a web service for accessing information from the RxNorm data set.</p><p>This API documentation assumes familiarity with the <a href="https://www.nlm.nih.gov/research/umls/rxnorm/" target="_blank">RxNorm documentation</a>.</p><div class="rxapi-para"><p>Each function covers RxNorm Concepts within a certain scope. The scopes are:</p><dl class="rxapi-glosslist scopes"><dt><span class="rxapi-glossterm">Active</span></dt><dd>concepts in the current RxNorm data set that have an atom with SAB=RXNORM and SUPPRESS=N<div></div></dd><dt><span class="rxapi-glossterm">Current</span></dt><dd>concepts in the current RxNorm data set that have an atom with SUPPRESS=N<div></div></dd><dt><span class="rxapi-glossterm">Current and Historical</span></dt><dd>concepts in current and previous RxNorm data sets<div></div></dd></dl></div><p>Use of the API is subject to <a href="https://lhncbc.nlm.nih.gov/RxNav/TermsofService.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>.
+      With one exception, no license is needed to use the RxNorm API. This is because the data returned from the API is from the RxNorm vocabulary, a non-proprietary vocabulary developed by the National Library of Medicine.
+      </p></div><div class="rxapi-chapter-toc"><h4>Functions</h4><div class="usa-table-container--scrollable" tabindex="0"><table class="rxapi-toc-table usa-table"><thead><tr><th>Function</th><th>REST Resource</th><th>Description</th><th>Scope</th></tr></thead><tbody><tr><th scope="row"><a href="api-RxNorm.filterByProperty.html">filterByProperty</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/filter</td><td>Concept RXCUI if the predicate is true</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.findRelatedNDCs.html">findRelatedNDCs</a></th><td>/relatedndc</td><td>NDCs related by NDC product, RxNorm concept, or RxNorm drug product</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.findRxcuiById.html">findRxcuiById</a></th><td>/rxcui?<span class="rxapi-parameter">idtype</span>=<span class="rxapi-replaceable">...</span>&amp;<span class="rxapi-parameter">id</span>=<span class="rxapi-replaceable">...</span></td><td>Concepts associated with a specified identifier</td><td>Active or Current</td></tr><tr><th scope="row"><a href="api-RxNorm.findRxcuiByString.html">findRxcuiByString</a></th><td>/rxcui?<span class="rxapi-parameter">name</span>=<span class="rxapi-replaceable">...</span></td><td>Concepts with a specified name</td><td>Active or Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllConceptsByStatus.html">getAllConceptsByStatus</a></th><td>/allstatus</td><td>Concepts having a specified status</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllConceptsByTTY.html">getAllConceptsByTTY</a></th><td>/allconcepts</td><td>Concepts having a specified term type</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllHistoricalNDCs.html">getAllHistoricalNDCs</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/allhistoricalndcs</td><td>National Drug Codes (NDC) ever associated with a concept</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllNDCsByStatus.html">getAllNDCsByStatus</a></th><td>/allNDCstatus</td><td>NDCs having a specified NDC status</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllProperties.html">getAllProperties</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/allProperties</td><td>Concept details</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getAllRelatedInfo.html">getAllRelatedInfo</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/allrelated</td><td>Concepts related directly or indirectly to a specified concept</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getApproximateMatch.html">getApproximateMatch</a></th><td>/approximateTerm</td><td>Concept and atom IDs approximately matching a query</td><td>Active or Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getDisplayTerms.html">getDisplayTerms</a></th><td>/displaynames</td><td>Strings to support auto-completion in a user interface</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getDrugs.html">getDrugs</a></th><td>/drugs</td><td>Drugs related to a specified name</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getIdTypes.html">getIdTypes</a></th><td>/idtypes</td><td>Identifier types</td><td>Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getMultiIngredBrand.html">getMultiIngredBrand</a></th><td>/brands</td><td>Brands containing specified ingredients</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getNDCProperties.html">getNDCProperties</a></th><td>/ndcproperties</td><td>National Drug Code (NDC) details</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getNDCStatus.html">getNDCStatus</a></th><td>/ndcstatus</td><td>Status of a National Drug Code (NDC)</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getNDCs.html">getNDCs</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/ndcs</td><td>National Drug Codes (NDC) associated with a concept</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getPropCategories.html">getPropCategories</a></th><td>/propCategories</td><td>RxNav property categories</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getPropNames.html">getPropNames</a></th><td>/propnames</td><td>Property names</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getProprietaryInformation.html">getProprietaryInformation</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/proprietary</td><td>Strings from any RXNORM source vocabularies</td><td>Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getReformulationConcepts.html">getReformulationConcepts</a></th><td>/reformulationConcepts</td><td>Concepts related by reformulation_of</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRelaPaths.html">getRelaPaths</a></th><td>/relapaths</td><td>Relationship paths leading from one term-type to another</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRelaTypes.html">getRelaTypes</a></th><td>/relatypes</td><td>RxNorm Relationship types</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRelatedByRelationship.html">getRelatedByRelationship</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/related?<span class="rxapi-parameter">rela</span>=<span class="rxapi-replaceable">...</span></td><td>Concepts directly related to a specified concept by a specified relationship</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRelatedByType.html">getRelatedByType</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/related?<span class="rxapi-parameter">tty</span>=<span class="rxapi-replaceable">...</span></td><td>Concepts of specified types that are directly or indirectly related to a specified concept</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRxConceptProperties.html">getRxConceptProperties</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/properties</td><td>Concept name, TTY, and a synonym</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRxNormName.html">getRxNormName</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span></td><td>Name of a concept</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRxNormVersion.html">getRxNormVersion</a></th><td>/version</td><td>RxNorm data set and API versions</td><td>Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getRxProperty.html">getRxProperty</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/property</td><td>A property of a concept</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getRxcuiHistoryStatus.html">getRxcuiHistoryStatus</a></th><td>/rxcui/<span class="rxapi-parameter" title="URL path parameter &quot;rxcui&quot;">rxcui</span>/historystatus</td><td>Status, history, and other attributes of a concept</td><td>Current and Historical</td></tr><tr><th scope="row"><a href="api-RxNorm.getSourceTypes.html">getSourceTypes</a></th><td>/sourcetypes</td><td>Vocabulary sources</td><td>Current</td></tr><tr><th scope="row"><a href="api-RxNorm.getSpellingSuggestions.html">getSpellingSuggestions</a></th><td>/spellingsuggestions</td><td>Strings similar to a specified string</td><td>Active</td></tr><tr><th scope="row"><a href="api-RxNorm.getTermTypes.html">getTermTypes</a></th><td>/termtypes</td><td>Term types</td><td>Active</td></tr></tbody></table></div></div></div></div><div class="grid-container padding-top-4"></div></div></div></div></div></div></div>
+
+  <footer class="bg-primary text-white insertfooter">
+
+
+  <div class="container-fluid">
+  <div class="container pt-5">
+    <div class="row mt-3">
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a href="https://www.nlm.nih.gov/socialmedia/index.html" class="text-white">Connect with NLM</a></p>
+        <ul class="list-inline social_media">
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://twitter.com/NLM_NIH"><img src="https://www.nlm.nih.gov/images/Twitter_W.svg" class="img-fluid" alt="Twitter" /></a></li>
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://www.facebook.com/nationallibraryofmedicine"><img src="https://www.nlm.nih.gov/images/Facebook_W.svg" class="img-fluid" alt="Facebook" /></a></li>
+          <li class="list-inline-item"><a title="External link: please review our privacy policy." href="https://www.youtube.com/user/NLMNIH"><img src="https://www.nlm.nih.gov/images/YouTube_W.svg" class="img-fluid" alt="You Tube" /></a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p class="address_footer text-white"> National Library of Medicine <br />
+          <a href="https://www.google.com/maps/place/8600+Rockville+Pike,+Bethesda,+MD+20894/@38.9959508,-77.101021,17z/data=!3m1!4b1!4m5!3m4!1s0x89b7c95e25765ddb:0x19156f88b27635b8!8m2!3d38.9959508!4d-77.0988323" class="text-white"> 8600 Rockville Pike <br />
+          Bethesda, MD 20894 </a></p>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a href="https://www.nlm.nih.gov/web_policies.html" class="text-white"> Web Policies </a><br />
+          <a href="https://www.nih.gov/institutes-nih/nih-office-director/office-communications-public-liaison/freedom-information-act-office" class="text-white"> FOIA </a><br /><a href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html" class="text-white">HHS Vulnerability Disclosure</a></p>
+      </div>
+      <div class="col-md-3 col-sm-6 col-6">
+        <p><a class="supportLink text-white" href="https://support.nlm.nih.gov/?from="> NLM Support Center </a> <br />
+          <a href="https://www.nlm.nih.gov/accessibility.html" class="text-white"> Accessibility </a><br />
+          <a href="https://www.nlm.nih.gov/careers/careers.html" class="text-white"> Careers </a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <p class="mt-2 text-center"> <a class="text-white" href="https://www.nlm.nih.gov/">NLM</a> | <a class="text-white" href="https://www.nih.gov/">NIH</a> | <a class="text-white" href="https://www.hhs.gov/">HHS</a> | <a class="text-white" href="https://www.usa.gov/">USA.gov</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+   </footer>
+<script>
+var dynHeader = "/RxNav/lhcHeader.frag";
+</script>
+<script src="https://www.nlm.nih.gov/scripts/jquery/jquery-latest.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/popper-1.14.7.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/uswds-2.4.0/js/uswds.min.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/headerfooter.js"></script>
+<script src="https://lhncbc.nlm.nih.gov/assets/javascript/supportLink.js"></script>
+
+<script src="https://lhncbc.nlm.nih.gov/RxNav/assets/javascript/apidoc.js" type="text/javascript"></script>
+
+
+</body></html>
+

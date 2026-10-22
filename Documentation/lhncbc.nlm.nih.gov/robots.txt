@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /*.txt$
+Disallow: /*.sort$
+Disallow: /*.jout$
+Disallow: /*.out$
+Disallow: /*.xml$
+Disallow: /*.data$
