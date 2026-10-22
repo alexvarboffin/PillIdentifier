@@ -49,7 +49,8 @@ include(":health")
 project(":health").projectDir = File("health\\")
 
 include(":threader")
-project(":threader").projectDir = File("threader\\")
+//project(":threader").projectDir = File("threader\\")  // old: folder is not inside project
+project(":threader").projectDir = File("../multithreader/threader")  // threader lives in C:\Synced\multithreader
 
 include(":shared")
 project(":shared").projectDir = File("C:\\Synced\\WalhallaUI\\shared\\")

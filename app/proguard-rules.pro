@@ -50,11 +50,11 @@
 #
 #-allowaccessmodification
 
--obfuscationdictionary "D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt"
+#-obfuscationdictionary "D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt"  # file missing on this PC; R8 fails without it
 
 #D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt
--classobfuscationdictionary "D:\dropbox\dictionary\classobfuscation-compact.txt"
--packageobfuscationdictionary "D:\dropbox\dictionary\packageobfuscation-compact.txt"
+#-classobfuscationdictionary "D:\dropbox\dictionary\classobfuscation-compact.txt"  # file missing on this PC; R8 fails without it
+#-packageobfuscationdictionary "D:\dropbox\dictionary\packageobfuscation-compact.txt"  # file missing on this PC; R8 fails without it
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-flattenpackagehierarchy 'xxx'#xxxxx
@@ -425,7 +425,7 @@ public static final android.os.Parcelable$Creator *;
 -dontwarn java.lang.reflect.AnnotatedType
 -dontwarn javax.xml.crypto.XMLCryptoContext
 -dontwarn org.jspecify.annotations.NullMarked
--include "C:\android\proguard\okhttp3.pro"
+#-include "C:\android\proguard\okhttp3.pro"  # file missing; OkHttp ships its own consumer rules
 
 
 # Please add these rules to your existing keep rules in order to suppress warnings.

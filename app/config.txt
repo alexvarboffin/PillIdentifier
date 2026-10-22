@@ -1,4 +1,4 @@
-# The proguard configuration file for the following section is D:\dev\android\PillIdentifier\app\build\intermediates\aapt_proguard_file\low21Release\processLow21ReleaseResources\aapt_rules.txt
+# The proguard configuration file for the following section is C:\Synced\PillIdentifier\app\build\intermediates\aapt_proguard_file\low21Release\processLow21ReleaseResources\aapt_rules.txt
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
 -keep class androidx.core.content.FileProvider { <init>(); }
 -keep class androidx.profileinstaller.ProfileInstallReceiver { <init>(); }
@@ -203,8 +203,8 @@
 -keep class com.walhalla.pillfinder.ui.helper.SquareLayout { <init>(android.content.Context, android.util.AttributeSet); }
 
 
-# End of content from D:\dev\android\PillIdentifier\app\build\intermediates\aapt_proguard_file\low21Release\processLow21ReleaseResources\aapt_rules.txt
-# The proguard configuration file for the following section is D:\dev\android\PillIdentifier\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.13.2
+# End of content from C:\Synced\PillIdentifier\app\build\intermediates\aapt_proguard_file\low21Release\processLow21ReleaseResources\aapt_rules.txt
+# The proguard configuration file for the following section is C:\Synced\PillIdentifier\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.13.2
 # This is a configuration file for ProGuard.
 # http://proguard.sourceforge.net/index.html#manual/usage.html
 #
@@ -295,7 +295,8 @@
 # These classes are duplicated between android.jar and core-lambda-stubs.jar.
 -dontnote java.lang.invoke.**
 
-# End of content from D:\dev\android\PillIdentifier\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.13.2
+# End of content from C:\Synced\PillIdentifier\app\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-8.13.2
+# The proguard configuration file for the following section is C:\Synced\PillIdentifier\app\proguard-rules.pro
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class com.halodoc.TestClass
 
@@ -348,11 +349,11 @@
 #
 #-allowaccessmodification
 
--obfuscationdictionary "D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt"
+#-obfuscationdictionary "D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt"  # file missing on this PC; R8 fails without it
 
 #D:\android\GitHub\facebook\proguard\examples\dictionaries\keywords.txt
--classobfuscationdictionary "D:\dropbox\dictionary\classobfuscation-compact.txt"
--packageobfuscationdictionary "D:\dropbox\dictionary\packageobfuscation-compact.txt"
+#-classobfuscationdictionary "D:\dropbox\dictionary\classobfuscation-compact.txt"  # file missing on this PC; R8 fails without it
+#-packageobfuscationdictionary "D:\dropbox\dictionary\packageobfuscation-compact.txt"  # file missing on this PC; R8 fails without it
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-flattenpackagehierarchy 'xxx'#xxxxx
@@ -723,17 +724,7 @@ public static final android.os.Parcelable$Creator *;
 -dontwarn java.lang.reflect.AnnotatedType
 -dontwarn javax.xml.crypto.XMLCryptoContext
 -dontwarn org.jspecify.annotations.NullMarked
-
-# The proguard configuration file for the following section is C:\android\proguard\okhttp3.pro
--dontwarn okhttp3.**
--dontwarn okio.**
-#-dontwarn javax.annotation.**
--dontwarn org.conscrypt.**
-# A resource is loaded with a relative path so the package of this class must be preserved.
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
-# End of content from C:\android\proguard\okhttp3.pro
-# The proguard configuration file for the following section is D:\dev\android\PillIdentifier\app\proguard-rules.pro
-
+#-include "C:\android\proguard\okhttp3.pro"  # file missing; OkHttp ships its own consumer rules
 
 
 # Please add these rules to your existing keep rules in order to suppress warnings.
@@ -747,15 +738,15 @@ public static final android.os.Parcelable$Creator *;
 -dontwarn com.squareup.okhttp.Request
 -dontwarn com.squareup.okhttp.Response
 -dontwarn com.squareup.okhttp.ResponseBody
-# End of content from D:\dev\android\PillIdentifier\app\proguard-rules.pro
+# End of content from C:\Synced\PillIdentifier\app\proguard-rules.pro
 # The proguard configuration file for the following section is C:\Users\combo\.gradle\caches\8.14.5\transforms\fab73af068557b05e640a2c33cb52015\transformed\jetified-fontawesome-typeface-5.13.3.1-kotlin\proguard.txt
 -keep class com.mikepenz.iconics.typeface.library.fontawesome.FontAwesome { *; }
 
 # End of content from C:\Users\combo\.gradle\caches\8.14.5\transforms\fab73af068557b05e640a2c33cb52015\transformed\jetified-fontawesome-typeface-5.13.3.1-kotlin\proguard.txt
-# The proguard configuration file for the following section is D:\dev\android\PillIdentifier\health\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# The proguard configuration file for the following section is C:\Synced\PillIdentifier\health\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
 
-# End of content from D:\dev\android\PillIdentifier\health\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
-# The proguard configuration file for the following section is C:\src\Synced\WalhallaUI\features\ui\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# End of content from C:\Synced\PillIdentifier\health\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# The proguard configuration file for the following section is C:\Synced\WalhallaUI\features\ui\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
 #-classobfuscationdictionary D:\android\GitHub\facebook\proguard\examples\dictionaries\compact.txt
 #-packageobfuscationdictionary D:\android\GitHub\facebook\proguard\examples\dictionaries\windows.txt
 #-optimizationpasses 3
@@ -783,7 +774,7 @@ public static final android.os.Parcelable$Creator *;
 #-repackageclasses 'c'
 -repackageclasses ''
 #@@@-include "C:\android\proguard\bottom.pro"
-# End of content from C:\src\Synced\WalhallaUI\features\ui\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# End of content from C:\Synced\WalhallaUI\features\ui\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
 # The proguard configuration file for the following section is C:\Users\combo\.gradle\caches\8.14.5\transforms\071799694fb37467e899a7ffe30388fd\transformed\material-1.12.0\proguard.txt
 # Copyright (C) 2015 The Android Open Source Project
 #
@@ -1673,9 +1664,12 @@ public static final android.os.Parcelable$Creator *;
 }
 
 # End of content from C:\Users\combo\.gradle\caches\8.14.5\transforms\7f4b163039f60d859103e0a2c30d625f\transformed\fragment-1.5.4\proguard.txt
-# The proguard configuration file for the following section is C:\src\Synced\WalhallaUI\shared\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# The proguard configuration file for the following section is C:\Synced\WalhallaUI\shared\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
 
-# End of content from C:\src\Synced\WalhallaUI\shared\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# End of content from C:\Synced\WalhallaUI\shared\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+# The proguard configuration file for the following section is C:\Synced\multithreader\threader\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
+#-repackageclasses 'c'
+# End of content from C:\Synced\multithreader\threader\build\intermediates\consumer_proguard_dir\release\exportReleaseConsumerProguardFiles\lib0\proguard.txt
 # The proguard configuration file for the following section is C:\Users\combo\.gradle\caches\8.14.5\transforms\146e7919eb3378375bac6e9883a2fde4\transformed\jetified-iconics-typeface-api-5.4.0\proguard.txt
 -keep public class * extends com.mikepenz.iconics.animation.IconicsAnimationProcessor { *; }
 

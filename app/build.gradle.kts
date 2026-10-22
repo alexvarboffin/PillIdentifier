@@ -215,9 +215,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
-    implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
-        exclude(group = "com.google.android.gms")
-    }
+    // not in any remote repo; local aar in app/libs is used below
+    //implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
+    //    exclude(group = "com.google.android.gms")
+    //}
 
 
     implementation(libs.itextg)
