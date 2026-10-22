@@ -115,6 +115,7 @@ android {
     }
 
     flavorDimensions += "W"
+    flavorDimensions += "store" // store differences: src/google, src/rustore
 
     productFlavors {
         create("low21") {
@@ -126,6 +127,8 @@ android {
             signingConfig = signingConfigs.getByName("config_w")
             //versionNameSuffix = minSdkVersion.toString()
         }
+        create("google") { dimension = "store" }
+        create("rustore") { dimension = "store" }
     }
 
     compileOptions {
