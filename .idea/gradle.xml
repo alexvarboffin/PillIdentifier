@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -13,10 +14,10 @@
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/health" />
             <option value="$PROJECT_DIR$/pdf-viewer" />
-            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/features/ui" />
-            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/features/wads" />
-            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/shared" />
-            <option value="D:/dev/android/Compatibility/threader" />
+            <option value="$PROJECT_DIR$/threader" />
+            <option value="$PROJECT_DIR$/../WalhallaUI/features/ui" />
+            <option value="$PROJECT_DIR$/../WalhallaUI/features/wads" />
+            <option value="$PROJECT_DIR$/../WalhallaUI/shared" />
           </set>
         </option>
       </GradleProjectSettings>

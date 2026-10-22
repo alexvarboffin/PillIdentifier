@@ -49,7 +49,7 @@ include(":health")
 project(":health").projectDir = File("health\\")
 
 include(":threader")
-project(":threader").projectDir = File("D:\\dev\\android\\Compatibility\\threader\\")
+project(":threader").projectDir = File("threader\\")
 
 include(":shared")
 project(":shared").projectDir = File("C:\\Synced\\WalhallaUI\\shared\\")
