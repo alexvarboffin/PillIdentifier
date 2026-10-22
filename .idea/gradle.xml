@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/health" />
             <option value="$PROJECT_DIR$/pdf-viewer" />
             <option value="$PROJECT_DIR$/../WalhallaUI/features/ui" />
-            <option value="$PROJECT_DIR$/../WalhallaUI/features/wads" />
             <option value="$PROJECT_DIR$/../WalhallaUI/shared" />
           </set>
         </option>

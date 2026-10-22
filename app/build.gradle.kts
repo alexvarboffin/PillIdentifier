@@ -199,7 +199,7 @@ dependencies {
 
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.crashlytics)
-    implementation("com.google.firebase:firebase-analytics:${rootProject.extra["analyticsVersion"]}")
+    implementation(libs.google.firebase.analytics)
     implementation(libs.androidx.swiperefreshlayout)
     implementation("com.github.kenglxn.QRGen:android:3.0.1") {
         exclude(group = "com.android.support")
@@ -217,7 +217,7 @@ dependencies {
     implementation(project(":health"))
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
     implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
         exclude(group = "com.google.android.gms")
     }

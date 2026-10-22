@@ -85,10 +85,10 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
 
         val numberFormat = NumberFormat.getInstance()
         numberFormat.setMaximumFractionDigits(3)
-        genderSp!!.adapter = GenderAdapter(activity, R.layout.spinner_down_blue, strArr)
-        volumeSp!!.adapter = VolumeAdapter(activity, R.layout.spinner_down_blue, strArr4)
-        weightSp!!.adapter = WeightAdapter(activity, R.layout.spinner_down_blue, strArr2)
-        timeSp!!.adapter = TimeAdapter(activity, R.layout.spinner_down_blue, strArr3)
+        genderSp!!.adapter = GenderAdapter(requireActivity(), R.layout.spinner_down_blue, strArr)
+        volumeSp!!.adapter = VolumeAdapter(requireActivity(), R.layout.spinner_down_blue, strArr4)
+        weightSp!!.adapter = WeightAdapter(requireActivity(), R.layout.spinner_down_blue, strArr2)
+        timeSp!!.adapter = TimeAdapter(requireActivity(), R.layout.spinner_down_blue, strArr3)
 
         view.findViewById<View>(R.id.chart).setOnClickListener {
             if (mainView != null) {
@@ -108,7 +108,7 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
                 i: Int,
                 l: Long
             ) {
-                male = genderSp!!.selectedItem.toString() == activity!!.resources.getString(R.string.male)
+                male = genderSp!!.selectedItem.toString() == requireActivity().resources.getString(R.string.male)
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
@@ -124,9 +124,9 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
                 l: Long
             ) {
                 val obj = volumeSp!!.selectedItem.toString()
-                factor = if (obj == activity!!.resources.getString(R.string.ounces)) {
+                factor = if (obj == requireActivity().resources.getString(R.string.ounces)) {
                     1
-                } else if (obj == activity!!.resources.getString(R.string.ml)) {
+                } else if (obj == requireActivity().resources.getString(R.string.ml)) {
                     2
                 } else {
                     3
@@ -144,9 +144,9 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
                 l: Long
             ) {
                 val obj = timeSp!!.selectedItem.toString()
-                factor2 = if (obj == activity!!.resources.getString(R.string.hour)) {
+                factor2 = if (obj == requireActivity().resources.getString(R.string.hour)) {
                     1
-                } else if (obj == activity!!.resources.getString(R.string.minute)) {
+                } else if (obj == requireActivity().resources.getString(R.string.minute)) {
                     2
                 } else {
                     3
@@ -166,14 +166,12 @@ class BloodAlcoholFragment : InnerAbstractFragment(), AdapterView.OnItemSelected
         }
         button.setOnClickListener { view0: View? ->
             try {
-                this.alcohollevel =
-                    edAlcoholLevel!!.text.toString().toDouble()
+                this.alcohollevel = edAlcoholLevel!!.text.toString().toDouble()
             } catch (unused: NumberFormatException) {
                 this.check = true
             }
             try {
-                this.volDrinked = edVolDrinked!!.text.toString()
-                    .toDouble()
+                this.volDrinked = edVolDrinked!!.text.toString().toDouble()
             } catch (unused2: NumberFormatException) {
                 this.check = true
             }
