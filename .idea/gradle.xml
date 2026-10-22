@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -9,20 +8,15 @@
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="C:/src/Synced/WalhallaUI/features/ui" />
-            <option value="C:/src/Synced/WalhallaUI/features/wads" />
-            <option value="C:/src/Synced/WalhallaUI/shared" />
-            <option value="$PROJECT_DIR$/../Compatibility/threader" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/health" />
             <option value="$PROJECT_DIR$/pdf-viewer" />
-<<<<<<< HEAD
-            <option value="$PROJECT_DIR$/../WalhallaUI/features/ui" />
-            <option value="$PROJECT_DIR$/../WalhallaUI/shared" />
-=======
->>>>>>> 70e02f72d7a1c3cda85915af494de6717f3d0446
+            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/features/ui" />
+            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/features/wads" />
+            <option value="$PROJECT_DIR$/../../src/Synced/WalhallaUI/shared" />
+            <option value="D:/dev/android/Compatibility/threader" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -201,13 +201,8 @@ dependencies {
 
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.crashlytics)
-<<<<<<< HEAD
-    implementation(libs.google.firebase.analytics)
-=======
-
     implementation(libs.google.firebase.analytics)
 
->>>>>>> 70e02f72d7a1c3cda85915af494de6717f3d0446
     implementation(libs.androidx.swiperefreshlayout)
     implementation("com.github.kenglxn.QRGen:android:3.0.1") {
         exclude(group = "com.android.support")
@@ -218,12 +213,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.common.java8)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-<<<<<<< HEAD
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20")
     implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {
         exclude(group = "com.google.android.gms")
     }
-=======
 
 
     implementation(libs.itextg)
@@ -248,8 +242,6 @@ dependencies {
 
     //implementation(libs.extensible.page.indicator)
     implementation(files("libs/extensiblepageindicator-1.0.1.aar"))
-
->>>>>>> 70e02f72d7a1c3cda85915af494de6717f3d0446
 }
 
 fun versionCodeDate(): Int {
