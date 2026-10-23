@@ -5,6 +5,10 @@ import gov.nih.nlm.rxnorm.apis.DefaultApi
 import gov.nih.nlm.rxnorm.infrastructure.ApiClient
 import gov.nih.nlm.rxnorm.infrastructure.HttpResponse
 import gov.nih.nlm.rxnorm.models.AllSourcesFlag
+import gov.nih.nlm.rxnorm.models.ApproximateGroupResponse
+import gov.nih.nlm.rxnorm.models.ApproximateOption
+import gov.nih.nlm.rxnorm.models.IdGroupResponse
+import gov.nih.nlm.rxnorm.models.MinConceptGroupResponse
 import gov.nih.nlm.rxnorm.models.NdcInfoListResponse
 import gov.nih.nlm.rxnorm.models.NdcPropertyListResponse
 import gov.nih.nlm.rxnorm.models.NdcRelation
@@ -123,4 +127,28 @@ object RxNormLib {
     @JvmStatic
     fun relatedNdcs(ndc: String, relation: NdcRelation, callback: LibCallback<NdcInfoListResponse>): Job =
         launchWithCallback(callback) { findRelatedNDCs(ndc = ndc, relation = relation) }
+
+    /**
+     * Roadmap item #3. Raw rows are atoms (one rxcui repeats per source), and the API cuts at rank ties:
+     * live, maxEntries=20 gave only 1-2 distinct rxcuis for "rifampn 150" / "rifampin 150 capsule",
+     * 50 gives 8-9, which is what the "closest matches" list needs.
+     */
+    const val APPROX_MAX_ENTRIES: Int = 50
+
+    /** getApproximateMatch -> /approximateTerm.json?term=..&maxEntries=50&option=1 (option 1 = active RxNorm concepts only, so every match opens in the drug tabs). */
+    @JvmStatic
+    fun approximateMatch(term: String, callback: LibCallback<ApproximateGroupResponse>): Job =
+        launchWithCallback(callback) {
+            getApproximateMatch(term = term, maxEntries = APPROX_MAX_ENTRIES, option = ApproximateOption._1)
+        }
+
+    /** getRxNormName -> /rxcui/{rxcui}.json, idGroup.name (canonical RxNorm name). */
+    @JvmStatic
+    fun rxNormName(rxcui: String, callback: LibCallback<IdGroupResponse>): Job =
+        launchWithCallback(callback) { getRxNormName(rxcui = rxcui) }
+
+    /** getGenericProduct -> /rxcui/{rxcui}/generic.json (roadmap #4). Returns the concept itself for generics. */
+    @JvmStatic
+    fun genericProduct(rxcui: String, callback: LibCallback<MinConceptGroupResponse>): Job =
+        launchWithCallback(callback) { getGenericProduct(rxcui = rxcui) }
 }

@@ -34,8 +34,9 @@
 |---|---|---|---|---|---|---|
 | 1 | getNDCProperties | Импринт, цвет, форма, размер, производитель, упаковка, SPL set id — **ядро pill identifier** | NDC / NDC History → карточка NDC | M | **P1** | [x] integrated [ ] device-tested |
 | 2 | getNDCStatus | ACTIVE/OBSOLETE NDC, история дат, к какому rxcui относился | карточка NDC | S | **P1** | [x] integrated [ ] device-tested |
-| 3 | getApproximateMatch | Находит препарат при опечатках/неполном названии, когда findRxcui пуст | Drug Search | S | **P1** | [ ] integrated [ ] device-tested |
-| 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [ ] integrated [ ] device-tested |
+| 3 | getApproximateMatch | Находит препарат при опечатках/неполном названии, когда findRxcui пуст | Drug Search | S | **P1** | [x] integrated [ ] device-tested |
+| 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [x] integrated [ ] device-tested |
+| 4a | Навигация по Related / Related by Type (без новых API: getAllRelatedInfo / getRelated) | Тап по строке концепта с rxcui (например, BN Xanax → SBD 141928) открывает его в тех же 10 вкладках; история назад общая с Generic | Related, Related by Type | S | **P1** (вне очереди) | [x] integrated [ ] device-tested |
 | 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [ ] integrated [ ] device-tested |
 | 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке | шапка Drug Search | S | P2 | [ ] integrated [ ] device-tested |
 | 7 | getDrugs | Список всех лекарственных форм по названию ингредиента (SCD/SBD) | Drug Search → список | M | P2 | [ ] integrated [ ] device-tested |
@@ -57,6 +58,8 @@
 | 23 | getAllConceptsByTTY | Bulk: BN = 5 120 концептов / 256 KB | — | M | ✗ | [ ] integrated [ ] device-tested |
 | 24 | getAllConceptsByStatus | Bulk: Remapped = 50 035 / ~5 MB | — | M | ✗ | [ ] integrated [ ] device-tested |
 | 25 | getAllNDCsByStatus | Bulk: Alien ≈ 10 MB | — | M | ✗ | [ ] integrated [ ] device-tested |
+
+> **4a (23.10.2026):** строки концептов с rxcui на вкладках Related / Related by Type теперь `ConceptLinkItem` (чип `NewClickableChip`). Клик передаётся в `RxNorm` через `ConceptNavigator` (parentFragment) → `GenericProductBar.navigateTo`: одна история с Generic, до 20 шагов, чип «‹ Back to <name>», сбрасывается при новом поиске или Clear. Заголовки TTY остаются простым текстом. Если вкладку открыли не внутри Drug Search, строки остаются обычным текстом. Цепочка: xanax → 202363 (BN, 0 NDC) → 141928 (5 активных NDC) → 00009005501 → карточка таблетки. Сборки зелёные; на устройстве не проверено.
 
 ---
 
@@ -185,11 +188,15 @@ flowchart LR
 - **Экран:** Drug Search, когда findRxcui вернул пусто — список «Похожие».
 - **Тест:** ввести `rifampn 150` → список, тап по 198201 → вкладки открываются.
 
+> **Статус (23.10.2026):** integrated. Если findRxcui не нашёл rxcui, Drug Search (`RxNorm.kt`) показывает панель «Did you mean / Closest matches» (`ApproximateMatchPanel`): вызов getApproximateMatch с maxEntries=50 и option=1 (только active-концепты), атомы группируются по rxcui, на экране не больше 8 совпадений. Имя берётся из атома с source=RXNORM, а если его нет — через getRxNormName. Тап по чипу `NewClickableChip` открывает те же вкладки, что и обычный успешный поиск. Сборки зелёные; на устройстве не проверено.
+
 ### 4.5 getGenericProduct — P1, S
 - **Вызов:** `GET /rxcui/201867/generic.json`.
 - **Реально:** 201867 (Rifadin SBD) → 198201 (SCD); 198201 → сам себя (кнопку для SCD скрывать).
 - **Экран:** шапка Drug Search / вкладка Related — кнопка «Дженерик».
 - **Тест:** открыть 201867 → кнопка видна → тап → 198201; открыть 198201 → кнопки нет.
+
+> **Статус (23.10.2026):** integrated. Над вкладками Drug Search (`RxNorm.kt`) появляется `GenericProductBar`: если getGenericProduct вернул другой rxcui (SBD/SBDC/BN/BPCK → SCD/SCDC/IN/GPCK), показывается чип «Generic: <name> ›». Для generic-концептов API возвращает сам концепт, и чип не показывается. Тап открывает те же 10 вкладок, чип «‹ Back to <brand>» возвращает к бренду (стек до 20, имя бренда берётся через getRxNormName). Ошибки не показываются — чип просто не появляется. Сборки зелёные; на устройстве не проверено.
 
 ### 4.6 getAllRelatedExtension — P1, M
 - **Вызов:** `GET /rxcui/198201/allrelatedextension.json` (4 337 B).

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Roadmap item #3: getApproximateMatch fallback in Drug Search (ApproximateMatchPanel) -->
+<resources>
+    <string name="approx_title">No exact match for &#8220;%1$s&#8221;</string>
+    <string name="approx_subtitle">Did you mean (closest matches):</string>
+    <string name="approx_loading">Looking for the closest matches&#8230;</string>
+    <string name="approx_empty">No close matches either. Check the spelling or try fewer words.</string>
+    <string name="approx_error">Could not load closest matches: %1$s</string>
+    <string name="approx_error_server">The server did not return closest matches.</string>
+    <string name="approx_retry">Retry</string>
+    <string name="approx_count">%1$d closest matches, tap one to open it</string>
+    <string name="approx_details">RxCUI %1$s &#183; rank %2$s &#183; score %3$s</string>
+    <string name="approx_matched">matched: %1$s (%2$s)</string>
+    <string name="approx_rxcui_name">RxCUI %1$s</string>
+</resources>

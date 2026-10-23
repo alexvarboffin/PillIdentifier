@@ -31,6 +31,7 @@ import com.walhalla.pillfinder.adapter.obj.ClickableClassItem
 import com.walhalla.pillfinder.adapter.obj.ClassCardItem
 import com.walhalla.pillfinder.adapter.obj.ClassMemberItem
 import com.walhalla.pillfinder.adapter.obj.NdcLinkItem
+import com.walhalla.pillfinder.adapter.obj.ConceptLinkItem
 import com.walhalla.pillfinder.adapter.viewHolder.NewClickableStyle
 
 class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -39,6 +40,7 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     private val TYPE_CLASS_CARD = 336
     private val TYPE_CLASS_MEMBER = 337
     private val TYPE_NDC_LINK = 338 // NEW clickable NDC chip (roadmap #1)
+    private val TYPE_CONCEPT_LINK = 339 // NEW clickable RxNorm concept chip (Related tabs navigation)
 
     private val EMPTY_VIEW_DEFAULT = 777
     private val EMPTY_VIEW_FROM_OBJECT = 778
@@ -131,6 +133,8 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             return TYPE_CLASS_MEMBER
         } else if (datalist[position] is NdcLinkItem) {
             return TYPE_NDC_LINK
+        } else if (datalist[position] is ConceptLinkItem) {
+            return TYPE_CONCEPT_LINK
         }
         return -1
     }
@@ -201,6 +205,11 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             TYPE_NDC_LINK -> {
                 val v = getContentResource(R.layout.item_ndc_link, viewGroup)
+                viewHolder = Simple2TextViewHolder(v)
+            }
+
+            TYPE_CONCEPT_LINK -> {
+                val v = getContentResource(R.layout.item_concept_link, viewGroup)
                 viewHolder = Simple2TextViewHolder(v)
             }
 
@@ -341,6 +350,17 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                 val holder = viewHolder as Simple2TextViewHolder
                 holder.setText(item, position)
                 holder.text2.text = item.ndc + "  \u203A"
+                NewClickableStyle.apply(holder.text2)
+                holder.text2.setOnClickListener { v: View ->
+                    presenter?.onItemClicked(v, item)
+                }
+            }
+
+            TYPE_CONCEPT_LINK -> {
+                // NEW clickable: concept-name chip (style NewClickableChip + underline) opens that rxcui in the drug tabs
+                val item = datalist[position] as ConceptLinkItem
+                val holder = viewHolder as Simple2TextViewHolder
+                holder.setText(item, position) // text1 = "RxCUI <id>", text2 = "<name>  >"
                 NewClickableStyle.apply(holder.text2)
                 holder.text2.setOnClickListener { v: View ->
                     presenter?.onItemClicked(v, item)

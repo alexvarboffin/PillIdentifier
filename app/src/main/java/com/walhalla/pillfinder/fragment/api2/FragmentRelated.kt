@@ -19,6 +19,7 @@ import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
+import com.walhalla.pillfinder.adapter.obj.ConceptLinkItem
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
@@ -77,7 +78,8 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
                                     data.add(HeaderObject(tty))
                                 }
                                 for (prop in group.conceptProperties.orEmpty()) {
-                                    data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
+                                    //data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
+                                    data.add(conceptRow(prop.name ?: "", prop.rxcui ?: ""))
                                 }
                             }
                         }
@@ -133,6 +135,14 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
 //        })
 //    }
 
+    /**
+     * Rows with an rxcui become NEW clickable concept chips when hosted by the drug-search screen
+     * (parent implements ConceptNavigator); otherwise (or without rxcui) the old plain NameValue1_2 row.
+     */
+    private fun conceptRow(name: String, id: String): VieModel =
+        if (id.isNotBlank() && parentFragment is ConceptNavigator) ConceptLinkItem(name, id)
+        else NameValue1_2(name, id)
+
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()
         obj.addAll(data)
@@ -141,8 +151,15 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
 
     override fun onItemClicked(v: View, position: Int) {}
     override fun onItemClicked(itemId: Int, category: VieModel) {}
+//    was (empty handler, taps on related concepts did nothing):
+//    override fun onItemClicked(v: View, obj: VieModel) {
+//        // Можно добавить обработку клика
+//    }
     override fun onItemClicked(v: View, obj: VieModel) {
-        // Можно добавить обработку клика
+        // Related tab navigation: open the tapped concept in the drug-search tabs (shared back history)
+        if (obj is ConceptLinkItem) {
+            (parentFragment as? ConceptNavigator)?.openConcept(obj.rxcui, obj.conceptName)
+        }
     }
 
     override fun onResume() {

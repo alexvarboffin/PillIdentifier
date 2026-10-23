@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Roadmap item #4: getGenericProduct chip in Drug Search (GenericProductBar) -->
+<resources>
+    <string name="generic_chip">Generic: %1$s  &#8250;</string>
+    <string name="generic_back">&#8249; Back to %1$s</string>
+    <string name="generic_rxcui">RxCUI %1$s</string>
+</resources>

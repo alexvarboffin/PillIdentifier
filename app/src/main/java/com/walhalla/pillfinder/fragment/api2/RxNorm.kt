@@ -46,7 +46,8 @@ import java.net.UnknownHostException
 import javax.net.ssl.SSLHandshakeException
 import com.walhalla.pillfinder.fragment.api2.SuggestionAdapter
 
-class RxNorm : BaseFragment(), RxnormRepositoryCallback {
+//class RxNorm : BaseFragment(), RxnormRepositoryCallback {
+class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
     private var repo: RxnormRepository? = null
 
     private var mPagerAdapter: DynamicModifyViewPagerAdapter? = null
@@ -60,6 +61,12 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     private var handler0: Handler? = null
 
     private var query0: String? = null
+
+    // Roadmap #3: "Did you mean / Closest matches" fallback (getApproximateMatch) when findRxcui finds nothing
+    private var approxPanel: ApproximateMatchPanel? = null
+
+    // Roadmap #4: "Generic: <name>" chip + "Back to <brand>" above the tabs (getGenericProduct)
+    private var genericBar: GenericProductBar? = null
 
     //rxcui or ingredient
     private var rxcui: String? = null
@@ -152,6 +159,23 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         val viewPager = view.findViewById<ViewPager2>(R.id.viewpager)
         setupViewPager(viewPager)
 
+        // Roadmap #3: a tapped closest match opens exactly like a successful search (same tabs via makeInformationGui)
+        approxPanel = ApproximateMatchPanel(
+            view.findViewById(R.id.approxPanel),
+            view.findViewById(R.id.approxContainer)
+        ) { pickedRxcui ->
+            approxPanel?.hide()
+            if (activity != null) {
+                Util.hideKeyboardFrom(requireActivity(), requireActivity().window.decorView)
+            }
+            makeInformationGui(pickedRxcui)
+        }
+
+        // Roadmap #4: generic / back chips rebuild the same tabs via makeInformationGui
+        genericBar = GenericProductBar(view.findViewById(R.id.genericBar)) { openRxcui ->
+            makeInformationGui(openRxcui)
+        }
+
         if (null != tabLayout) {
             TabLayoutMediator(
                 tabLayout, viewPager
@@ -174,6 +198,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
             return
         }
         //repo.globalRequest(query);
+        approxPanel?.hide() // roadmap #3: drop the previous "closest matches" list (no-op when it is not shown)
+        genericBar?.reset() // roadmap #4: a new search forgets the brand -> generic history
         mainView.showProgressBar()
         repo!!.globalRequest(query)
     }
@@ -197,6 +223,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
                         mainView.mSnackbar("There is no result for '$query0' (as String)")
                     }
                     mPagerAdapter!!.updateEmployeeListItems("There is no result for '$query0' (as String)")
+                    approxPanel?.search(query0) // roadmap #3: getApproximateMatch fallback
                 })
             } else {
                 val pd = rxnormId[0]
@@ -230,6 +257,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         titles.add("Status")
         titles.add("RxNorm Properties")
         mPagerAdapter!!.updateEmployeeListItems(buffer)
+        if (pd != null) genericBar?.onDrugOpened(pd) // roadmap #4: show "Generic: ..." for branded concepts
     }
 
 
@@ -267,6 +295,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
             val textView = requireActivity().findViewById<AutoCompleteTextView>(R.id.auto_text_view)
             textView.setText("")
             titles.clear()
+            approxPanel?.hide() // roadmap #3
+            genericBar?.reset() // roadmap #4
             mPagerAdapter!!.updateEmployeeListItems(ArrayList<Fragment?>())
             return true
         }
@@ -303,7 +333,9 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         }
 
         if (!TextUtils.isEmpty(rxcui)) {
-            makeInformationGui(rxcui)
+            //makeInformationGui(rxcui)
+            // roadmap #4: after "Generic" navigation keep showing the drug the user navigated to
+            makeInformationGui(genericBar?.currentRxcui ?: rxcui)
         } else if ( /*!onSaveInstanceCalled*/data == null || data!!.isEmpty()) {
             d("LOAD NEW DATA")
             emptyView()
@@ -374,6 +406,21 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         }
     }
 
+
+    /** Related / Related by Type rows (child tabs) -> open the concept like a search result, shared back history. */
+    override fun openConcept(rxcui: String, name: String?) {
+        val bar = genericBar
+        if (bar != null) bar.navigateTo(rxcui, name) else makeInformationGui(rxcui)
+    }
+
+    override fun onDestroyView() {
+        // Roadmap #3: stop pending approximate-match / name lookups, views are going away
+        approxPanel?.hide()
+        approxPanel = null
+        genericBar?.cancelJobs() // roadmap #4
+        genericBar = null
+        super.onDestroyView()
+    }
 
     private fun loadData(i: Int) {
     }
