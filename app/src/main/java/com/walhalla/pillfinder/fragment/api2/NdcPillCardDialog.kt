@@ -493,11 +493,55 @@ class NdcPillCardDialog : DialogFragment() {
          * FDA SPL (NCI thesaurus) codes seen in live rifampin responses (23.10.2026), used only as a fallback
          * when COLORTEXT / SHAPETEXT is absent: C48336 = CAPSULE (SHAPETEXT), C48326 = RED, C48331 = ORANGE (COLORTEXT).
          */
-        private val KNOWN_CODES = mapOf(
+        //private val KNOWN_CODES = mapOf(
+        //    "C48336" to "CAPSULE",
+        //    "C48326" to "RED",
+        //    "C48331" to "ORANGE"
+        //)
+
+        /**
+         * Full FDA SPL value sets from the NCI Thesaurus (checked via NCI EVS REST API, 23.10.2026):
+         * subset C54454 "SPL Shape Terminology" and subset C54453 "SPL Color Terminology".
+         * Labels are the FDA preferred terms. Unknown codes are still shown raw by [codeLabel].
+         */
+        private val SPL_SHAPE_CODES = mapOf(
+            "C48335" to "BULLET",
             "C48336" to "CAPSULE",
-            "C48326" to "RED",
-            "C48331" to "ORANGE"
+            "C48337" to "CLOVER",
+            "C48338" to "DIAMOND",
+            "C48339" to "DOUBLE CIRCLE",
+            "C48340" to "FREEFORM",
+            "C48341" to "GEAR",
+            "C48342" to "HEPTAGON (7 sided)",
+            "C48343" to "HEXAGON (6 sided)",
+            "C48344" to "OCTAGON (8 sided)",
+            "C48345" to "OVAL",
+            "C48346" to "PENTAGON (5 sided)",
+            "C48347" to "RECTANGLE",
+            "C48348" to "ROUND",
+            "C48349" to "SEMI-CIRCLE",
+            "C48350" to "SQUARE",
+            "C48351" to "TEAR",
+            "C48352" to "TRAPEZOID",
+            "C48353" to "TRIANGLE"
         )
+
+        private val SPL_COLOR_CODES = mapOf(
+            "C48323" to "BLACK",
+            "C48324" to "GRAY",
+            "C48325" to "WHITE",
+            "C48326" to "RED",
+            "C48327" to "PURPLE",
+            "C48328" to "PINK",
+            "C48329" to "GREEN",
+            "C48330" to "YELLOW",
+            "C48331" to "ORANGE",
+            "C48332" to "BROWN",
+            "C48333" to "BLUE",
+            "C48334" to "TURQUOISE"
+        )
+
+        private val KNOWN_CODES = SPL_SHAPE_CODES + SPL_COLOR_CODES
 
         private fun reason(t: Throwable): String = t.message ?: t.localizedMessage ?: t.javaClass.simpleName
 

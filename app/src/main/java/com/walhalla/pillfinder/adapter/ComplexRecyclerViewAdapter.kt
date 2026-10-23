@@ -365,6 +365,25 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.text2.setOnClickListener { v: View ->
                     presenter?.onItemClicked(v, item)
                 }
+                // roadmap #5: NON-clickable getAllRelatedExtension extras (psn line + InfoBadge badges).
+                // Always reset visibility here because rows are recycled.
+                val ctx = holder.itemView.context
+                val psnView = holder.itemView.findViewById<TextView>(R.id.conceptPsn)
+                val badges = holder.itemView.findViewById<View>(R.id.conceptBadges)
+                val rxBadge = holder.itemView.findViewById<View>(R.id.badgeRxPrescribable)
+                val vetBadge = holder.itemView.findViewById<View>(R.id.badgeVeterinary)
+                val psn = item.psn
+                if (psnView != null) {
+                    if (!psn.isNullOrBlank() && !psn.equals(item.conceptName, ignoreCase = true)) {
+                        psnView.text = ctx.getString(R.string.related_psn, psn)
+                        psnView.visibility = View.VISIBLE
+                    } else {
+                        psnView.visibility = View.GONE
+                    }
+                }
+                rxBadge?.visibility = if (item.prescribable) View.VISIBLE else View.GONE
+                vetBadge?.visibility = if (item.veterinary) View.VISIBLE else View.GONE
+                badges?.visibility = if (item.prescribable || item.veterinary) View.VISIBLE else View.GONE
             }
 
             EMPTY_VIEW_FROM_OBJECT -> {

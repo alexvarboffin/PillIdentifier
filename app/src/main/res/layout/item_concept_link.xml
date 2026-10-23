@@ -27,4 +27,43 @@
         android:textColor="@color/ndc_card_missing"
         android:textSize="12sp"
         tools:text="RxCUI 141928" />
+
+    <!-- roadmap #5 (getAllRelatedExtension): NON-clickable extras, hidden unless data is present -->
+    <TextView
+        android:id="@+id/conceptPsn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#616161"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        tools:text="Prescribable name: Xanax 0.5 MG Oral Tablet"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/conceptBadges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/badgeRxPrescribable"
+            style="@style/InfoBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/related_badge_rx_prescribable" />
+
+        <TextView
+            android:id="@+id/badgeVeterinary"
+            style="@style/InfoBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/related_badge_veterinary"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

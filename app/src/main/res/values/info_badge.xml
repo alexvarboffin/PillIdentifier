@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        NON-clickable info badge (roadmap #5, Related tab). Deliberately different from NewClickableChip:
+        small green text, flat light-green pill, no ripple, no underline, not clickable / focusable.
+    -->
+    <color name="info_badge_text">#2E7D32</color>
+    <color name="info_badge_bg">#E8F5E9</color>
+    <color name="info_badge_border">#A5D6A7</color>
+
+    <style name="InfoBadge">
+        <item name="android:background">@drawable/bg_info_badge</item>
+        <item name="android:textColor">@color/info_badge_text</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:importantForAccessibility">yes</item>
+    </style>
+</resources>

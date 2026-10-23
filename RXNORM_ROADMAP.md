@@ -37,7 +37,7 @@
 | 3 | getApproximateMatch | Находит препарат при опечатках/неполном названии, когда findRxcui пуст | Drug Search | S | **P1** | [x] integrated [ ] device-tested |
 | 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [x] integrated [ ] device-tested |
 | 4a | Навигация по Related / Related by Type (без новых API: getAllRelatedInfo / getRelated) | Тап по строке концепта с rxcui (например, BN Xanax → SBD 141928) открывает его в тех же 10 вкладках; история назад общая с Generic | Related, Related by Type | S | **P1** (вне очереди) | [x] integrated [ ] device-tested |
-| 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [ ] integrated [ ] device-tested |
+| 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [x] integrated [ ] device-tested |
 | 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке | шапка Drug Search | S | P2 | [ ] integrated [ ] device-tested |
 | 7 | getDrugs | Список всех лекарственных форм по названию ингредиента (SCD/SBD) | Drug Search → список | M | P2 | [ ] integrated [ ] device-tested |
 | 8 | findRelatedNDCs | Все NDC того же продукта/препарата/концепта | карточка NDC | S | P2 | [x] integrated [ ] device-tested |
@@ -206,6 +206,8 @@ flowchart LR
 - **Нюанс:** пустые группы опускаются (как и в allrelated).
 - **Зависимости:** операция добавляется в спеку параллельным воркером — дождаться его регенерации (в DefaultApi.kt она уже есть).
 - **Тест:** вкладка Related для 198201 — те же группы, что и раньше, + psn и бейджи; сравнить с getAllRelatedInfo визуально.
+
+> **Статус (23.10.2026):** integrated, ветка `dev/ktor-api`, без коммитов. `FragmentRelated.loadData()` теперь основной вызов `getAllRelatedExtension` (живая проверка: те же группы и строки, что у getAllRelatedInfo — 198201: 15/15, 141928: 15/15, 202363: 40/40 — плюс pres/psn/vetdrug), при ошибке, пустом теле или без allRelatedGroup — откат на прежний `getAllRelatedInfo` (`loadDataRelatedInfo()`). Каждая строка-концепт остаётся чипом `NewClickableChip` с той же навигацией; под ним некликабельный бейдж «Rx prescribable» (pres=Y, стиль `InfoBadge`, зелёный, `res/values/info_badge.xml`), бейдж «Veterinary» (vetdrug=US) и строка «Prescribable name: …», если psn отличается от имени (без учёта регистра, поэтому tall-man `rifAMPin` не дублируется). Сборки low21Google/low21Rustore debug зелёные; на устройстве не проверено.
 
 ### 4.7 getRxProperty — P2, S
 - **Вызов:** `GET /rxcui/198201/property.json?propName=PRESCRIBABLE` → `Y`; `propName=AVAILABLE_STRENGTH` → `150 MG`.

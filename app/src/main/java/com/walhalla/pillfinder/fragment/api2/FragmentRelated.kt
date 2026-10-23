@@ -63,7 +63,53 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
         }
     }
 
+    /**
+     * Roadmap #5. PRIMARY call = getAllRelatedExtension: live-checked (23.10.2026) to return exactly the same
+     * groups / rows as getAllRelatedInfo (198201: 15/15, 141928: 15/15, 202363: 40/40) plus per-concept
+     * pres (prescribable), psn (prescribable name), vetdrug/humandrug, rxnavstr, genCard, minConceptGroup -
+     * so one request gives both the rows and the extras.
+     * FALLBACK = getAllRelatedInfo (the previous implementation, [loadDataRelatedInfo]) when the extension call
+     * throws (offline / timeout / parse error) or returns no body / no allRelatedGroup (non-2xx), so the tab never goes empty.
+     */
     fun loadData() {
+        val id = rxcui ?: return
+        lifecycleScope.launch {
+            val ext = RxNormLib.fetch { getAllRelatedExtension(id) }
+            val groups = ext.getOrNull()?.allRelatedGroup?.conceptGroup
+            if (groups == null) {
+                println("getAllRelatedExtension($id) unavailable: " +
+                        (ext.exceptionOrNull()?.message ?: "empty body") + " -> fallback getAllRelatedInfo")
+                loadDataRelatedInfo()
+                return@launch
+            }
+            val data = ArrayList<VieModel>()
+            for (group in groups) {
+                val props = group.conceptProperties
+                if (props.isNullOrEmpty()) continue
+                val tty = group.tty
+                if (!tty.isNullOrBlank()) {
+                    data.add(HeaderObject(tty))
+                }
+                for (prop in props) {
+                    data.add(
+                        conceptRow(
+                            prop.name ?: "", prop.rxcui ?: "",
+                            psn = prop.psn,
+                            prescribable = prop.pres == "Y",
+                            veterinary = prop.vetdrug == "US"
+                        )
+                    )
+                }
+            }
+            if (getActivity() != null && isAdded) {
+                updateData(data)
+            }
+        }
+    }
+
+    // previous primary loader (getAllRelatedInfo), now the FALLBACK for roadmap #5:
+    //fun loadData() {
+    fun loadDataRelatedInfo() {
         // was: MyApp.rxnorm.getAllRelatedInfo(rxcui!!) (Retrofit)
         lifecycleScope.launch {
             RxNormLib.fetch { getAllRelatedInfo(rxcui!!) }.onSuccess { body ->
@@ -139,8 +185,17 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
      * Rows with an rxcui become NEW clickable concept chips when hosted by the drug-search screen
      * (parent implements ConceptNavigator); otherwise (or without rxcui) the old plain NameValue1_2 row.
      */
-    private fun conceptRow(name: String, id: String): VieModel =
-        if (id.isNotBlank() && parentFragment is ConceptNavigator) ConceptLinkItem(name, id)
+    //private fun conceptRow(name: String, id: String): VieModel =
+    //    if (id.isNotBlank() && parentFragment is ConceptNavigator) ConceptLinkItem(name, id)
+    //    else NameValue1_2(name, id)
+    private fun conceptRow(
+        name: String,
+        id: String,
+        psn: String? = null,
+        prescribable: Boolean = false,
+        veterinary: Boolean = false
+    ): VieModel =
+        if (id.isNotBlank() && parentFragment is ConceptNavigator) ConceptLinkItem(name, id, psn, prescribable, veterinary)
         else NameValue1_2(name, id)
 
     fun updateData(data: List<VieModel>) {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Related tab, getAllRelatedExtension extras (roadmap #5) -->
+    <string name="related_badge_rx_prescribable">Rx prescribable</string>
+    <string name="related_badge_veterinary">Veterinary</string>
+    <string name="related_psn">Prescribable name: %1$s</string>
+</resources>
