@@ -12,9 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.common.response.Response2
-import com.walhalla.lib.datamodel.common.response.Response4
-import com.walhalla.lib.datamodel.pkg_base.PropConcept
+//import com.walhalla.lib.datamodel.common.response.Response2
+//import com.walhalla.lib.datamodel.common.response.Response4
+//import com.walhalla.lib.datamodel.pkg_base.PropConcept
+import gov.nih.nlm.rxnorm.models.PropConcept
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
@@ -91,18 +95,16 @@ class Fragment2 : Fragment(), ComplexPresenter, OnRefreshListener {
         //ALL
 
 
-        val call4 = api!!.allProperties(opCode, RxnormRepository.RX_NAV_CALLER, "ALL")
-        call4.enqueue(object : Callback<Response4?> {
-            override fun onResponse(call: Call<Response4?>, response: Response<Response4?>) {
-                val body = response.body()
-
+        // was: api!!.allProperties(opCode, RxnormRepository.RX_NAV_CALLER, "ALL") (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getAllProperties(opCode, listOf("ALL")) }.onSuccess { body ->
                 val fUll = ArrayList<VieModel>()
                 val formater: MutableMap<String, MutableList<PropConcept>> = HashMap()
 
                 if (body != null) {
                     val aa = body.propConceptGroup
                     if (null != aa) {
-                        val mm = aa.propConcept
+                        val mm = aa.propConcept ?: emptyList()
 
                         for (concept in mm) {
                             val x = concept.propCategory
@@ -125,14 +127,52 @@ class Fragment2 : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(fUll)
                 }
+            }.onFailure {
             }
-
-            override fun onFailure(call: Call<Response4?>, t: Throwable) {
-            }
-        })
+        }
     }
 
+//    old Retrofit body of loadData():
+//        val call4 = api!!.allProperties(opCode, RxnormRepository.RX_NAV_CALLER, "ALL")
+//        call4.enqueue(object : Callback<Response4?> {
+//            override fun onResponse(call: Call<Response4?>, response: Response<Response4?>) {
+//                val body = response.body()
 
+//                val fUll = ArrayList<VieModel>()
+//                val formater: MutableMap<String, MutableList<PropConcept>> = HashMap()
+
+//                if (body != null) {
+//                    val aa = body.propConceptGroup
+//                    if (null != aa) {
+//                        val mm = aa.propConcept
+
+//                        for (concept in mm) {
+//                            val x = concept.propCategory
+//                            if (x != null) {
+//                                var raw: MutableList<PropConcept> = formater[x]?:ArrayList()
+
+//                                raw.add(concept)
+//                                formater[x] = raw
+//                            }
+//                        }
+//                        for ((key, value) in formater) {
+//                            fUll.add(HeaderObject(key))
+//                            for (concept in value) {
+//                                fUll.add(NameValue2_1(concept.propName?:"", concept.propValue?:""))
+//                            }
+//                        }
+//                    }
+//                }
+//                val activity: Activity? = activity
+//                if (activity != null && isAdded) {
+//                    updateData(fUll)
+//                }
+//            }
+
+//            override fun onFailure(call: Call<Response4?>, t: Throwable) {
+//            }
+//        })
+//    }
 
 
     fun updateData(data: List<VieModel>) {

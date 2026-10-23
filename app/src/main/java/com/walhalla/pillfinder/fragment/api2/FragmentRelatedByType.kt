@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormRelatedResponse
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormTermTypesResponse
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormRelaTypesResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormRelatedResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormTermTypesResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormRelaTypesResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.ComplexPresenter
@@ -24,9 +27,9 @@ import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
@@ -103,31 +106,59 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
 
     private fun loadTypeValues() {
         if (currentType == "TTY") {
-            // Получаем список TTY
-            MyApp.rxnorm.getTermTypes().enqueue(object : Callback<RxNormTermTypesResponse?> {
-                override fun onResponse(call: Call<RxNormTermTypesResponse?>, response: Response<RxNormTermTypesResponse?>) {
-                    val list = response.body()?.termTypeList?.termType ?: emptyList()
+            // Получаем список TTY (was: MyApp.rxnorm.getTermTypes(), Retrofit)
+            lifecycleScope.launch {
+                RxNormLib.fetch { getTermTypes() }.onSuccess { body ->
+                    val list = body?.termTypeList?.termType ?: emptyList()
                     ttyList = list
                     setupValueSpinner(list)
-                }
-                override fun onFailure(call: Call<RxNormTermTypesResponse?>, t: Throwable) {
+                }.onFailure {
                     setupValueSpinner(emptyList())
                 }
-            })
+            }
         } else {
-            // Получаем список RELA
-            MyApp.rxnorm.getRelaTypes().enqueue(object : Callback<RxNormRelaTypesResponse?> {
-                override fun onResponse(call: Call<RxNormRelaTypesResponse?>, response: Response<RxNormRelaTypesResponse?>) {
-                    val list = response.body()?.relaTypeList?.relaType ?: emptyList()
+            // Получаем список RELA (was: MyApp.rxnorm.getRelaTypes(), Retrofit)
+            // NB: relatypes.json returns relationTypeList.relationType; old DTO read relaTypeList.relaType (always empty)
+            lifecycleScope.launch {
+                RxNormLib.fetch { getRelaTypes() }.onSuccess { body ->
+                    val list = body?.relationTypeList?.relationType ?: emptyList()
                     relaList = list
                     setupValueSpinner(list)
-                }
-                override fun onFailure(call: Call<RxNormRelaTypesResponse?>, t: Throwable) {
+                }.onFailure {
                     setupValueSpinner(emptyList())
                 }
-            })
+            }
         }
     }
+
+//    old Retrofit loadTypeValues():
+//    private fun loadTypeValues() {
+//        if (currentType == "TTY") {
+//            // Получаем список TTY
+//            MyApp.rxnorm.getTermTypes().enqueue(object : Callback<RxNormTermTypesResponse?> {
+//                override fun onResponse(call: Call<RxNormTermTypesResponse?>, response: Response<RxNormTermTypesResponse?>) {
+//                    val list = response.body()?.termTypeList?.termType ?: emptyList()
+//                    ttyList = list
+//                    setupValueSpinner(list)
+//                }
+//                override fun onFailure(call: Call<RxNormTermTypesResponse?>, t: Throwable) {
+//                    setupValueSpinner(emptyList())
+//                }
+//            })
+//        } else {
+//            // Получаем список RELA
+//            MyApp.rxnorm.getRelaTypes().enqueue(object : Callback<RxNormRelaTypesResponse?> {
+//                override fun onResponse(call: Call<RxNormRelaTypesResponse?>, response: Response<RxNormRelaTypesResponse?>) {
+//                    val list = response.body()?.relaTypeList?.relaType ?: emptyList()
+//                    relaList = list
+//                    setupValueSpinner(list)
+//                }
+//                override fun onFailure(call: Call<RxNormRelaTypesResponse?>, t: Throwable) {
+//                    setupValueSpinner(emptyList())
+//                }
+//            })
+//        }
+//    }
 
     private fun setupValueSpinner(values: List<String>) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
@@ -145,25 +176,24 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
 
     private fun loadData(value: String) {
         if (rxcui.isNullOrBlank()) return
-        val call = if (currentType == "TTY") {
-            MyApp.rxnorm.getRelatedByType(rxcui!!, value)
-        } else {
-            MyApp.rxnorm.getRelatedByRelationship(rxcui!!, value)
-        }
-        call.enqueue(object : Callback<RxNormRelatedResponse?> {
-            override fun onResponse(call: Call<RxNormRelatedResponse?>, response: Response<RxNormRelatedResponse?>) {
-                val body = response.body()
+        val id = rxcui!!
+        val byType = currentType == "TTY"
+        // was: MyApp.rxnorm.getRelatedByType(rxcui, tty) / getRelatedByRelationship(rxcui, rela) (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch {
+                if (byType) getRelated(id, tty = listOf(value)) else getRelated(id, rela = listOf(value))
+            }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 if (body != null) {
                     val relatedGroup = body.relatedGroup
                     if (relatedGroup != null) {
-                        for (group in relatedGroup.conceptGroup) {
+                        for (group in relatedGroup.conceptGroup.orEmpty()) {
                             val tty = group.tty
                             if (!group.conceptProperties.isNullOrEmpty()) {
                                 if (!tty.isNullOrBlank()) {
                                     data.add(HeaderObject(tty))
                                 }
-                                for (prop in group.conceptProperties) {
+                                for (prop in group.conceptProperties.orEmpty()) {
                                     data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
                                 }
                             }
@@ -174,12 +204,50 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-            override fun onFailure(call: Call<RxNormRelatedResponse?>, t: Throwable) {
+            }.onFailure { t ->
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData(value):
+//    private fun loadData(value: String) {
+//        if (rxcui.isNullOrBlank()) return
+//        val call = if (currentType == "TTY") {
+//            MyApp.rxnorm.getRelatedByType(rxcui!!, value)
+//        } else {
+//            MyApp.rxnorm.getRelatedByRelationship(rxcui!!, value)
+//        }
+//        call.enqueue(object : Callback<RxNormRelatedResponse?> {
+//            override fun onResponse(call: Call<RxNormRelatedResponse?>, response: Response<RxNormRelatedResponse?>) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                if (body != null) {
+//                    val relatedGroup = body.relatedGroup
+//                    if (relatedGroup != null) {
+//                        for (group in relatedGroup.conceptGroup) {
+//                            val tty = group.tty
+//                            if (!group.conceptProperties.isNullOrEmpty()) {
+//                                if (!tty.isNullOrBlank()) {
+//                                    data.add(HeaderObject(tty))
+//                                }
+//                                for (prop in group.conceptProperties) {
+//                                    data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+//            override fun onFailure(call: Call<RxNormRelatedResponse?>, t: Throwable) {
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()

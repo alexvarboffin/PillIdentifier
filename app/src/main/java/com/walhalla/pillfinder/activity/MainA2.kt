@@ -14,7 +14,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.fragment.api2.RxNorm.Companion.newIngredientInstance
 import com.walhalla.pillfinder.fragment.api2.RxNorm.Companion.newInstance

@@ -24,9 +24,13 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.JsonObject
 import com.walhalla.Util
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.common.response.Response0
-import com.walhalla.lib.datamodel.common.response.Response1
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse
+//import com.walhalla.lib.datamodel.common.response.Response0
+//import com.walhalla.lib.datamodel.common.response.Response1
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormSpellingSuggestionsResponse
+import gov.nih.nlm.rxnorm.models.IdGroupResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.lib.service.RxnormRepositoryCallback
 import com.walhalla.pillfinder.MyApp
@@ -178,7 +182,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
         return query != null && query.length > 0
     }
 
-    override fun successResponse(response: Response0) {
+    //override fun successResponse(response: Response0) {
+    override fun successResponse(response: IdGroupResponse?) { // rxcui.json via RxNormLib
         if (mainView != null) {
             mainView.hideProgressBar()
         }
@@ -228,8 +233,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
     }
 
 
-    override fun successResponse(response1: Response1) {
-    }
+//    override fun successResponse(response1: Response1) {
+//    }
 
     override fun successResponse(opCode: Int, body: JsonObject) {
     }
@@ -338,16 +343,26 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback {
                         debounceRunnable?.let { handler.removeCallbacks(it) }
                         debounceRunnable = Runnable {
                             lastQuery = query
-                            api?.getSpellingSuggestions(query)?.enqueue(object : retrofit2.Callback<RxNormSpellingSuggestionsResponse?> {
-                                override fun onResponse(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, response: retrofit2.Response<RxNormSpellingSuggestionsResponse?>) {
-                                    val newSuggestions = response.body()?.suggestionGroup?.suggestionList?.suggestion ?: emptyList()
+                            // was: api?.getSpellingSuggestions(query) (Retrofit)
+                            lifecycleScope.launch {
+                                RxNormLib.fetch { getSpellingSuggestions(name = query) }.onSuccess { body ->
+                                    val newSuggestions = body?.suggestionGroup?.suggestionList?.suggestion ?: emptyList()
                                     suggestionAdapter.updateData(newSuggestions)
                                     if (newSuggestions.isNotEmpty()) {
                                         autoTextView.post { autoTextView.showDropDown() }
                                     }
-                                }
-                                override fun onFailure(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, t: Throwable) {}
-                            })
+                                }.onFailure { }
+                            }
+//                            api?.getSpellingSuggestions(query)?.enqueue(object : retrofit2.Callback<RxNormSpellingSuggestionsResponse?> {
+//                                override fun onResponse(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, response: retrofit2.Response<RxNormSpellingSuggestionsResponse?>) {
+//                                    val newSuggestions = response.body()?.suggestionGroup?.suggestionList?.suggestion ?: emptyList()
+//                                    suggestionAdapter.updateData(newSuggestions)
+//                                    if (newSuggestions.isNotEmpty()) {
+//                                        autoTextView.post { autoTextView.showDropDown() }
+//                                    }
+//                                }
+//                                override fun onFailure(call: retrofit2.Call<RxNormSpellingSuggestionsResponse?>, t: Throwable) {}
+//                            })
                         }
                         handler.postDelayed(debounceRunnable!!, debounceDelay)
                     }

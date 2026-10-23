@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormHistoricalNDCsResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormHistoricalNDCsResponse
+import gov.nih.nlm.rxnorm.models.NdcHistoryDepth
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
@@ -18,9 +22,9 @@ import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class FragmentNdcHistory : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
@@ -58,20 +62,16 @@ class FragmentNdcHistory : Fragment(), ComplexPresenter, OnRefreshListener {
     }
 
     fun loadData() {
-        val call = MyApp.rxnorm.allhistoricalndcs(rxcui!!, null, 1)
-        call.enqueue(object : Callback<RxNormHistoricalNDCsResponse?> {
-            override fun onResponse(
-                call: Call<RxNormHistoricalNDCsResponse?>,
-                response: Response<RxNormHistoricalNDCsResponse?>
-            ) {
-                val body = response.body()
+        // was: MyApp.rxnorm.allhistoricalndcs(rxcui!!, null, 1) (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getAllHistoricalNDCs(rxcui!!, NdcHistoryDepth._1) }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 val times = body?.historicalNdcConcept?.historicalNdcTime
                 if (!times.isNullOrEmpty()) {
                     data.add(HeaderObject("Historical NDC List"))
                     for (time in times) {
-                        for (ndcTime in time.ndcTime) {
-                            for (ndc in ndcTime.ndc) {
+                        for (ndcTime in time.ndcTime.orEmpty()) {
+                            for (ndc in ndcTime.ndc.orEmpty()) {
                                 val label = "NDC: $ndc (${ndcTime.startDate} - ${ndcTime.endDate})"
                                 data.add(NameValue1_2(label, ndc))
                             }
@@ -82,12 +82,44 @@ class FragmentNdcHistory : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-            override fun onFailure(call: Call<RxNormHistoricalNDCsResponse?>, t: Throwable) {
+            }.onFailure { t ->
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData():
+//    fun loadData() {
+//        val call = MyApp.rxnorm.allhistoricalndcs(rxcui!!, null, 1)
+//        call.enqueue(object : Callback<RxNormHistoricalNDCsResponse?> {
+//            override fun onResponse(
+//                call: Call<RxNormHistoricalNDCsResponse?>,
+//                response: Response<RxNormHistoricalNDCsResponse?>
+//            ) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                val times = body?.historicalNdcConcept?.historicalNdcTime
+//                if (!times.isNullOrEmpty()) {
+//                    data.add(HeaderObject("Historical NDC List"))
+//                    for (time in times) {
+//                        for (ndcTime in time.ndcTime) {
+//                            for (ndc in ndcTime.ndc) {
+//                                val label = "NDC: $ndc (${ndcTime.startDate} - ${ndcTime.endDate})"
+//                                data.add(NameValue1_2(label, ndc))
+//                            }
+//                        }
+//                    }
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+//            override fun onFailure(call: Call<RxNormHistoricalNDCsResponse?>, t: Throwable) {
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()

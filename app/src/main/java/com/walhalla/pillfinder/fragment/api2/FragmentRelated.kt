@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormAllRelatedResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormAllRelatedResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.ComplexPresenter
@@ -20,9 +23,9 @@ import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
@@ -60,24 +63,20 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
     }
 
     fun loadData() {
-        val call = MyApp.rxnorm.getAllRelatedInfo(rxcui!!)
-        call.enqueue(object : Callback<RxNormAllRelatedResponse?> {
-            override fun onResponse(
-                call: Call<RxNormAllRelatedResponse?>,
-                response: Response<RxNormAllRelatedResponse?>
-            ) {
-                val body = response.body()
+        // was: MyApp.rxnorm.getAllRelatedInfo(rxcui!!) (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getAllRelatedInfo(rxcui!!) }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 if (body != null) {
-                    val relatedGroup = body.relatedGroup
+                    val relatedGroup = body.allRelatedGroup
                     if (relatedGroup != null) {
-                        for (group in relatedGroup.conceptGroup) {
+                        for (group in relatedGroup.conceptGroup.orEmpty()) {
                             val tty = group.tty
                             if (!group.conceptProperties.isNullOrEmpty()) {
                                 if (!tty.isNullOrBlank()) {
                                     data.add(HeaderObject(tty))
                                 }
-                                for (prop in group.conceptProperties) {
+                                for (prop in group.conceptProperties.orEmpty()) {
                                     data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
                                 }
                             }
@@ -88,14 +87,51 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-
-            override fun onFailure(call: Call<RxNormAllRelatedResponse?>, t: Throwable) {
+            }.onFailure { t ->
                 println(t.message ?: t.localizedMessage ?: "")
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData():
+//    fun loadData() {
+//        val call = MyApp.rxnorm.getAllRelatedInfo(rxcui!!)
+//        call.enqueue(object : Callback<RxNormAllRelatedResponse?> {
+//            override fun onResponse(
+//                call: Call<RxNormAllRelatedResponse?>,
+//                response: Response<RxNormAllRelatedResponse?>
+//            ) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                if (body != null) {
+//                    val relatedGroup = body.relatedGroup
+//                    if (relatedGroup != null) {
+//                        for (group in relatedGroup.conceptGroup) {
+//                            val tty = group.tty
+//                            if (!group.conceptProperties.isNullOrEmpty()) {
+//                                if (!tty.isNullOrBlank()) {
+//                                    data.add(HeaderObject(tty))
+//                                }
+//                                for (prop in group.conceptProperties) {
+//                                    data.add(NameValue1_2(prop.name ?: "", prop.rxcui ?: ""))
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+
+//            override fun onFailure(call: Call<RxNormAllRelatedResponse?>, t: Throwable) {
+//                println(t.message ?: t.localizedMessage ?: "")
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()

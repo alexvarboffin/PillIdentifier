@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormPropertiesResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormPropertiesResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
@@ -18,9 +21,9 @@ import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue2_1
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class FragmentProperties : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
@@ -58,13 +61,9 @@ class FragmentProperties : Fragment(), ComplexPresenter, OnRefreshListener {
     }
 
     fun loadData() {
-        val call = MyApp.rxnorm.getRxConceptProperties(rxcui!!)
-        call.enqueue(object : Callback<RxNormPropertiesResponse?> {
-            override fun onResponse(
-                call: Call<RxNormPropertiesResponse?>,
-                response: Response<RxNormPropertiesResponse?>
-            ) {
-                val body = response.body()
+        // was: MyApp.rxnorm.getRxConceptProperties(rxcui!!) (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getRxConceptProperties(rxcui!!) }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 val props = body?.properties
                 if (props != null) {
@@ -81,12 +80,43 @@ class FragmentProperties : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-            override fun onFailure(call: Call<RxNormPropertiesResponse?>, t: Throwable) {
+            }.onFailure { t ->
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData():
+//    fun loadData() {
+//        val call = MyApp.rxnorm.getRxConceptProperties(rxcui!!)
+//        call.enqueue(object : Callback<RxNormPropertiesResponse?> {
+//            override fun onResponse(
+//                call: Call<RxNormPropertiesResponse?>,
+//                response: Response<RxNormPropertiesResponse?>
+//            ) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                val props = body?.properties
+//                if (props != null) {
+//                    data.add(HeaderObject("Properties"))
+//                    data.add(NameValue2_1("RxCUI", props.rxcui ?: ""))
+//                    data.add(NameValue2_1("Name", props.name ?: ""))
+//                    data.add(NameValue2_1("Synonym", props.synonym ?: ""))
+//                    data.add(NameValue2_1("TTY", props.tty ?: ""))
+//                    data.add(NameValue2_1("Language", props.language ?: ""))
+//                    data.add(NameValue2_1("Suppress", props.suppress ?: ""))
+//                    data.add(NameValue2_1("UMLS CUI", props.umlscui ?: ""))
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+//            override fun onFailure(call: Call<RxNormPropertiesResponse?>, t: Throwable) {
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()

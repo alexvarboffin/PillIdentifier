@@ -6,7 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import com.walhalla.lib.datamodel.common.response.Response0;
+//import com.walhalla.lib.datamodel.common.response.Response0;
+import com.walhalla.lib.service.RxNormLib;
 import com.walhalla.lib.datamodel.rxnorm.response.Response6;
 import com.walhalla.lib.service.RxnormApi;
 import com.walhalla.lib.service.RxnormRepositoryCallback;
@@ -108,26 +109,32 @@ public class RxnormRepository {
 //
 //    }
 
+    // RxNorm rxcui.json now goes through the generated KMP library (gov.nih.nlm.rxnorm.apis.DefaultApi.findRxcui)
     public void globalRequest(String query) {
-        Call<Response0> aa = api.searchRxcui(query, 2, 1);//catalase
-        //aa.enqueue(new Task111(0, callback, this));
-        aa.enqueue(new Callback<Response0>() {
-            @Override
-            public void onResponse(@NonNull Call<Response0> call, Response<Response0> response) {
-                Response0 response0 = response.body();
-                if (callback != null) {
-                    callback.successResponse(response0);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Response0> call, Throwable t) {
-                if (callback != null) {
-                    callback.handleThrowable(t);
-                }
-            }
-        });
+        RxNormLib.globalRequest(query, callback);
     }
+
+    // old Retrofit implementation:
+//    public void globalRequest(String query) {
+//        Call<Response0> aa = api.searchRxcui(query, 2, 1);//catalase
+//        //aa.enqueue(new Task111(0, callback, this));
+//        aa.enqueue(new Callback<Response0>() {
+//            @Override
+//            public void onResponse(@NonNull Call<Response0> call, Response<Response0> response) {
+//                Response0 response0 = response.body();
+//                if (callback != null) {
+//                    callback.successResponse(response0);
+//                }
+//            }
+
+//            @Override
+//            public void onFailure(@NonNull Call<Response0> call, Throwable t) {
+//                if (callback != null) {
+//                    callback.handleThrowable(t);
+//                }
+//            }
+//        });
+//    }
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

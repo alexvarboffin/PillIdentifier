@@ -22,6 +22,11 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.composeCompiler) apply false
+    // RxNorm KMP lib (:network:lk0-kmp)
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.android.kotlin.multiplatform.library) apply false
+    alias(libs.plugins.android.lint) apply false
 }
 
 extra.apply {

@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.rxnorm.response.RxNormNDCsResponse
+//import com.walhalla.lib.datamodel.rxnorm.response.RxNormNDCsResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
@@ -18,9 +21,9 @@ import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
 class FragmentNdc : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
@@ -58,13 +61,9 @@ class FragmentNdc : Fragment(), ComplexPresenter, OnRefreshListener {
     }
 
     fun loadData() {
-        val call = MyApp.rxnorm.getNDCs(rxcui!!)
-        call.enqueue(object : Callback<RxNormNDCsResponse?> {
-            override fun onResponse(
-                call: Call<RxNormNDCsResponse?>,
-                response: Response<RxNormNDCsResponse?>
-            ) {
-                val body = response.body()
+        // was: MyApp.rxnorm.getNDCs(rxcui!!) (Retrofit)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getNDCs(rxcui!!) }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 val ndcList = body?.ndcGroup?.ndcList?.ndc
                 if (!ndcList.isNullOrEmpty()) {
@@ -77,12 +76,39 @@ class FragmentNdc : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-            override fun onFailure(call: Call<RxNormNDCsResponse?>, t: Throwable) {
+            }.onFailure { t ->
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData():
+//    fun loadData() {
+//        val call = MyApp.rxnorm.getNDCs(rxcui!!)
+//        call.enqueue(object : Callback<RxNormNDCsResponse?> {
+//            override fun onResponse(
+//                call: Call<RxNormNDCsResponse?>,
+//                response: Response<RxNormNDCsResponse?>
+//            ) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                val ndcList = body?.ndcGroup?.ndcList?.ndc
+//                if (!ndcList.isNullOrEmpty()) {
+//                    data.add(HeaderObject("NDC List"))
+//                    for (ndc in ndcList) {
+//                        data.add(NameValue1_2("NDC", ndc))
+//                    }
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+//            override fun onFailure(call: Call<RxNormNDCsResponse?>, t: Throwable) {
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()

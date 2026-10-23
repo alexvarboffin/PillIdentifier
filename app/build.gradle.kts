@@ -238,6 +238,9 @@ dependencies {
     implementation(libs.zoomage)
     implementation(project(":pdf-viewer"))
     implementation(project(":health"))
+    // RxNorm KMP network library + Android Ktor engine (the lib ships no engine)
+    implementation(project(":network:lk0-kmp"))
+    implementation(libs.ktor.client.android)
 
     implementation(libs.kotlin.stdlib.jdk8)
 //    implementation("com.merhold.extensiblepageindicator:extensiblepageindicator:1.0.1") {

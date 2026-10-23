@@ -38,44 +38,51 @@ sealed class RxIdType(val value: String) {
 }
 
 // --- RxNorm API ---
+// RxNorm REST methods covered by the generated KMP library (:network:lk0-kmp, DefaultApi) are commented out below.
+// Remaining methods have NO counterpart in DefaultApi (allrelatedextension, interaction*, rxclass/*) and stay on Retrofit.
 interface RxnormApi {
-    // Поиск RxCUI по имени
-    @GET("rxcui.json")
-    fun searchRxcui(
-        @Query("name") value: String,
-        @Query("search") value2: Int,
-        @Query("allsrc") value3: Int
-    ): Call<Response0>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.findRxcui
+//    // Поиск RxCUI по имени
+//    @GET("rxcui.json")
+//    fun searchRxcui(
+//        @Query("name") value: String,
+//        @Query("search") value2: Int,
+//        @Query("allsrc") value3: Int
+//    ): Call<Response0>
 
-    // Получить свойства RxCUI
-    @GET("rxcui/{id}/properties.json")
-    fun searchRxcuiProp(
-        @Path("id") id: String,
-        @Query("caller") caller: String
-    ): Call<Response1>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxConceptProperties
+//    // Получить свойства RxCUI
+//    @GET("rxcui/{id}/properties.json")
+//    fun searchRxcuiProp(
+//        @Path("id") id: String,
+//        @Query("caller") caller: String
+//    ): Call<Response1>
 
-    // Получить все свойства RxCUI
-    @GET("rxcui/{id}/allProperties.json")
-    fun allProperties(
-        @Path("id") id: String,
-        @Query("caller") caller: String,
-        @Query("prop") prop: String?
-    ): Call<Response4>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllProperties
+//    // Получить все свойства RxCUI
+//    @GET("rxcui/{id}/allProperties.json")
+//    fun allProperties(
+//        @Path("id") id: String,
+//        @Query("caller") caller: String,
+//        @Query("prop") prop: String?
+//    ): Call<Response4>
 
-    // Получить историю RxCUI
-    @GET("rxcui/{id}/historystatus.json")
-    fun historystatus(
-        @Path("id") id: String,
-        @Query("caller") caller: String
-    ): Call<Response7>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxcuiHistoryStatus
+//    // Получить историю RxCUI
+//    @GET("rxcui/{id}/historystatus.json")
+//    fun historystatus(
+//        @Path("id") id: String,
+//        @Query("caller") caller: String
+//    ): Call<Response7>
 
-    // Получить все исторические NDC
-    @GET("rxcui/{id}/allhistoricalndcs.json")
-    fun allhistoricalndcs(
-        @Path("id") id: String,
-        @Query("caller") caller: String?,
-        @Query("history") history: Int
-    ): Call<RxNormHistoricalNDCsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllHistoricalNDCs
+//    // Получить все исторические NDC
+//    @GET("rxcui/{id}/allhistoricalndcs.json")
+//    fun allhistoricalndcs(
+//        @Path("id") id: String,
+//        @Query("caller") caller: String?,
+//        @Query("history") history: Int
+//    ): Call<RxNormHistoricalNDCsResponse>
 
     // Получить связанные концепты
     @GET("rxcui/{id}/allrelatedextension.json")
@@ -99,112 +106,136 @@ interface RxnormApi {
         @Query("sources") sources: String
     ): Call<Response6>
 
-    // Получить NDC свойства
-    @GET("ndcproperties.json")
-    fun ndcproperties(
-        @Query("id") id: String,
-        @Query("caller") caller: String
-    ): Call<RxNormNDCPropertiesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getNDCProperties
+//    // Получить NDC свойства
+//    @GET("ndcproperties.json")
+//    fun ndcproperties(
+//        @Query("id") id: String,
+//        @Query("caller") caller: String
+//    ): Call<RxNormNDCPropertiesResponse>
 
-    // Поиск препаратов
-    @Headers("Content-Type: application/json")
-    @GET("drugs.json")
-    fun searchDrugsBase(
-        @Query("name") value: String
-    ): Call<RxNormDrugsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getDrugs
+//    // Поиск препаратов
+//    @Headers("Content-Type: application/json")
+//    @GET("drugs.json")
+//    fun searchDrugsBase(
+//        @Query("name") value: String
+//    ): Call<RxNormDrugsResponse>
 
-    // Фильтрация по свойству
-    @GET("rxcui/rxcui/filter.json")
-    fun filterByProperty(
-        @Query("propName") propName: String,
-        @Query("propValues") propValues: String
-    ): Call<RxNormFilterResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.filterByProperty
+//    // Фильтрация по свойству
+//    @GET("rxcui/rxcui/filter.json")
+//    fun filterByProperty(
+//        @Query("propName") propName: String,
+//        @Query("propValues") propValues: String
+//    ): Call<RxNormFilterResponse>
 
     // --- RxNorm API: дополнительные методы ---
 
-    // Получить концепты по статусу
-    @GET("allstatus")
-    fun getAllConceptsByStatus(): Call<RxNormAllStatusResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllConceptsByStatus
+//    // Получить концепты по статусу
+//    @GET("allstatus")
+//    fun getAllConceptsByStatus(): Call<RxNormAllStatusResponse>
 
-    // Получить концепты по типу термина
-    @GET("allconcepts")
-    fun getAllConceptsByTTY(): Call<RxNormAllConceptsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllConceptsByTTY
+//    // Получить концепты по типу термина
+//    @GET("allconcepts")
+//    fun getAllConceptsByTTY(): Call<RxNormAllConceptsResponse>
 
-    // Получить все NDC по статусу
-    @GET("allNDCstatus")
-    fun getAllNDCsByStatus(): Call<RxNormAllNDCStatusResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllNDCsByStatus
+//    // Получить все NDC по статусу
+//    @GET("allNDCstatus")
+//    fun getAllNDCsByStatus(): Call<RxNormAllNDCStatusResponse>
 
-    // Категории свойств RxNav
-    @GET("propCategories")
-    fun getPropCategories(): Call<RxNormPropCategoriesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getPropCategories
+//    // Категории свойств RxNav
+//    @GET("propCategories")
+//    fun getPropCategories(): Call<RxNormPropCategoriesResponse>
 
-    // Имена свойств RxNav
-    @GET("propnames.json")
-    fun getPropNames(): Call<RxNormPropNamesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getPropNames
+//    // Имена свойств RxNav
+//    @GET("propnames.json")
+//    fun getPropNames(): Call<RxNormPropNamesResponse>
 
-    // Концепты, связанные по reformulation_of
-    @GET("reformulationConcepts.json")
-    fun getReformulationConcepts(): Call<RxNormReformulationConceptsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getReformulationConcepts
+//    // Концепты, связанные по reformulation_of
+//    @GET("reformulationConcepts.json")
+//    fun getReformulationConcepts(): Call<RxNormReformulationConceptsResponse>
 
-    // Пути отношений
-    @GET("relapaths.json")
-    fun getRelaPaths(): Call<RxNormRelaPathsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRelaPaths
+//    // Пути отношений
+//    @GET("relapaths.json")
+//    fun getRelaPaths(): Call<RxNormRelaPathsResponse>
 
-    // Типы отношений RxNorm
-    @GET("relatypes")
-    fun getRelaTypes(): Call<RxNormRelaTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRelaTypes
+//    // Типы отношений RxNorm
+//    @GET("relatypes")
+//    fun getRelaTypes(): Call<RxNormRelaTypesResponse>
 
-    // Источники словарей
-    @GET("sourcetypes.json")
-    fun getSourceTypes(): Call<RxNormSourceTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getSourceTypes
+//    // Источники словарей
+//    @GET("sourcetypes.json")
+//    fun getSourceTypes(): Call<RxNormSourceTypesResponse>
 
-    // Подсказки по написанию
-    @GET("spellingsuggestions.json")
-    fun getSpellingSuggestions(@Query("name") term: String): Call<RxNormSpellingSuggestionsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getSpellingSuggestions
+//    // Подсказки по написанию
+//    @GET("spellingsuggestions.json")
+//    fun getSpellingSuggestions(@Query("name") term: String): Call<RxNormSpellingSuggestionsResponse>
 
-    // Типы терминов
-    @GET("termtypes.json")
-    fun getTermTypes(): Call<RxNormTermTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getTermTypes
+//    // Типы терминов
+//    @GET("termtypes.json")
+//    fun getTermTypes(): Call<RxNormTermTypesResponse>
 
-    // Версия RxNorm
-    @GET("version.json")
-    fun getRxNormVersion(): Call<RxNormVersionResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxNormVersion
+//    // Версия RxNorm
+//    @GET("version.json")
+//    fun getRxNormVersion(): Call<RxNormVersionResponse>
 
-    // Получить NDCs, связанные с концептом
-    @GET("rxcui/{rxcui}/ndcs.json")
-    fun getNDCs(@Path("rxcui") rxcui: String): Call<RxNormNDCsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getNDCs
+//    // Получить NDCs, связанные с концептом
+//    @GET("rxcui/{rxcui}/ndcs.json")
+//    fun getNDCs(@Path("rxcui") rxcui: String): Call<RxNormNDCsResponse>
 
-    // Получить все связанные концепты
-    @GET("rxcui/{rxcui}/allrelated.json")
-    fun getAllRelatedInfo(@Path("rxcui") rxcui: String): Call<RxNormAllRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllRelatedInfo
+//    // Получить все связанные концепты
+//    @GET("rxcui/{rxcui}/allrelated.json")
+//    fun getAllRelatedInfo(@Path("rxcui") rxcui: String): Call<RxNormAllRelatedResponse>
 
-    // Получить свойства концепта
-    @GET("rxcui/{rxcui}/properties.json")
-    fun getRxConceptProperties(@Path("rxcui") rxcui: String): Call<RxNormPropertiesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxConceptProperties
+//    // Получить свойства концепта
+//    @GET("rxcui/{rxcui}/properties.json")
+//    fun getRxConceptProperties(@Path("rxcui") rxcui: String): Call<RxNormPropertiesResponse>
 
-    // Получить имя концепта
-    @GET("rxcui/{rxcui}")
-    fun getRxNormName(@Path("rxcui") rxcui: String): Call<RxNormNameResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxNormName
+//    // Получить имя концепта
+//    @GET("rxcui/{rxcui}")
+//    fun getRxNormName(@Path("rxcui") rxcui: String): Call<RxNormNameResponse>
 
-    // Получить свойство концепта
-    @GET("rxcui/{rxcui}/property")
-    fun getRxProperty(@Path("rxcui") rxcui: String, @Query("propName") propName: String): Call<RxNormPropertyResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxProperty
+//    // Получить свойство концепта
+//    @GET("rxcui/{rxcui}/property")
+//    fun getRxProperty(@Path("rxcui") rxcui: String, @Query("propName") propName: String): Call<RxNormPropertyResponse>
 
-    // Получить статус/историю концепта
-    @GET("rxcui/{rxcui}/historystatus")
-    fun getRxcuiHistoryStatus(@Path("rxcui") rxcui: String): Call<Response7>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRxcuiHistoryStatus
+//    // Получить статус/историю концепта
+//    @GET("rxcui/{rxcui}/historystatus")
+//    fun getRxcuiHistoryStatus(@Path("rxcui") rxcui: String): Call<Response7>
 
-    // Получить связанные концепты по relationship
-    @GET("rxcui/{rxcui}/related.json")
-    fun getRelatedByRelationship(@Path("rxcui") rxcui: String, @Query("rela") rela: String): Call<RxNormRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRelated(rela=)
+//    // Получить связанные концепты по relationship
+//    @GET("rxcui/{rxcui}/related.json")
+//    fun getRelatedByRelationship(@Path("rxcui") rxcui: String, @Query("rela") rela: String): Call<RxNormRelatedResponse>
 
-    // Получить связанные концепты по типу
-    @GET("rxcui/{rxcui}/related.json")
-    fun getRelatedByType(@Path("rxcui") rxcui: String, @Query("tty") tty: String): Call<RxNormRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getRelated(tty=)
+//    // Получить связанные концепты по типу
+//    @GET("rxcui/{rxcui}/related.json")
+//    fun getRelatedByType(@Path("rxcui") rxcui: String, @Query("tty") tty: String): Call<RxNormRelatedResponse>
 
-    // Получить проприетарную информацию
-    @GET("rxcui/{rxcui}/proprietary.json")
-    fun getProprietaryInformation(@Path("rxcui") rxcui: String): Call<RxNormProprietaryResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getProprietaryInformation
+//    // Получить проприетарную информацию
+//    @GET("rxcui/{rxcui}/proprietary.json")
+//    fun getProprietaryInformation(@Path("rxcui") rxcui: String): Call<RxNormProprietaryResponse>
 
     // --- RxClass API методы в RxNorm ---
 

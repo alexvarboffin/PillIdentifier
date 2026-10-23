@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.walhalla.lib.RxnormRepository
-import com.walhalla.lib.datamodel.common.response.DerivedConcepts
-import com.walhalla.lib.datamodel.common.response.Response7
+//import com.walhalla.lib.datamodel.common.response.DerivedConcepts
+//import com.walhalla.lib.datamodel.common.response.Response7
+import gov.nih.nlm.rxnorm.models.RxcuiStatusHistoryResponse
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.lib.service.RxnormApi
 import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
@@ -27,13 +31,14 @@ import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.plugins.Module_U.shareText
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 import kotlin.collections.isNotEmpty
 import kotlin.collections.joinToString
 
-class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
+//class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
+class Fragment7 : Fragment(), ComplexPresenter,
     OnRefreshListener {
     protected var opCode: String = ""
     private var index = 0
@@ -81,12 +86,19 @@ class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
     }
 
     fun loadData() {
-        val call8 = api!!.historystatus(opCode, RxnormRepository.RX_NAV_CALLER)
-        call8.enqueue(this)
+//        val call8 = api!!.historystatus(opCode, RxnormRepository.RX_NAV_CALLER)
+//        call8.enqueue(this)
+        // historystatus.json now via generated DefaultApi.getRxcuiHistoryStatus
+        lifecycleScope.launch {
+            RxNormLib.fetch { getRxcuiHistoryStatus(opCode) }
+                .onSuccess { body -> onResponse(body) }
+                .onFailure { t -> onFailure(t) }
+        }
     }
 
-    override fun onResponse(call: Call<Response7>, response: Response<Response7>) {
-        val response7 = response.body()
+    //override fun onResponse(call: Call<Response7>, response: Response<Response7>) {
+    //    val response7 = response.body()
+    private fun onResponse(response7: RxcuiStatusHistoryResponse?) {
         val activity: Activity? = activity
         if (activity != null && isAdded) {
             if (response7 != null && context != null) {
@@ -182,11 +194,10 @@ class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
                         insertIfNotNull(data, "ingredientRxcui", ic.ingredientRxcui)
                     }
                 }
-                derived?.qdFreeConcept?.let { qdList ->
-                    for (qd in qdList) {
-                        insertIfNotNull(data, "qdFreeName", qd.qdFreeName)
-                        insertIfNotNull(data, "qdFreeRxcui", qd.qdFreeRxcui)
-                    }
+                // generated model: qdFreeConcept is a single object (old DTO: list)
+                derived?.qdFreeConcept?.let { qd ->
+                    insertIfNotNull(data, "qdFreeName", qd.qdFreeName)
+                    insertIfNotNull(data, "qdFreeRxcui", qd.qdFreeRxcui)
                 }
                 derived?.quantifiedConcept?.let { qcList ->
                     for (qc in qcList) {
@@ -204,11 +215,10 @@ class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
                         insertIfNotNull(data, "remappedActive", rc.remappedActive)
                     }
                 }
-                derived?.scdConcept?.let { scdList ->
-                    for (scd in scdList) {
-                        insertIfNotNull(data, "scdConceptName", scd.scdConceptName)
-                        insertIfNotNull(data, "scdConceptRxcui", scd.scdConceptRxcui)
-                    }
+                // generated model: scdConcept is a single object (old DTO: list)
+                derived?.scdConcept?.let { scd ->
+                    insertIfNotNull(data, "scdConceptName", scd.scdConceptName)
+                    insertIfNotNull(data, "scdConceptRxcui", scd.scdConceptRxcui)
                 }
 
                 updateData(data)
@@ -228,7 +238,8 @@ class Fragment7 : Fragment(), Callback<Response7>, ComplexPresenter,
         mAdapter!!.onRestoreInstanceState(obj)
     }
 
-    override fun onFailure(call: Call<Response7>, t: Throwable) {
+    //override fun onFailure(call: Call<Response7>, t: Throwable) {
+    private fun onFailure(t: Throwable) {
     }
 
     override fun onItemClicked(v: View, position: Int) {
