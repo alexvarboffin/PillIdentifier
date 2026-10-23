@@ -23,6 +23,7 @@ import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
+import com.walhalla.pillfinder.adapter.obj.ConceptLinkItem
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.NameValue2_1
@@ -135,23 +136,33 @@ class Fragment7 : Fragment(), ComplexPresenter,
                 // doseFormConcept
                 features?.doseFormConcept?.let { dfcList ->
                     for (concept in dfcList) {
-                        insertIfNotNull(
-                            data,
-                            getString(R.string.doseFormName),
-                            concept.doseFormName
-                        )
-                        insertIfNotNull(
-                            data,
-                            getString(R.string.doseFormRxcui),
-                            concept.doseFormRxcui
+//                        insertIfNotNull(
+//                            data,
+//                            getString(R.string.doseFormName),
+//                            concept.doseFormName
+//                        )
+//                        insertIfNotNull(
+//                            data,
+//                            getString(R.string.doseFormRxcui),
+//                            concept.doseFormRxcui
+//                        )
+                        insertConcept(
+                            data, getString(R.string.doseFormName), concept.doseFormName,
+                            getString(R.string.doseFormRxcui), concept.doseFormRxcui,
+                            tty = "DF", info = "doseFormConcept"
                         )
                     }
                 }
                 // doseFormGroupConcept
                 features?.doseFormGroupConcept?.let { dfgcList ->
                     for (group in dfgcList) {
-                        insertIfNotNull(data, "doseFormGroupName", group.doseFormGroupName)
-                        insertIfNotNull(data, "doseFormGroupRxcui", group.doseFormGroupRxcui)
+                        //insertIfNotNull(data, "doseFormGroupName", group.doseFormGroupName)
+                        //insertIfNotNull(data, "doseFormGroupRxcui", group.doseFormGroupRxcui)
+                        insertConcept(
+                            data, "doseFormGroupName", group.doseFormGroupName,
+                            "doseFormGroupRxcui", group.doseFormGroupRxcui,
+                            tty = "DFG", info = "doseFormGroupConcept"
+                        )
                     }
                 }
                 // quantityFactor
@@ -169,8 +180,9 @@ class Fragment7 : Fragment(), ComplexPresenter,
                 pack?.packAlias?.let { insertIfNotNull(data, "packAlias", it) }
                 pack?.packConcept?.let { pcList ->
                     for (pc in pcList) {
-                        insertIfNotNull(data, "packName", pc.packName)
-                        insertIfNotNull(data, "packRxcui", pc.packRxcui)
+                        //insertIfNotNull(data, "packName", pc.packName)
+                        //insertIfNotNull(data, "packRxcui", pc.packRxcui)
+                        insertConcept(data, "packName", pc.packName, "packRxcui", pc.packRxcui, info = "packConcept")
                         insertIfNotNull(data, "packNumber", pc.packNumber)
                     }
                 }
@@ -190,35 +202,54 @@ class Fragment7 : Fragment(), ComplexPresenter,
                 val derived = history?.derivedConcepts
                 derived?.ingredientConcept?.let { icList ->
                     for (ic in icList) {
-                        insertIfNotNull(data, "ingredientName", ic.ingredientName)
-                        insertIfNotNull(data, "ingredientRxcui", ic.ingredientRxcui)
+                        //insertIfNotNull(data, "ingredientName", ic.ingredientName)
+                        //insertIfNotNull(data, "ingredientRxcui", ic.ingredientRxcui)
+                        insertConcept(
+                            data, "ingredientName", ic.ingredientName, "ingredientRxcui", ic.ingredientRxcui,
+                            info = "ingredientConcept"
+                        )
                     }
                 }
                 // generated model: qdFreeConcept is a single object (old DTO: list)
                 derived?.qdFreeConcept?.let { qd ->
-                    insertIfNotNull(data, "qdFreeName", qd.qdFreeName)
-                    insertIfNotNull(data, "qdFreeRxcui", qd.qdFreeRxcui)
+                    //insertIfNotNull(data, "qdFreeName", qd.qdFreeName)
+                    //insertIfNotNull(data, "qdFreeRxcui", qd.qdFreeRxcui)
+                    insertConcept(data, "qdFreeName", qd.qdFreeName, "qdFreeRxcui", qd.qdFreeRxcui, info = "qdFreeConcept")
                 }
                 derived?.quantifiedConcept?.let { qcList ->
                     for (qc in qcList) {
-                        insertIfNotNull(data, "quantifiedName", qc.quantifiedName)
-                        insertIfNotNull(data, "quantifiedRxcui", qc.quantifiedRxcui)
-                        insertIfNotNull(data, "quantifiedTTY", qc.quantifiedTTY)
-                        insertIfNotNull(data, "quantifiedActive", qc.quantifiedActive)
+                        //insertIfNotNull(data, "quantifiedName", qc.quantifiedName)
+                        //insertIfNotNull(data, "quantifiedRxcui", qc.quantifiedRxcui)
+                        //insertIfNotNull(data, "quantifiedTTY", qc.quantifiedTTY)
+                        //insertIfNotNull(data, "quantifiedActive", qc.quantifiedActive)
+                        insertConcept(
+                            data, "quantifiedName", qc.quantifiedName, "quantifiedRxcui", qc.quantifiedRxcui,
+                            ttyTitle = "quantifiedTTY", tty = qc.quantifiedTTY,
+                            activeTitle = "quantifiedActive", active = qc.quantifiedActive, info = "quantifiedConcept"
+                        )
                     }
                 }
                 derived?.remappedConcept?.let { rcList ->
                     for (rc in rcList) {
-                        insertIfNotNull(data, "remappedName", rc.remappedName)
-                        insertIfNotNull(data, "remappedRxCui", rc.remappedRxCui)
-                        insertIfNotNull(data, "remappedTTY", rc.remappedTTY)
-                        insertIfNotNull(data, "remappedActive", rc.remappedActive)
+                        //insertIfNotNull(data, "remappedName", rc.remappedName)
+                        //insertIfNotNull(data, "remappedRxCui", rc.remappedRxCui)
+                        //insertIfNotNull(data, "remappedTTY", rc.remappedTTY)
+                        //insertIfNotNull(data, "remappedActive", rc.remappedActive)
+                        insertConcept(
+                            data, "remappedName", rc.remappedName, "remappedRxCui", rc.remappedRxCui,
+                            ttyTitle = "remappedTTY", tty = rc.remappedTTY,
+                            activeTitle = "remappedActive", active = rc.remappedActive, info = "remappedConcept"
+                        )
                     }
                 }
                 // generated model: scdConcept is a single object (old DTO: list)
                 derived?.scdConcept?.let { scd ->
-                    insertIfNotNull(data, "scdConceptName", scd.scdConceptName)
-                    insertIfNotNull(data, "scdConceptRxcui", scd.scdConceptRxcui)
+                    //insertIfNotNull(data, "scdConceptName", scd.scdConceptName)
+                    //insertIfNotNull(data, "scdConceptRxcui", scd.scdConceptRxcui)
+                    insertConcept(
+                        data, "scdConceptName", scd.scdConceptName, "scdConceptRxcui", scd.scdConceptRxcui,
+                        tty = "SCD", info = "scdConcept"
+                    )
                 }
 
                 updateData(data)
@@ -229,6 +260,32 @@ class Fragment7 : Fragment(), ComplexPresenter,
     fun insertIfNotNull(data: ArrayList<VieModel>, title: String, value: String?) {
         if (!value.isNullOrBlank()) {
             data.add(NameValue1_2(title, value))
+        }
+    }
+
+    /**
+     * Status-tab concept rows (roadmap: clickable Status rows). When hosted by the drug-search screen
+     * (parent implements [ConceptNavigator]) and the record carries an rxcui, the name + rxcui (+ tty / active)
+     * rows collapse into ONE NEW clickable [ConceptLinkItem] chip (style NewClickableChip), grey lines =
+     * "RxCUI <id> · <TTY>" and "<historystatus field> · active: <value>"; tap -> openConcept (shared back history).
+     * Otherwise (no navigator / no rxcui) the previous plain NameValue1_2 rows are inserted exactly as before.
+     */
+    private fun insertConcept(
+        data: ArrayList<VieModel>,
+        nameTitle: String, name: String?,
+        rxcuiTitle: String, rxcui: String?,
+        ttyTitle: String? = null, tty: String? = null,
+        activeTitle: String? = null, active: String? = null,
+        info: String
+    ) {
+        if (!rxcui.isNullOrBlank() && parentFragment is ConceptNavigator) {
+            val infoLine = if (active.isNullOrBlank()) info else getString(R.string.status_concept_active, info, active)
+            data.add(ConceptLinkItem(name?.takeIf { it.isNotBlank() } ?: rxcui, rxcui, tty = tty, info = infoLine))
+        } else {
+            insertIfNotNull(data, nameTitle, name)
+            insertIfNotNull(data, rxcuiTitle, rxcui)
+            if (ttyTitle != null) insertIfNotNull(data, ttyTitle, tty)
+            if (activeTitle != null) insertIfNotNull(data, activeTitle, active)
         }
     }
 
@@ -246,6 +303,11 @@ class Fragment7 : Fragment(), ComplexPresenter,
     }
 
     override fun onItemClicked(v: View, obj: VieModel) {
+        // Status-tab concept chips: open the concept in the drug-search tabs (same as Related rows)
+        if (obj is ConceptLinkItem) {
+            (parentFragment as? ConceptNavigator)?.openConcept(obj.rxcui, obj.conceptName)
+            return
+        }
         if (obj is SimpleString) {
             rrr(obj.title)
         } else if (obj is NameValue1_2) {

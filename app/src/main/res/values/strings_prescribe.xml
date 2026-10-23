@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Drug Search header (roadmap #6 PRESCRIBABLE badge, #12 Prescribe switch) -->
+    <string name="header_badge_prescribable">RxNorm prescribable (US)</string>
+    <string name="header_badge_prescribable_desc">In the RxNorm Current Prescribable Content subset (US)</string>
+    <string name="prescribe_toggle">Prescribable only  \u203A</string>
+    <string name="prescribe_mode_note">Prescribable only: RxNorm Prescribe API (RXNORM, MTHSPL, MTHCMSFRF)</string>
+    <string name="prescribe_mode_empty">No prescribable concepts</string>
+    <!-- Status tab (roadmap: clickable concept rows), grey info line under the concept chip -->
+    <string name="status_concept_active">%1$s \u00B7 active: %2$s</string>
+</resources>

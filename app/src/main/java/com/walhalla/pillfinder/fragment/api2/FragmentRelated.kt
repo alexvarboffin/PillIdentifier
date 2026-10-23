@@ -73,6 +73,11 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
      */
     fun loadData() {
         val id = rxcui ?: return
+        // roadmap #12: "Prescribable only" switch ON -> /Prescribe/rxcui/{id}/allrelated.json; OFF -> unchanged below
+        if (PrescribeMode.isEnabled(requireContext())) {
+            loadDataPrescribe(id)
+            return
+        }
         lifecycleScope.launch {
             val ext = RxNormLib.fetch { getAllRelatedExtension(id) }
             val groups = ext.getOrNull()?.allRelatedGroup?.conceptGroup
@@ -103,6 +108,36 @@ class FragmentRelated : Fragment(), ComplexPresenter, OnRefreshListener {
             }
             if (getActivity() != null && isAdded) {
                 updateData(data)
+            }
+        }
+    }
+
+    /**
+     * Roadmap #12 (Prescribe mode): prescribeGetAllRelatedInfo. Same rows / navigation as the standard tab, but only
+     * concepts of the RxNorm Current Prescribable Content. Live 23.10.2026: 198201 15 -> 15, 141928 15 -> 15,
+     * 202363 40 -> 40 (all prescribable), rifampin IN 9384 55 -> 27 (SCD 10 -> 3), Adequan 1085959 12 -> 0.
+     * Prescribe has no allrelatedextension twin, so there are no pres / psn / vet extras (every row is prescribable anyway).
+     */
+    private fun loadDataPrescribe(id: String) {
+        lifecycleScope.launch {
+            RxNormLib.fetch { prescribeGetAllRelatedInfo(id) }.onSuccess { body ->
+                val data = ArrayList<VieModel>()
+                data.add(HeaderObject(getString(R.string.prescribe_mode_note)))
+                var rows = 0
+                for (group in body?.allRelatedGroup?.conceptGroup.orEmpty()) {
+                    val props = group.conceptProperties
+                    if (props.isNullOrEmpty()) continue
+                    val tty = group.tty
+                    if (!tty.isNullOrBlank()) data.add(HeaderObject(tty))
+                    for (prop in props) {
+                        data.add(conceptRow(prop.name ?: "", prop.rxcui ?: ""))
+                        rows++
+                    }
+                }
+                if (rows == 0) data.add(HeaderObject(getString(R.string.prescribe_mode_empty)))
+                if (getActivity() != null && isAdded) updateData(data)
+            }.onFailure { t ->
+                if (getActivity() != null && isAdded) updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "")))
             }
         }
     }

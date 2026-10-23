@@ -139,7 +139,9 @@ class AnalogsActivity : AppCompatActivity() {
         val name = c.name ?: ""
         val id = c.rxcui.orEmpty()
         if (id.isBlank()) return NameValue1_2(name, c.tty ?: "")
-        val attrs = member.nodeAttr.associate { it.attrName to it.attrValue }
+        //val attrs = member.nodeAttr.associate { it.attrName to it.attrValue }
+        // nodeAttr is optional in the spec (may be absent/null) -> no attrs -> grey info line hidden
+        val attrs = member.nodeAttr.orEmpty().associate { it.attrName to it.attrValue }
         val parts = ArrayList<String>()
         // ATCPROD repeats the rxcui as SourceId (and adds SourceUrl) -> skipped as noise
         attrs["SourceId"]?.takeIf { it.isNotBlank() && it != id }?.let { parts.add("$source $it") }

@@ -109,7 +109,11 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
         if (currentType == "TTY") {
             // Получаем список TTY (was: MyApp.rxnorm.getTermTypes(), Retrofit)
             lifecycleScope.launch {
-                RxNormLib.fetch { getTermTypes() }.onSuccess { body ->
+                //RxNormLib.fetch { getTermTypes() }.onSuccess { body ->
+                // roadmap #12: Prescribe switch ON -> /Prescribe/termtypes.json
+                RxNormLib.fetch {
+                    if (PrescribeMode.isEnabled(requireContext())) prescribeGetTermTypes() else getTermTypes()
+                }.onSuccess { body ->
                     val list = body?.termTypeList?.termType ?: emptyList()
                     ttyList = list
                     setupValueSpinner(list)
@@ -121,7 +125,11 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
             // Получаем список RELA (was: MyApp.rxnorm.getRelaTypes(), Retrofit)
             // NB: relatypes.json returns relationTypeList.relationType; old DTO read relaTypeList.relaType (always empty)
             lifecycleScope.launch {
-                RxNormLib.fetch { getRelaTypes() }.onSuccess { body ->
+                //RxNormLib.fetch { getRelaTypes() }.onSuccess { body ->
+                // roadmap #12: Prescribe switch ON -> /Prescribe/relatypes.json
+                RxNormLib.fetch {
+                    if (PrescribeMode.isEnabled(requireContext())) prescribeGetRelaTypes() else getRelaTypes()
+                }.onSuccess { body ->
                     val list = body?.relationTypeList?.relationType ?: emptyList()
                     relaList = list
                     setupValueSpinner(list)
@@ -179,12 +187,20 @@ class FragmentRelatedByType : Fragment(), ComplexPresenter, OnRefreshListener {
         if (rxcui.isNullOrBlank()) return
         val id = rxcui!!
         val byType = currentType == "TTY"
+        // roadmap #12: "Prescribable only" switch ON -> /Prescribe/rxcui/{id}/related.json (live: 9384 tty=SCD 10 -> 3)
+        val prescribe = PrescribeMode.isEnabled(requireContext())
         // was: MyApp.rxnorm.getRelatedByType(rxcui, tty) / getRelatedByRelationship(rxcui, rela) (Retrofit)
         lifecycleScope.launch {
             RxNormLib.fetch {
-                if (byType) getRelated(id, tty = listOf(value)) else getRelated(id, rela = listOf(value))
+                //if (byType) getRelated(id, tty = listOf(value)) else getRelated(id, rela = listOf(value))
+                if (prescribe) {
+                    if (byType) prescribeGetRelated(id, tty = listOf(value)) else prescribeGetRelated(id, rela = listOf(value))
+                } else {
+                    if (byType) getRelated(id, tty = listOf(value)) else getRelated(id, rela = listOf(value))
+                }
             }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
+                if (prescribe) data.add(HeaderObject(getString(R.string.prescribe_mode_note)))
                 if (body != null) {
                     val relatedGroup = body.relatedGroup
                     if (relatedGroup != null) {

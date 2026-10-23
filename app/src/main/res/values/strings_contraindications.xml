@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Classes tab: MED-RT contraindication section (RxClass getClassByRxcui rows with relaSource MEDRT, rela ci_*).
+         Labels are literal MED-RT relation meanings; ci_chemclass is often hypersensitivity to a chemical class,
+         so do NOT phrase these as "interacts with" / "do not combine". -->
+    <string name="contra_section_title">Contraindications (MED-RT)</string>
+    <string name="contra_section_note">Source: MED-RT (U.S. Dept. of Veterans Affairs) via NLM RxClass. Reference only — not a drug interaction check.</string>
+    <string name="contra_ci_with">Contraindicated with condition</string>
+    <string name="contra_ci_chemclass">Contraindication: chemical class</string>
+    <string name="contra_ci_moa">Contraindication: mechanism of action</string>
+    <string name="contra_ci_pe">Contraindication: physiologic effect</string>
+</resources>

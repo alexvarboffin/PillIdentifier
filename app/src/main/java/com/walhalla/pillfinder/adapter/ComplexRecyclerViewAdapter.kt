@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.emptyView.EmptyViewHolder
@@ -32,6 +33,8 @@ import com.walhalla.pillfinder.adapter.obj.ClassCardItem
 import com.walhalla.pillfinder.adapter.obj.ClassMemberItem
 import com.walhalla.pillfinder.adapter.obj.NdcLinkItem
 import com.walhalla.pillfinder.adapter.obj.ConceptLinkItem
+import com.walhalla.pillfinder.adapter.obj.ContraSectionHeaderItem
+import com.walhalla.pillfinder.adapter.obj.ContraGroupItem
 import com.walhalla.pillfinder.adapter.viewHolder.NewClickableStyle
 
 class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -41,6 +44,8 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     private val TYPE_CLASS_MEMBER = 337
     private val TYPE_NDC_LINK = 338 // NEW clickable NDC chip (roadmap #1)
     private val TYPE_CONCEPT_LINK = 339 // NEW clickable RxNorm concept chip (Related tabs navigation)
+    private val TYPE_CONTRA_HEADER = 340 // Classes tab: MED-RT contraindication section header (NOT clickable)
+    private val TYPE_CONTRA_GROUP = 341 // Classes tab: MED-RT contraindication rela label (NOT clickable)
 
     private val EMPTY_VIEW_DEFAULT = 777
     private val EMPTY_VIEW_FROM_OBJECT = 778
@@ -135,6 +140,10 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             return TYPE_NDC_LINK
         } else if (datalist[position] is ConceptLinkItem) {
             return TYPE_CONCEPT_LINK
+        } else if (datalist[position] is ContraSectionHeaderItem) {
+            return TYPE_CONTRA_HEADER
+        } else if (datalist[position] is ContraGroupItem) {
+            return TYPE_CONTRA_GROUP
         }
         return -1
     }
@@ -206,6 +215,16 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             TYPE_NDC_LINK -> {
                 val v = getContentResource(R.layout.item_ndc_link, viewGroup)
                 viewHolder = Simple2TextViewHolder(v)
+            }
+
+            TYPE_CONTRA_HEADER -> {
+                val v = getContentResource(R.layout.item_contra_header, viewGroup)
+                viewHolder = ContraHeaderViewHolder(v)
+            }
+
+            TYPE_CONTRA_GROUP -> {
+                val v = getContentResource(R.layout.item_contra_group, viewGroup)
+                viewHolder = ContraGroupViewHolder(v)
             }
 
             TYPE_CONCEPT_LINK -> {
@@ -320,13 +339,24 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                     val tvTty = memberView.findViewById<TextView>(R.id.tvMemberTty)
                     val tvRela = memberView.findViewById<TextView>(R.id.tvMemberRela)
                     val tvRelaSource = memberView.findViewById<TextView>(R.id.tvMemberRelaSource)
-                    tvName.text = member.minConceptName
+                    //tvName.text = member.minConceptName
+                    // member row now opens the class (same as the card) -> link colour + subtle chevron
+                    tvName.text = member.minConceptName + "  \u203A"
+                    tvName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.new_clickable_accent))
                     tvTty.text = member.minConceptTty
-                    tvRela.text = if (member.rela.isNotEmpty()) member.rela else ""
+                    //tvRela.text = if (member.rela.isNotEmpty()) member.rela else ""
+                    // relation line = NEW clickable chip (style NewClickableChip in item_class_member.xml); hidden when empty (ATC/ATCPROD)
+                    tvRela.text = if (member.rela.isNotEmpty()) member.rela + "  \u203A" else ""
+                    tvRela.visibility = if (member.rela.isNotEmpty()) View.VISIBLE else View.GONE
+                    NewClickableStyle.apply(tvRela)
                     tvRelaSource.text = if (member.relaSource.isNotEmpty()) member.relaSource else ""
                     // Клик по строке препарата
+                    //memberView.setOnClickListener { v ->
+                    //    presenter?.onItemClicked(v, member)
+                    //}
+                    // member row -> exactly the card action (ClassCardItem -> FragmentClass -> AnalogsActivity)
                     memberView.setOnClickListener { v ->
-                        presenter?.onItemClicked(v, member)
+                        presenter?.onItemClicked(v, item)
                     }
                     // Клик по типу связи (rela) — показать справку
                     tvRela.setOnClickListener { v ->
@@ -391,6 +421,23 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                     infoView.text = info.orEmpty()
                     infoView.visibility = if (info.isNullOrBlank()) View.GONE else View.VISIBLE
                 }
+            }
+
+            TYPE_CONTRA_HEADER -> {
+                // NOT clickable: no listener
+                val item = datalist[position] as ContraSectionHeaderItem
+                val holder = viewHolder as ContraHeaderViewHolder
+                holder.tvTitle.text = item.title
+                holder.tvNote.text = item.note
+            }
+
+            TYPE_CONTRA_GROUP -> {
+                // NOT clickable: no listener. Raw rela in grey for traceability (hidden when label already is the raw rela)
+                val item = datalist[position] as ContraGroupItem
+                val holder = viewHolder as ContraGroupViewHolder
+                holder.tvLabel.text = item.label
+                holder.tvRela.text = item.rela
+                holder.tvRela.visibility = if (item.label == item.rela) View.GONE else View.VISIBLE
             }
 
             EMPTY_VIEW_FROM_OBJECT -> {
@@ -475,6 +522,15 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         val tvMemberTty: TextView = itemView.findViewById(R.id.tvMemberTty)
         val tvMemberRela: TextView = itemView.findViewById(R.id.tvMemberRela)
         val tvMemberRelaSource: TextView = itemView.findViewById(R.id.tvMemberRelaSource)
+    }
+
+    class ContraHeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvTitle: TextView = itemView.findViewById(R.id.tvContraTitle)
+        val tvNote: TextView = itemView.findViewById(R.id.tvContraNote)
+    }
+    class ContraGroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvLabel: TextView = itemView.findViewById(R.id.tvContraGroupLabel)
+        val tvRela: TextView = itemView.findViewById(R.id.tvContraGroupRela)
     }
 
     companion object {

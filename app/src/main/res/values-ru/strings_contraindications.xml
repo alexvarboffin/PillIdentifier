@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Classes tab: MED-RT contraindication section (see values/strings_contraindications.xml) -->
+    <string name="contra_section_title">Противопоказания (MED-RT)</string>
+    <string name="contra_section_note">Источник: MED-RT (Министерство по делам ветеранов США) через NLM RxClass. Справочно, не проверка взаимодействий.</string>
+    <string name="contra_ci_with">Противопоказан при состоянии</string>
+    <string name="contra_ci_chemclass">Противопоказание: химический класс</string>
+    <string name="contra_ci_moa">Противопоказание: механизм действия</string>
+    <string name="contra_ci_pe">Противопоказание: физиологический эффект</string>
+</resources>

@@ -68,6 +68,9 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
     // Roadmap #4: "Generic: <name>" chip + "Back to <brand>" above the tabs (getGenericProduct)
     private var genericBar: GenericProductBar? = null
 
+    // Roadmap #6 + #12: PRESCRIBABLE badge + "Prescribable only" switch above the tabs
+    private var headerBar: DrugHeaderBar? = null
+
     //rxcui or ingredient
     private var rxcui: String? = null
     private var ingredient: String? = null
@@ -84,6 +87,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        PrescribeMode.isEnabled(requireContext()) // roadmap #12: warm the cached switch state before the first request
 
         if (arguments != null) {
             rxcui = requireArguments().getString(KEY_RXNORMID, null)
@@ -176,6 +180,12 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
             makeInformationGui(openRxcui)
         }
 
+        // Roadmap #6 + #12: switch change rebuilds the open drug's tabs (they read PrescribeMode when loading)
+        headerBar = DrugHeaderBar(view.findViewById(R.id.rxHeaderRow)) { _ ->
+            val open = genericBar?.currentRxcui
+            if (open != null) makeInformationGui(open)
+        }
+
         if (null != tabLayout) {
             TabLayoutMediator(
                 tabLayout, viewPager
@@ -200,6 +210,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         //repo.globalRequest(query);
         approxPanel?.hide() // roadmap #3: drop the previous "closest matches" list (no-op when it is not shown)
         genericBar?.reset() // roadmap #4: a new search forgets the brand -> generic history
+        headerBar?.reset() // roadmap #6
         mainView.showProgressBar()
         repo!!.globalRequest(query)
     }
@@ -242,7 +253,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         buffer.add(FragmentNdcHistory.newInstance(1, pd))
         buffer.add(FragmentProperties.newInstance(1, pd))
         buffer.add(FragmentClass.newInstance(1, pd))
-        buffer.add(FragmentInteraction.newInstance(1, pd))
+        //buffer.add(FragmentInteraction.newInstance(1, pd)) // disabled: RxNav /REST/interaction discontinued by NLM 2024-01-02 (404)
         buffer.add(Fragment7.newInstance(1, pd))
         buffer.add(Fragment2.newInstance(1, pd))
 
@@ -253,11 +264,12 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         titles.add("NDC History")
         titles.add("Properties")
         titles.add("Classes")
-        titles.add("Interaction")
+        //titles.add("Interaction") // disabled together with FragmentInteraction tab above
         titles.add("Status")
         titles.add("RxNorm Properties")
         mPagerAdapter!!.updateEmployeeListItems(buffer)
         if (pd != null) genericBar?.onDrugOpened(pd) // roadmap #4: show "Generic: ..." for branded concepts
+        if (pd != null) headerBar?.onDrugOpened(pd) // roadmap #6: PRESCRIBABLE badge
     }
 
 
@@ -297,6 +309,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
             titles.clear()
             approxPanel?.hide() // roadmap #3
             genericBar?.reset() // roadmap #4
+            headerBar?.reset() // roadmap #6
             mPagerAdapter!!.updateEmployeeListItems(ArrayList<Fragment?>())
             return true
         }
@@ -377,7 +390,12 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
                             lastQuery = query
                             // was: api?.getSpellingSuggestions(query) (Retrofit)
                             lifecycleScope.launch {
-                                RxNormLib.fetch { getSpellingSuggestions(name = query) }.onSuccess { body ->
+                                //RxNormLib.fetch { getSpellingSuggestions(name = query) }.onSuccess { body ->
+                                // roadmap #12: Prescribe switch ON -> /Prescribe/spellingsuggestions.json
+                                RxNormLib.fetch {
+                                    if (PrescribeMode.enabled) prescribeGetSpellingSuggestions(name = query)
+                                    else getSpellingSuggestions(name = query)
+                                }.onSuccess { body ->
                                     val newSuggestions = body?.suggestionGroup?.suggestionList?.suggestion ?: emptyList()
                                     suggestionAdapter.updateData(newSuggestions)
                                     if (newSuggestions.isNotEmpty()) {
@@ -419,6 +437,8 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         approxPanel = null
         genericBar?.cancelJobs() // roadmap #4
         genericBar = null
+        headerBar?.cancelJobs() // roadmap #6
+        headerBar = null
         super.onDestroyView()
     }
 

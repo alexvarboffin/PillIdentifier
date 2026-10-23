@@ -19,12 +19,22 @@
         android:textSize="13sp"
         android:textColor="@android:color/darker_gray"
         />
+    <!-- old plain relation line:
     <TextView
         android:id="@+id/tvMemberRela"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="#00796B"
+        />
+    -->
+    <!-- relation line is now a NEW clickable chip: opens AnalogsActivity filtered by this rela + relaSource -->
+    <TextView
+        android:id="@+id/tvMemberRela"
+        style="@style/NewClickableChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
         />
     <TextView
         android:id="@+id/tvMemberRelaSource"

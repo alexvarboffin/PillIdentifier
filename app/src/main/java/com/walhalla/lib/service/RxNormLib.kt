@@ -14,6 +14,8 @@ import gov.nih.nlm.rxnorm.models.NdcPropertyListResponse
 import gov.nih.nlm.rxnorm.models.NdcRelation
 import gov.nih.nlm.rxnorm.models.NdcStatusResponse
 import gov.nih.nlm.rxnorm.models.NdcStatusFilter
+import gov.nih.nlm.rxnorm.models.PropConceptGroupResponse
+import com.walhalla.pillfinder.fragment.api2.PrescribeMode
 import gov.nih.nlm.rxnorm.models.SearchMode
 import io.ktor.client.engine.android.Android
 import kotlinx.coroutines.CancellationException
@@ -67,8 +69,22 @@ object RxNormLib {
     @JvmStatic
     fun globalRequest(query: String?, callback: RxnormRepositoryCallback?) {
         mainScope.launch {
+//            fetch {
+//                findRxcui(
+//                    name = query,
+//                    search = SearchMode._2,
+//                    allsrc = AllSourcesFlag._1,
+//                    srclist = null // old request did not send srclist
+//                )
+//            }.onSuccess
+            // roadmap #12: Prescribe switch ON -> /Prescribe/rxcui.json (same params), OFF -> unchanged
             fetch {
-                findRxcui(
+                if (PrescribeMode.enabled) prescribeFindRxcui(
+                    name = query,
+                    search = SearchMode._2,
+                    allsrc = AllSourcesFlag._1,
+                    srclist = null
+                ) else findRxcui(
                     name = query,
                     search = SearchMode._2,
                     allsrc = AllSourcesFlag._1,
@@ -139,7 +155,10 @@ object RxNormLib {
     @JvmStatic
     fun approximateMatch(term: String, callback: LibCallback<ApproximateGroupResponse>): Job =
         launchWithCallback(callback) {
-            getApproximateMatch(term = term, maxEntries = APPROX_MAX_ENTRIES, option = ApproximateOption._1)
+            //getApproximateMatch(term = term, maxEntries = APPROX_MAX_ENTRIES, option = ApproximateOption._1)
+            // roadmap #12: Prescribe switch ON -> /Prescribe/approximateTerm.json (same params)
+            if (PrescribeMode.enabled) prescribeGetApproximateMatch(term = term, maxEntries = APPROX_MAX_ENTRIES, option = ApproximateOption._1)
+            else getApproximateMatch(term = term, maxEntries = APPROX_MAX_ENTRIES, option = ApproximateOption._1)
         }
 
     /** getRxNormName -> /rxcui/{rxcui}.json, idGroup.name (canonical RxNorm name). */
@@ -151,4 +170,12 @@ object RxNormLib {
     @JvmStatic
     fun genericProduct(rxcui: String, callback: LibCallback<MinConceptGroupResponse>): Job =
         launchWithCallback(callback) { getGenericProduct(rxcui = rxcui) }
+
+    /**
+     * getRxProperty -> /rxcui/{rxcui}/property.json?propName={propName} (roadmap #6, PRESCRIBABLE badge).
+     * Concepts without the property answer {} (propConceptGroup == null). Always the standard API (badge is not mode dependent).
+     */
+    @JvmStatic
+    fun rxProperty(rxcui: String, propName: String, callback: LibCallback<PropConceptGroupResponse>): Job =
+        launchWithCallback(callback) { getRxProperty(rxcui = rxcui, propName = propName) }
 }

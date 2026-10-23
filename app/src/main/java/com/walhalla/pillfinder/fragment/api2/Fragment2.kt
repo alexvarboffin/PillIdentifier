@@ -97,8 +97,14 @@ class Fragment2 : Fragment(), ComplexPresenter, OnRefreshListener {
 
         // was: api!!.allProperties(opCode, RxnormRepository.RX_NAV_CALLER, "ALL") (Retrofit)
         lifecycleScope.launch {
-            RxNormLib.fetch { getAllProperties(opCode, listOf("ALL")) }.onSuccess { body ->
+            //RxNormLib.fetch { getAllProperties(opCode, listOf("ALL")) }.onSuccess { body ->
+            // roadmap #12: "Prescribable only" switch ON -> /Prescribe/rxcui/{id}/allProperties.json (live: 198201 34 -> 23, 141928 20 -> 15)
+            val prescribe = PrescribeMode.isEnabled(requireContext())
+            RxNormLib.fetch {
+                if (prescribe) prescribeGetAllProperties(opCode, listOf("ALL")) else getAllProperties(opCode, listOf("ALL"))
+            }.onSuccess { body ->
                 val fUll = ArrayList<VieModel>()
+                if (prescribe) fUll.add(HeaderObject(getString(R.string.prescribe_mode_note)))
                 val formater: MutableMap<String, MutableList<PropConcept>> = HashMap()
 
                 if (body != null) {

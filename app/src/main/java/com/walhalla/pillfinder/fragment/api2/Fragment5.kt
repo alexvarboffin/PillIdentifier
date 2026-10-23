@@ -211,9 +211,16 @@ class Fragment5 : Fragment(), ComplexPresenter, OnRefreshListener {
                     //Вернулся null данных нет
                     //DLog.d("<@@@>EEEEEEEEEEEEE" + body.toString());
 
+//                    data.add(
+//                        EmptyViewObj(
+//                            "No data found for given Rxcui ($rxcui)", query!!
+//                        )
+//                    )
+                    // fix: query is null when the tabs are opened by rxcui (MainA2 KEY_RXNORMID, e.g. AnalogsActivity member tap)
+                    // -> NPE crash for concepts without RxTerms data (live: Adequan 1085959, remapped 1000004)
                     data.add(
                         EmptyViewObj(
-                            "No data found for given Rxcui ($rxcui)", query!!
+                            "No data found for given Rxcui ($rxcui)", query ?: rxcui ?: ""
                         )
                     )
                     updateData(data)

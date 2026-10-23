@@ -17,6 +17,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Roadmap #6 + #12 (DrugHeaderBar): NON-clickable "RxNorm prescribable (US)" InfoBadge (gone unless
+             getRxProperty PRESCRIBABLE = Y) and the NEW clickable "Prescribable only" switch (PrescribeMode) -->
+        <LinearLayout
+            android:id="@+id/rxHeaderRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/background_light"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="2dp">
+
+            <TextView
+                android:id="@+id/headerBadgePrescribable"
+                style="@style/InfoBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/header_badge_prescribable_desc"
+                android:text="@string/header_badge_prescribable"
+                android:visibility="gone" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/prescribeToggle"
+                style="@style/NewClickableChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchPadding="8dp"
+                android:text="@string/prescribe_toggle"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <!-- Roadmap #4: "Back to <brand>" / "Generic: <name>" chips (GenericProductBar), gone unless needed -->
         <LinearLayout
             android:id="@+id/genericBar"

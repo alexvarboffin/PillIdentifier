@@ -38,14 +38,18 @@
 | 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [x] integrated [ ] device-tested |
 | 4a | Навигация по Related / Related by Type (без новых API: getAllRelatedInfo / getRelated) | Тап по строке концепта с rxcui (например, BN Xanax → SBD 141928) открывает его в тех же 10 вкладках; история назад общая с Generic | Related, Related by Type | S | **P1** (вне очереди) | [x] integrated [ ] device-tested |
 | 4b | Переход из участников класса (AnalogsActivity, getClassMembers) | Участники класса с rxcui — чипы `ConceptLinkItem` («RxCUI x · TTY» + серая строка nodeAttr); тап открывает препарат во всех 10 вкладках через `MainA2` + `KEY_RXNORMID` | Classes → AnalogsActivity | S | **P1** (вне порядка) | [x] integrated [ ] device-tested |
+| 4c | Кликабельные концепты на вкладке Status (без новых API: getRxcuiHistoryStatus) | ingredient / doseForm / doseFormGroup / pack / qdFree / quantified / remapped / scd с rxcui — чип `ConceptLinkItem` (`NewClickableChip`), тап открывает концепт через `ConceptNavigator` → `GenericProductBar.navigateTo` (как Related) | Status | S | P2 (вне порядка) | [x] integrated [ ] device-tested |
+| 4d | Навигация из карточек классов (без новых API: getClassByRxcui → getClassMembers) | Тап по карточке класса / строке отношения на вкладке Classes открывает AnalogsActivity этого класса с relaSource/rela карточки | Classes → AnalogsActivity | S | P2 (вне порядка) | [x] integrated [ ] device-tested |
+| 4e | Contraindications (MED-RT) на вкладке Classes (только UI, без новых API) | Строки getClassByRxcui с relaSource=MEDRT и rela `ci_*` (ci_with, ci_chemclass, ci_moa, ci_pe) — отдельная некликабельная секция сверху, сгруппировано rela → класс; остальные строки — прежние карточки | Classes | S | P2 (вне порядка) | [x] integrated [ ] device-tested |
+| — | Interaction (вкладка) | **Отключена**: RxNav interaction API закрыт NLM 2024-01-02, `/REST/interaction/...` отвечает 404. Вкладка и заголовок закомментированы в `RxNorm.makeInformationGui` (`FragmentInteraction` оставлен в коде) | — | — | ✗ | отключено |
 | 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [x] integrated [ ] device-tested |
-| 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке | шапка Drug Search | S | P2 | [ ] integrated [ ] device-tested |
+| 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке (сделан только PRESCRIBABLE, см. §4.7) | шапка Drug Search | S | P2 | [x] integrated [ ] device-tested |
 | 7 | getDrugs | Список всех лекарственных форм по названию ингредиента (SCD/SBD) | Drug Search → список | M | P2 | [ ] integrated [ ] device-tested |
 | 8 | findRelatedNDCs | Все NDC того же продукта/препарата/концепта | карточка NDC | S | P2 | [x] integrated [ ] device-tested |
 | 9 | findRxcui `idtype=NDC` (уже в API, новый сценарий) | Ввод/скан NDC → препарат | Drug Search (режим NDC) | S | P2 | [ ] integrated [ ] device-tested |
 | 10 | getRxNormName | Быстро получить имя по rxcui (заголовок экрана из deep link / AnalogsActivity) | общий | S | P2 | [ ] integrated [ ] device-tested |
 | 11 | getDisplayTerms | Офлайн-автодополнение (28 166 терминов, ~756 KB) | Drug Search (поле ввода) | L | P2 | [ ] integrated [ ] device-tested |
-| 12 | Prescribe-режим (`prescribe*`, 23 оп.) | Переключатель «только назначаемые» | Drug Search + настройки | L | P2 | [ ] integrated [ ] device-tested |
+| 12 | Prescribe-режим (`prescribe*`, 23 оп.) | Переключатель «только назначаемые» (см. §5, статус) | Drug Search + настройки | L | P2 | [x] integrated [ ] device-tested |
 | 13 | getProprietaryInformation | Коды из открытых источников (MTHSPL DP, VANDF) | Properties | S | P3 | [ ] integrated [ ] device-tested |
 | 14 | filterByProperty | Проверка «это SCD?» и т.п. (да/нет) | внутренняя логика | S | P3 | [ ] integrated [ ] device-tested |
 | 15 | findActiveProducts | Активный продукт для концепта (для 198201 возвращает сам себя; для remapped 1000004 — `{}`) | Status | S | P3 | [ ] integrated [ ] device-tested |
@@ -63,6 +67,12 @@
 > **4a (23.10.2026):** строки концептов с rxcui на вкладках Related / Related by Type теперь `ConceptLinkItem` (чип `NewClickableChip`). Клик передаётся в `RxNorm` через `ConceptNavigator` (parentFragment) → `GenericProductBar.navigateTo`: одна история с Generic, до 20 шагов, чип «‹ Back to <name>», сбрасывается при новом поиске или Clear. Заголовки TTY остаются простым текстом. Если вкладку открыли не внутри Drug Search, строки остаются обычным текстом. Цепочка: xanax → 202363 (BN, 0 NDC) → 141928 (5 активных NDC) → 00009005501 → карточка таблетки. Сборки зелёные; на устройстве не проверено.
 
 > **4b (23.10.2026):** в `AnalogsActivity` участники класса с rxcui теперь `ConceptLinkItem` (стиль `NewClickableChip`) вместо `NameValue1_2(name, tty)`; серая некликабельная строка из nodeAttr: `<источник> SourceId · SourceName · Relation` (SourceId пропускается, если совпадает с rxcui, как в ATCPROD; SourceName — если совпадает с именем). Тап → `Intent(MainA2)` + `MainA2.KEY_RXNORMID` → `RxNorm.newInstance(rxcui)` (тот же вход, что в NlmRxFragment), манифест и MainA2 не менялись; системный Back закрывает MainA2 и возвращает к списку. Заголовки остаются простыми. Живая проверка: J04AB/ATCPROD 16, AM500/VA has_VAClass 15, N05BA/ATCPROD 137, CN302/VA 47. Сборки зелёные; на устройстве не проверено.
+
+> **Спека (23.10.2026):** в `openapi.yaml` поля `nodeAttr` / `attrValue` сделаны необязательными → регенерация `:network:lk0-kmp`; при их отсутствии серая строка nodeAttr в 4b не показывается.
+
+> **4c (23.10.2026):** `Fragment7` (Status): пары имя/rxcui концептов (ingredientConcept, doseFormConcept, doseFormGroupConcept, packConcept, qdFreeConcept, quantifiedConcept, remappedConcept, scdConcept) вместо двух строк `NameValue1_2` — один `ConceptLinkItem` (чип `NewClickableChip`, «RxCUI x · TTY», серая строка с именем поля и `active: YES/NO`, если есть). Тап → `ConceptNavigator.openConcept` (общая история с Generic, чип «‹ Back to RxCUI …»). **Изменено поведение:** раньше тап по этим строкам открывал диалог «поделиться текстом», теперь открывает концепт; остальные строки Status по-прежнему делятся текстом. Вне Drug Search — старые строки. Проверено на эмуляторе: 1000004 (Remapped) → чип 999970 Tribenzor → переход и «‹ Back to RxCUI 1000004»; 198201 → DF 316965, DFG 1151131/1151133, IN 9384 rifampin; 141928 → DF/DFG.
+
+> **4d / 4e (23.10.2026):** карточки классов и строки отношений на вкладке Classes открывают AnalogsActivity (`FragmentClass.openAnalogs`, relaSource/rela карточки). Секция «Contraindications (MED-RT)» — `ContraindicationSplitter` (чистый Kotlin, разбиение без потерь и дублей), элементы `ContraSectionHeaderItem` / `ContraGroupItem` некликабельны; тот же ответ getClassByRxcui, новых вызовов нет.
 
 ---
 
@@ -217,6 +227,8 @@ flowchart LR
 - **Экран:** шапка Drug Search (чипы «Rx» и дозировка).
 - **Тест:** чипы видны для 198201; для концепта без свойства — чип скрыт.
 
+> **Статус (23.10.2026):** integrated (только PRESCRIBABLE; AVAILABLE_STRENGTH не выводится). Новая `DrugHeaderBar` (`fragment/api2/DrugHeaderBar.kt`) над Generic-чипом: некликабельный `InfoBadge` «RxNorm prescribable (US)» показывается только при `PRESCRIBABLE = Y` (`RxNormLib.rxProperty`, всегда обычный API), иначе скрыт; при новом поиске / Clear сбрасывается; защита от гонок по поколению запроса. Формулировка — ровно «концепт входит в RxNorm Current Prescribable Content (US)», без медицинских выводов. Живые данные: Y — 198201, 141928, 202363, 9384, 201867; `{}` — 1000004, 1085959 (Adequan), 215025, 542720; другие значения кроме Y не встречались. Проверено на эмуляторе: 198201 — бейдж есть, 1085959 — нет.
+
 ### 4.8 getDrugs — P2, M
 - **Вызов:** `GET /drugs.json?name=rifampin&expand=psn`.
 - **Реально:** SBD 2 (201867 Rifadin 150 Capsule, 207436 Rifadin 600 Injection), SCD 10 (198201, 198202 300 MG, 198203 isoniazid/rifampin, 198384, 199755, …); `expand=psn` добавляет psn (`rifAMPin 150 MG Oral Capsule`).
@@ -306,6 +318,8 @@ flowchart LR
 - NDC-операции (ndcproperties, ndcstatus, relatedndc, allhistoricalndcs) — **только обычные**, prescribe-аналогов нет, переключатель на NDC-вкладки не влияет.
 - Реализация: один флаг в обёртке `RxNormLib` (`if (prescribable) api.prescribeGetDrugs(...) else api.getDrugs(...)`), не трогая сгенерированный код.
 - Тест: rifampin с выкл. → 10 SCD; с вкл. → 3 SCD; Properties 34 → 23.
+
+> **Статус (23.10.2026):** integrated. Переключатель «Prescribable only ›» (SwitchCompat в стиле `NewClickableChip`) в шапке Drug Search, хранится в SharedPreferences (`rxnorm_prescribe_mode` / `prescribable_only`, `PrescribeMode.kt`), по умолчанию выкл. Вкл → findRxcui, approximateTerm, spelling (`RxNormLib` / `RxNorm.kt`), Related (`prescribeGetAllRelatedInfo`, у allrelatedextension prescribe-аналога нет → без бейджей pres/psn), Related by Type (termtypes/relatypes/related), RxNorm Properties (`prescribeGetAllProperties`); на этих вкладках сверху заголовок-пояснение. Без изменений: NDC / NDC History, Properties (getRxConceptProperties), [INFO], Generic-чип, Classes, Status, бейдж PRESCRIBABLE. Переключение перестраивает вкладки открытого препарата. getDrugs и displaynames ещё не интегрированы (W7/W9). Живые различия: allrelated 9384 55 → 27 (SCD 10 → 3, MIN 4 → 0), 1085959 Adequan 12 → 0, 198201/141928/202363 без изменений; related tty=SCD 9384 10 → 3; allProperties 198201 34 → 23, 141928 20 → 15; поиск «Adequan» / approximate «adequan» / spelling «adequen» → пусто; xanax → 202363 в обоих режимах. Проверено на эмуляторе: Related 9384 — пропали Oral Suspension/Oral Tablet в DF; состояние сохраняется после перезапуска.
 
 ---
 
