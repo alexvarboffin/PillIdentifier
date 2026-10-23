@@ -3,6 +3,7 @@ package com.walhalla.pillfinder.fragment.api2
 import android.app.Dialog
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -15,30 +16,62 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.R
+import com.walhalla.pillfinder.adapter.viewHolder.NewClickableStyle
+import gov.nih.nlm.rxnorm.models.NdcInfo
+import gov.nih.nlm.rxnorm.models.NdcInfoListResponse
 import gov.nih.nlm.rxnorm.models.NdcProperty
 import gov.nih.nlm.rxnorm.models.NdcPropertyListResponse
+import gov.nih.nlm.rxnorm.models.NdcRelation
+import gov.nih.nlm.rxnorm.models.NdcStatus
+import gov.nih.nlm.rxnorm.models.NdcStatusResponse
 import kotlinx.coroutines.Job
 
 /**
- * Pill card for one NDC, built from RxNorm getNDCProperties (/ndcproperties.json).
- * Opened from the NEW clickable NDC chip in FragmentNdc / FragmentNdcHistory.
- * States: loading -> content | empty | error (+ retry).
+ * Pill card for one NDC (roadmap #1 + #2). Three independent sections, loaded in parallel,
+ * each with its own loading / error (+retry) / empty state:
+ *  1. Pill properties  - getNDCProperties (/ndcproperties.json)
+ *  2. NDC status       - getNDCStatus     (/ndcstatus.json)
+ *  3. Other packages   - findRelatedNDCs  (/relatedndc.json, relation=drug, active only)
+ *
+ * Navigation: tapping a related NDC chip REPLACES the content of this same dialog (no dialog stacking);
+ * the previous NDC is pushed on an in-dialog back stack (max [MAX_BACK_STACK]); "Back to NDC ..." chip
+ * or the system Back key pops it. Closing the dialog drops the stack.
  */
 class NdcPillCardDialog : DialogFragment() {
 
-    private var ndc: String = ""
-    private var allStatuses: Boolean = false
-    private var job: Job? = null
+    /** One opened NDC. allStatuses=true -> getNDCProperties with ndcstatus=ALL (obsolete/historical NDCs). */
+    private data class Entry(val ndc: String, val allStatuses: Boolean)
 
+    private lateinit var current: Entry
+    private val backStack = ArrayList<Entry>()
+
+    private var propertiesJob: Job? = null
+    private var statusJob: Job? = null
+    private var relatedJob: Job? = null
+
+    // section 1 (views from the layout, unchanged ids from roadmap #1)
     private var progress: ProgressBar? = null
     private var message: TextView? = null
     private var retry: Button? = null
     private var content: LinearLayout? = null
+    private var back: TextView? = null
+
+    // sections 2 and 3 (built in code)
+    private var statusSection: SectionViews? = null
+    private var relatedSection: SectionViews? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val args = requireArguments()
-        ndc = args.getString(ARG_NDC).orEmpty()
-        allStatuses = args.getBoolean(ARG_ALL_STATUSES, false)
+        current = Entry(args.getString(ARG_NDC).orEmpty(), args.getBoolean(ARG_ALL_STATUSES, false))
+        if (savedInstanceState != null) {
+            savedInstanceState.getString(STATE_NDC)?.let {
+                current = Entry(it, savedInstanceState.getBoolean(STATE_ALL, false))
+            }
+            val ndcs = savedInstanceState.getStringArrayList(STATE_STACK_NDC).orEmpty()
+            val flags = savedInstanceState.getBooleanArray(STATE_STACK_ALL) ?: BooleanArray(0)
+            backStack.clear()
+            ndcs.forEachIndexed { i, n -> backStack.add(Entry(n, flags.getOrElse(i) { false })) }
+        }
 
         val view = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_ndc_pill_card, null, false)
@@ -46,29 +79,85 @@ class NdcPillCardDialog : DialogFragment() {
         message = view.findViewById(R.id.ndcCardMessage)
         retry = view.findViewById(R.id.ndcCardRetry)
         content = view.findViewById(R.id.ndcCardContent)
-        retry?.setOnClickListener { load() }
+        back = view.findViewById(R.id.ndcCardBack)
+        back?.let { NewClickableStyle.apply(it) }
+        back?.setOnClickListener { goBack() }
+        retry?.setOnClickListener { loadProperties() }
+        statusSection = SectionViews(view.findViewById(R.id.ndcCardStatusSection), getString(R.string.ndc_card_section_status)) { loadStatus() }
+        relatedSection = SectionViews(view.findViewById(R.id.ndcCardRelatedSection), getString(R.string.ndc_card_section_related)) { loadRelated() }
 
-        load()
-
-        return AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.ndc_card_title, ndc))
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.ndc_card_title, current.ndc))
             .setView(view)
             .setPositiveButton(android.R.string.ok, null)
             .create()
+        // System Back: pop the in-dialog stack first, close only when it is empty.
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP && backStack.isNotEmpty()) {
+                goBack(); true
+            } else keyCode == KeyEvent.KEYCODE_BACK && backStack.isNotEmpty()
+        }
+        showEntry()
+        return dialog
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_NDC, current.ndc)
+        outState.putBoolean(STATE_ALL, current.allStatuses)
+        outState.putStringArrayList(STATE_STACK_NDC, ArrayList(backStack.map { it.ndc }))
+        outState.putBooleanArray(STATE_STACK_ALL, backStack.map { it.allStatuses }.toBooleanArray())
     }
 
     override fun onDestroy() {
-        job?.cancel()
-        job = null
+        cancelAll()
         super.onDestroy()
     }
 
-    private fun load() {
+    private fun cancelAll() {
+        propertiesJob?.cancel(); propertiesJob = null
+        statusJob?.cancel(); statusJob = null
+        relatedJob?.cancel(); relatedJob = null
+    }
+
+    // ---------------------------------------------------------------- navigation
+
+    private fun openRelated(entry: Entry) {
+        if (entry.ndc == current.ndc) return
+        backStack.add(current)
+        while (backStack.size > MAX_BACK_STACK) backStack.removeAt(0)
+        current = entry
+        showEntry()
+    }
+
+    private fun goBack() {
+        if (backStack.isEmpty()) return
+        current = backStack.removeAt(backStack.size - 1)
+        showEntry()
+    }
+
+    private fun showEntry() {
+        (dialog as? AlertDialog)?.setTitle(getString(R.string.ndc_card_title, current.ndc))
+        val prev = backStack.lastOrNull()
+        back?.visibility = if (prev != null) View.VISIBLE else View.GONE
+        if (prev != null) back?.text = getString(R.string.ndc_card_back, prev.ndc)
+        cancelAll()
+        // three independent calls in parallel; failure of one does not affect the others
+        loadProperties()
+        loadStatus()
+        loadRelated()
+    }
+
+    // ---------------------------------------------------------------- 1. properties (roadmap #1)
+
+    // was (roadmap #1): private fun load() { ... } - renamed to loadProperties(), uses current.ndc instead of the ndc field
+    private fun loadProperties() {
+        val entry = current
         showState(loading = true, text = null, canRetry = false)
-        job?.cancel()
-        job = RxNormLib.ndcProperties(ndc, allStatuses, object : RxNormLib.NdcPropertiesCallback {
+        propertiesJob?.cancel()
+        propertiesJob = RxNormLib.ndcProperties(entry.ndc, entry.allStatuses, object : RxNormLib.NdcPropertiesCallback {
             override fun onResult(body: NdcPropertyListResponse?) {
-                if (!isAdded) return
+                if (!isAdded || entry != current) return
                 val records = body?.ndcPropertyList?.ndcProperty.orEmpty()
                 if (records.isEmpty()) {
                     // non-2xx is also delivered as null body (RxNormLib.fetch contract)
@@ -80,9 +169,8 @@ class NdcPillCardDialog : DialogFragment() {
             }
 
             override fun onError(t: Throwable) {
-                if (!isAdded) return
-                val reason = t.message ?: t.localizedMessage ?: t.javaClass.simpleName
-                showState(loading = false, text = getString(R.string.ndc_card_error, reason), canRetry = true)
+                if (!isAdded || entry != current) return
+                showState(loading = false, text = getString(R.string.ndc_card_error, reason(t)), canRetry = true)
             }
         })
     }
@@ -135,11 +223,11 @@ class NdcPillCardDialog : DialogFragment() {
         val category = value("MARKETING_CATEGORY")
         val application = APPLICATION_PROPS.mapNotNull { value(it) }.joinToString(", ").ifEmpty { null }
         addRow(root, R.string.ndc_card_marketing_category,
-            listOfNotNull(category, application).joinToString(" · ").ifEmpty { null }, always = false)
+            listOfNotNull(category, application).joinToString(" \u00B7 ").ifEmpty { null }, always = false)
         val from = formatDate(value("MARKETING_EFFECTIVE_TIME_LOW"))
         val to = formatDate(value("MARKETING_EFFECTIVE_TIME_HIGH"))
         addRow(root, R.string.ndc_card_marketed,
-            if (from != null || to != null) "${from ?: "?"} – ${to ?: "?"}" else null, always = false)
+            if (from != null || to != null) "${from ?: "?"} \u2013 ${to ?: "?"}" else null, always = false)
         addRow(root, R.string.ndc_card_label_type, value("LABEL_TYPE"), always = false)
         addRow(root, R.string.ndc_card_spl_set_id,
             p.splSetIdItem?.takeIf { it.isNotBlank() } ?: value("DM_SPL_ID"), always = false)
@@ -155,6 +243,184 @@ class NdcPillCardDialog : DialogFragment() {
             rest.groupBy { it.propName!! }.forEach { (name, list) ->
                 addRow(root, name, list.mapNotNull { it.propValue }.distinct().joinToString(", "))
             }
+        }
+    }
+
+    // ---------------------------------------------------------------- 2. status (roadmap #2)
+
+    private fun loadStatus() {
+        val entry = current
+        val section = statusSection ?: return
+        section.loading()
+        statusJob?.cancel()
+        statusJob = RxNormLib.ndcStatus(entry.ndc, object : RxNormLib.LibCallback<NdcStatusResponse> {
+            override fun onResult(body: NdcStatusResponse?) {
+                if (!isAdded || entry != current) return
+                val s = body?.ndcStatus
+                if (s == null || (s.status.isNullOrBlank() && s.rxcui.isNullOrBlank() && s.ndcHistory.isNullOrEmpty())) {
+                    section.message(getString(R.string.ndc_card_status_empty), canRetry = true)
+                } else {
+                    section.done()
+                    renderStatus(section.content, s)
+                }
+            }
+
+            override fun onError(t: Throwable) {
+                if (!isAdded || entry != current) return
+                section.message(getString(R.string.ndc_card_error, reason(t)), canRetry = true)
+            }
+        })
+    }
+
+    private fun renderStatus(root: LinearLayout, s: NdcStatus) {
+        root.removeAllViews()
+        addRow(root, R.string.ndc_card_status, s.status?.takeIf { it.isNotBlank() } ?: "UNKNOWN", always = true)
+        addRow(root, R.string.ndc_card_active, s.active, always = false)
+        addRow(root, R.string.ndc_card_rxnorm_ndc, s.rxnormNdc, always = false)
+        val maps = listOfNotNull(
+            s.rxcui?.takeIf { it.isNotBlank() },
+            s.conceptName?.takeIf { it.isNotBlank() },
+            s.conceptStatus?.takeIf { it.isNotBlank() }?.let { "($it)" }
+        ).joinToString(" ").ifEmpty { null }
+        addRow(root, R.string.ndc_card_maps_to, maps, always = true)
+        addRow(root, R.string.ndc_card_sources, s.sourceList?.sourceName.orEmpty().filter { it.isNotBlank() }
+            .joinToString(", ").ifEmpty { null }, always = false)
+        addRow(root, R.string.ndc_card_alt_ndc, s.altNdc?.takeIf { it.isNotBlank() && it != "N" }, always = false)
+        addRow(root, R.string.ndc_card_comment, s.comment?.takeIf { it.isNotBlank() }, always = false)
+
+        // compact history: "07.2007 - 12.2010  rxcui 201867" (original -> active when remapped)
+        val history = s.ndcHistory.orEmpty().map { h ->
+            val period = "${formatYearMonth(h.startDate) ?: "?"} \u2013 ${formatYearMonth(h.endDate) ?: "?"}"
+            val rx = when {
+                h.originalRxcui.isNullOrBlank() -> h.activeRxcui.orEmpty()
+                h.activeRxcui.isNullOrBlank() || h.activeRxcui == h.originalRxcui -> h.originalRxcui.orEmpty()
+                else -> "${h.originalRxcui} \u2192 ${h.activeRxcui}"
+            }
+            if (rx.isBlank()) period else "$period  rxcui $rx"
+        }
+        addRow(root, R.string.ndc_card_history, history.joinToString("\n").ifEmpty { null }, always = false)
+
+        val mapping = s.ndcSourceMapping.orEmpty().map { m ->
+            listOfNotNull(m.ndcSource, m.ndcRxcui?.let { "rxcui $it" }, m.ndcActive?.let { "active $it" })
+                .joinToString(" \u00B7 ")
+        }.filter { it.isNotBlank() }
+        addRow(root, R.string.ndc_card_source_mapping, mapping.joinToString("\n").ifEmpty { null }, always = false)
+    }
+
+    // ---------------------------------------------------------------- 3. related NDCs (roadmap #2)
+
+    private fun loadRelated() {
+        val entry = current
+        val section = relatedSection ?: return
+        section.setTitle(getString(R.string.ndc_card_section_related))
+        section.loading()
+        relatedJob?.cancel()
+        relatedJob = RxNormLib.relatedNdcs(entry.ndc, RELATED_RELATION, object : RxNormLib.LibCallback<NdcInfoListResponse> {
+            override fun onResult(body: NdcInfoListResponse?) {
+                if (!isAdded || entry != current) return
+                val others = body?.ndcInfoList?.ndcInfo.orEmpty()
+                    .filter { !it.ndc11.isNullOrBlank() && it.ndc11 != entry.ndc }
+                    .distinctBy { it.ndc11 }
+                section.setTitle(getString(R.string.ndc_card_section_related_count, others.size))
+                if (others.isEmpty()) {
+                    section.message(getString(R.string.ndc_card_related_empty), canRetry = false)
+                } else {
+                    section.done()
+                    renderRelated(section.content, others)
+                }
+            }
+
+            override fun onError(t: Throwable) {
+                if (!isAdded || entry != current) return
+                section.message(getString(R.string.ndc_card_error, reason(t)), canRetry = true)
+            }
+        })
+    }
+
+    private fun renderRelated(root: LinearLayout, items: List<NdcInfo>) {
+        root.removeAllViews()
+        val ctx = requireContext()
+        for (info in items) {
+            val ndc = info.ndc11 ?: continue
+            val row = LinearLayout(ctx)
+            row.orientation = LinearLayout.VERTICAL
+            row.setPadding(0, dp(3), 0, dp(3))
+
+            // NEW clickable: same style as the NDC chips in the NDC / NDC History tabs
+            val chip = TextView(ctx, null, 0, R.style.NewClickableChip)
+            chip.text = "$ndc  \u203A"
+            NewClickableStyle.apply(chip)
+            val allStatuses = !info.status.equals("ACTIVE", ignoreCase = true)
+            chip.setOnClickListener { openRelated(Entry(ndc, allStatuses)) }
+            row.addView(chip, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+
+            val sub = TextView(ctx)
+            sub.text = listOfNotNull(
+                info.status, info.tty, info.rxcui?.let { "rxcui $it" }, info.conceptName
+            ).filter { it.isNotBlank() }.joinToString(" \u00B7 ")
+            sub.textSize = 12f
+            sub.setTextColor(ContextCompat.getColor(ctx, R.color.ndc_card_missing))
+            row.addView(sub)
+            root.addView(row)
+        }
+    }
+
+    // ---------------------------------------------------------------- shared UI helpers
+
+    /** Header + progress + message + retry + content for one independent section. */
+    private inner class SectionViews(container: LinearLayout, title: String, private val onRetry: () -> Unit) {
+        private val header = TextView(container.context)
+        private val bar = ProgressBar(container.context)
+        private val msg = TextView(container.context)
+        private val retryButton = Button(container.context)
+        val content = LinearLayout(container.context)
+
+        init {
+            container.removeAllViews()
+            header.text = title
+            header.setTypeface(header.typeface, Typeface.BOLD)
+            header.setTextColor(ContextCompat.getColor(container.context, R.color.colorPrimary))
+            header.textSize = 16f
+            header.setPadding(0, dp(16), 0, dp(4))
+            container.addView(header)
+            container.addView(bar, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { gravity = android.view.Gravity.CENTER_HORIZONTAL })
+            msg.textSize = 15f
+            msg.setTextColor(0xFF000000.toInt())
+            msg.setPadding(0, dp(4), 0, dp(4))
+            container.addView(msg)
+            retryButton.setText(R.string.ndc_card_retry)
+            retryButton.setOnClickListener { onRetry() }
+            container.addView(retryButton, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT))
+            content.orientation = LinearLayout.VERTICAL
+            container.addView(content)
+            loading()
+        }
+
+        fun setTitle(title: String) { header.text = title }
+
+        fun loading() {
+            bar.visibility = View.VISIBLE
+            msg.visibility = View.GONE
+            retryButton.visibility = View.GONE
+            content.removeAllViews()
+        }
+
+        fun message(text: String, canRetry: Boolean) {
+            bar.visibility = View.GONE
+            msg.visibility = View.VISIBLE
+            msg.text = text
+            retryButton.visibility = if (canRetry) View.VISIBLE else View.GONE
+            content.removeAllViews()
+        }
+
+        fun done() {
+            bar.visibility = View.GONE
+            msg.visibility = View.GONE
+            retryButton.visibility = View.GONE
         }
     }
 
@@ -202,12 +468,24 @@ class NdcPillCardDialog : DialogFragment() {
 
     private fun dp(v: Int): Int = (v * resources.displayMetrics.density).toInt()
 
-    private fun String?.orDash(): String = if (this.isNullOrBlank()) "—" else this
+    private fun String?.orDash(): String = if (this.isNullOrBlank()) "\u2014" else this
 
     companion object {
         private const val ARG_NDC = "arg_ndc"
         private const val ARG_ALL_STATUSES = "arg_all_statuses"
+        private const val STATE_NDC = "state_ndc"
+        private const val STATE_ALL = "state_all"
+        private const val STATE_STACK_NDC = "state_stack_ndc"
+        private const val STATE_STACK_ALL = "state_stack_all"
         private const val TAG = "NdcPillCardDialog"
+        private const val MAX_BACK_STACK = 20
+
+        /**
+         * relation=drug: all active NDCs of the same clinical drug (ingredient + strength + dose form), incl. branded
+         * packages. Live 23.10.2026: 00527139301 -> product 2 / concept 15 / drug 16 (drug also has Rifadin SBD
+         * 52959046110); obsolete 00068051016 -> product 0 / concept 1 / drug 16 active alternatives.
+         */
+        private val RELATED_RELATION = NdcRelation.drug
 
         private val APPLICATION_PROPS = listOf("NDA", "ANDA", "BLA", "NADA", "ANADA", "NDA_AUTHORIZED_GENERIC")
 
@@ -221,6 +499,8 @@ class NdcPillCardDialog : DialogFragment() {
             "C48331" to "ORANGE"
         )
 
+        private fun reason(t: Throwable): String = t.message ?: t.localizedMessage ?: t.javaClass.simpleName
+
         private fun codeLabel(code: String?): String? {
             if (code.isNullOrBlank()) return null
             return code.split(';', ',').map { it.trim() }.filter { it.isNotEmpty() }.distinct()
@@ -232,6 +512,13 @@ class NdcPillCardDialog : DialogFragment() {
             if (raw.isNullOrBlank()) return null
             val s = raw.trim()
             return if (s.length == 8 && s.all { it.isDigit() }) "${s.substring(6, 8)}.${s.substring(4, 6)}.${s.substring(0, 4)}" else s
+        }
+
+        /** 200807 -> 07.2008; anything else is returned as-is. */
+        private fun formatYearMonth(raw: String?): String? {
+            if (raw.isNullOrBlank()) return null
+            val s = raw.trim()
+            return if (s.length == 6 && s.all { it.isDigit() }) "${s.substring(4, 6)}.${s.substring(0, 4)}" else s
         }
 
         @JvmStatic

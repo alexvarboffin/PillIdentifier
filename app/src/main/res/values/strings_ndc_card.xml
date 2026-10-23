@@ -41,4 +41,5 @@
     <string name="ndc_card_comment">Comment</string>
     <string name="ndc_card_history">History</string>
     <string name="ndc_card_source_mapping">Source mapping</string>
-    <string name="ndc_card_back">< Back to NDC %1$s</string></resources>
+    <string name="ndc_card_back">&#8249; Back to NDC %1$s</string>
+</resources>

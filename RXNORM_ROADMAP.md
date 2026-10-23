@@ -33,13 +33,13 @@
 | # | Операция | Польза для пользователя | Экран | Слож. | Приор. | Статус |
 |---|---|---|---|---|---|---|
 | 1 | getNDCProperties | Импринт, цвет, форма, размер, производитель, упаковка, SPL set id — **ядро pill identifier** | NDC / NDC History → карточка NDC | M | **P1** | [x] integrated [ ] device-tested |
-| 2 | getNDCStatus | ACTIVE/OBSOLETE NDC, история дат, к какому rxcui относился | карточка NDC | S | **P1** | [ ] integrated [ ] device-tested |
+| 2 | getNDCStatus | ACTIVE/OBSOLETE NDC, история дат, к какому rxcui относился | карточка NDC | S | **P1** | [x] integrated [ ] device-tested |
 | 3 | getApproximateMatch | Находит препарат при опечатках/неполном названии, когда findRxcui пуст | Drug Search | S | **P1** | [ ] integrated [ ] device-tested |
 | 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [ ] integrated [ ] device-tested |
 | 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [ ] integrated [ ] device-tested |
 | 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке | шапка Drug Search | S | P2 | [ ] integrated [ ] device-tested |
 | 7 | getDrugs | Список всех лекарственных форм по названию ингредиента (SCD/SBD) | Drug Search → список | M | P2 | [ ] integrated [ ] device-tested |
-| 8 | findRelatedNDCs | Все NDC того же продукта/препарата/концепта | карточка NDC | S | P2 | [ ] integrated [ ] device-tested |
+| 8 | findRelatedNDCs | Все NDC того же продукта/препарата/концепта | карточка NDC | S | P2 | [x] integrated [ ] device-tested |
 | 9 | findRxcui `idtype=NDC` (уже в API, новый сценарий) | Ввод/скан NDC → препарат | Drug Search (режим NDC) | S | P2 | [ ] integrated [ ] device-tested |
 | 10 | getRxNormName | Быстро получить имя по rxcui (заголовок экрана из deep link / AnalogsActivity) | общий | S | P2 | [ ] integrated [ ] device-tested |
 | 11 | getDisplayTerms | Офлайн-автодополнение (28 166 терминов, ~756 KB) | Drug Search (поле ввода) | L | P2 | [ ] integrated [ ] device-tested |
@@ -166,12 +166,16 @@ flowchart LR
 - **Зависимости:** W1 (общая карточка).
 - **Тест:** тап по активному и устаревшему NDC → корректные чипы и даты (формат YYYYMM → «07.2008»).
 
+> **Статус (23.10.2026):** integrated вместе с findRelatedNDCs в `NdcPillCardDialog` (секция «NDC status»: status, active, rxcui + conceptName, sources, ndcHistory в виде «07.2008 – 10.2026 rxcui 198201»). Три запроса идут параллельно, у каждой секции свои loading/error/empty. Сборки зелёные; на устройстве не проверено.
+
 ### 4.3 findRelatedNDCs — P2, S
 - **Вызов:** `GET /relatedndc.json?ndc=00527139301&relation=product|drug|concept` (`ndcstatus` опц.).
 - **Поля элемента:** `ndc11`, `status`, `rxcui`, `conceptName`, `conceptStatus`, `tty`.
 - **Реальные объёмы:** product → 2, concept → 15, drug → 16 (включая SBD 201867, NDC `52959046110`). Для `00068051016&relation=product&ndcstatus=ALL` → 2 OBSOLETE NDC Rifadin.
 - **Экран:** карточка NDC, секция «Другие упаковки» с сегментами product/drug/concept; тап по чужому rxcui → переход.
 - **Тест:** relation=drug показывает запись Rifadin (SBD) → тап открывает 201867.
+
+> **Статус (23.10.2026):** integrated. Выбран `relation=drug` (только active): все активные упаковки того же клинического препарата, включая брендовые (Rifadin 52959046110); для устаревшего NDC `product` даёт 0, а `drug` — 16 альтернатив. Каждый NDC — чип `NewClickableChip`; тап заменяет содержимое того же диалога, назад — чип «‹ Back to NDC …» или системная кнопка Back (стек до 20). Сборки зелёные; на устройстве не проверено.
 
 ### 4.4 getApproximateMatch — P1, S
 - **Вызов:** `GET /approximateTerm.json?term=rifampn%20150&maxEntries=10&option=1`.
