@@ -39,7 +39,7 @@ sealed class RxIdType(val value: String) {
 
 // --- RxNorm API ---
 // RxNorm REST methods covered by the generated KMP library (:network:lk0-kmp, DefaultApi) are commented out below.
-// Remaining methods have NO counterpart in DefaultApi (allrelatedextension, interaction*, rxclass/*) and stay on Retrofit.
+// Remaining methods have NO counterpart in DefaultApi (interaction*, rxclass/*) and stay on Retrofit.
 interface RxnormApi {
     // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.findRxcui
 //    // Поиск RxCUI по имени
@@ -84,12 +84,13 @@ interface RxnormApi {
 //        @Query("history") history: Int
 //    ): Call<RxNormHistoricalNDCsResponse>
 
-    // Получить связанные концепты
-    @GET("rxcui/{id}/allrelatedextension.json")
-    fun allrelatedextension(
-        @Path("id") id: String,
-        @Query("caller") caller: String
-    ): Call<Response2>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.getAllRelatedExtension (undocumented endpoint)
+//    // Получить связанные концепты
+//    @GET("rxcui/{id}/allrelatedextension.json")
+//    fun allrelatedextension(
+//        @Path("id") id: String,
+//        @Query("caller") caller: String
+//    ): Call<Response2>
 
     // Получить взаимодействия
     @GET("interaction/interaction.json")
@@ -377,109 +378,138 @@ interface RxTermsApi {
 
 // --- Prescribable RxNorm API ---
 interface PrescribableRxNormApi {
-    // Фильтрация по свойству
-    @GET("prescribable/rxcui/{rxcui}/filter.json")
-    fun filterByProperty(
-        @Path("rxcui") rxcui: String, 
-        @Query("propName") propName: String, 
-        @Query("propValues") propValues: String
-    ): Call<PrescribableFilterResponse>
+    // Legacy paths "prescribable/..." return 404 (the live API is /REST/Prescribe/...).
+    // Methods covered by the generated KMP library (:network:lk0-kmp, DefaultApi.prescribe*) are commented out below.
+    // getRxNormVersion has NO counterpart (Prescribe/version.json is dead, 404) and stays.
 
-    // Поиск rxcui по id (типобезопасно)
-    @GET("prescribable/rxcui.json")
-    fun findRxcuiById(@Query("idtype") idtype: String, @Query("id") id: String): Call<IdGroup>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeFilterByProperty
+//    // Фильтрация по свойству
+//    @GET("prescribable/rxcui/{rxcui}/filter.json")
+//    fun filterByProperty(
+//        @Path("rxcui") rxcui: String, 
+//        @Query("propName") propName: String, 
+//        @Query("propValues") propValues: String
+//    ): Call<PrescribableFilterResponse>
 
-    // Типобезопасная обёртка
-    fun findRxcuiByIdSafe(idType: RxIdType, id: String): Call<IdGroup> =
-        findRxcuiById(idType.value, id)
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeFindRxcui (idtype+id)
+//    // Поиск rxcui по id (типобезопасно)
+//    @GET("prescribable/rxcui.json")
+//    fun findRxcuiById(@Query("idtype") idtype: String, @Query("id") id: String): Call<IdGroup>
 
-    // Поиск rxcui по строке
-    @GET("prescribable/rxcui.json")
-    fun findRxcuiByString(@Query("name") name: String): Call<IdGroup>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeFindRxcui (idtype+id; Kotlin wrapper, not an endpoint)
+//    // Типобезопасная обёртка
+//    fun findRxcuiByIdSafe(idType: RxIdType, id: String): Call<IdGroup> =
+//        findRxcuiById(idType.value, id)
 
-    // Получить все концепты по TTY
-    @GET("prescribable/allconcepts.json")
-    fun getAllConceptsByTTY(@Query("tty") tty: String): Call<PrescribableAllConceptsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeFindRxcui (name)
+//    // Поиск rxcui по строке
+//    @GET("prescribable/rxcui.json")
+//    fun findRxcuiByString(@Query("name") name: String): Call<IdGroup>
 
-    // Получить все свойства
-    @GET("prescribable/rxcui/{rxcui}/allProperties.json")
-    fun getAllProperties(@Path("rxcui") rxcui: String): Call<PrescribableAllPropertiesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetAllConceptsByTTY
+//    // Получить все концепты по TTY
+//    @GET("prescribable/allconcepts.json")
+//    fun getAllConceptsByTTY(@Query("tty") tty: String): Call<PrescribableAllConceptsResponse>
 
-    // Получить всю связанную информацию
-    @GET("prescribable/rxcui/{rxcui}/allrelated.json")
-    fun getAllRelatedInfo(@Path("rxcui") rxcui: String): Call<PrescribableAllRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetAllProperties
+//    // Получить все свойства
+//    @GET("prescribable/rxcui/{rxcui}/allProperties.json")
+//    fun getAllProperties(@Path("rxcui") rxcui: String): Call<PrescribableAllPropertiesResponse>
 
-    // Получить approximate match
-    @GET("prescribable/approximateTerm.json")
-    fun getApproximateMatch(@Query("term") term: String): Call<PrescribableApproximateMatchResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetAllRelatedInfo
+//    // Получить всю связанную информацию
+//    @GET("prescribable/rxcui/{rxcui}/allrelated.json")
+//    fun getAllRelatedInfo(@Path("rxcui") rxcui: String): Call<PrescribableAllRelatedResponse>
 
-    // Получить display terms
-    @GET("prescribable/displaynames.json")
-    fun getDisplayTerms(): Call<PrescribableDisplayTermsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetApproximateMatch
+//    // Получить approximate match
+//    @GET("prescribable/approximateTerm.json")
+//    fun getApproximateMatch(@Query("term") term: String): Call<PrescribableApproximateMatchResponse>
 
-    // Получить drugs
-    @GET("prescribable/drugs.json")
-    fun getDrugs(@Query("name") name: String): Call<PrescribableDrugsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetDisplayTerms
+//    // Получить display terms
+//    @GET("prescribable/displaynames.json")
+//    fun getDisplayTerms(): Call<PrescribableDisplayTermsResponse>
 
-    // Получить id types
-    @GET("prescribable/idtypes.json")
-    fun getIdTypes(): Call<PrescribableIdTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetDrugs
+//    // Получить drugs
+//    @GET("prescribable/drugs.json")
+//    fun getDrugs(@Query("name") name: String): Call<PrescribableDrugsResponse>
 
-    // Получить бренды по ингредиентам
-    @GET("prescribable/brands.json")
-    fun getMultiIngredBrand(@Query("ingreds") ingreds: String): Call<PrescribableMultiIngredBrandResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetIdTypes
+//    // Получить id types
+//    @GET("prescribable/idtypes.json")
+//    fun getIdTypes(): Call<PrescribableIdTypesResponse>
 
-    // Получить NDCs
-    @GET("prescribable/rxcui/{rxcui}/ndcs.json")
-    fun getNDCs(@Path("rxcui") rxcui: String): Call<PrescribableNDCsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetMultiIngredBrand (param ingredientids, legacy used ingreds)
+//    // Получить бренды по ингредиентам
+//    @GET("prescribable/brands.json")
+//    fun getMultiIngredBrand(@Query("ingreds") ingreds: String): Call<PrescribableMultiIngredBrandResponse>
 
-    // Получить prop categories
-    @GET("prescribable/propCategories.json")
-    fun getPropCategories(): Call<PrescribablePropCategoriesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetNDCs
+//    // Получить NDCs
+//    @GET("prescribable/rxcui/{rxcui}/ndcs.json")
+//    fun getNDCs(@Path("rxcui") rxcui: String): Call<PrescribableNDCsResponse>
 
-    // Получить prop names
-    @GET("prescribable/propnames.json")
-    fun getPropNames(): Call<PrescribablePropNamesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetPropCategories
+//    // Получить prop categories
+//    @GET("prescribable/propCategories.json")
+//    fun getPropCategories(): Call<PrescribablePropCategoriesResponse>
 
-    // Получить rela paths
-    @GET("prescribable/relapaths.json")
-    fun getRelaPaths(): Call<PrescribableRelaPathsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetPropNames
+//    // Получить prop names
+//    @GET("prescribable/propnames.json")
+//    fun getPropNames(): Call<PrescribablePropNamesResponse>
 
-    // Получить rela types
-    @GET("prescribable/relatypes.json")
-    fun getRelaTypes(): Call<PrescribableRelaTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRelaPaths
+//    // Получить rela paths
+//    @GET("prescribable/relapaths.json")
+//    fun getRelaPaths(): Call<PrescribableRelaPathsResponse>
 
-    // Получить related by relationship
-    @GET("prescribable/rxcui/{rxcui}/related.json")
-    fun getRelatedByRelationship(@Path("rxcui") rxcui: String, @Query("rela") rela: String): Call<PrescribableRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRelaTypes
+//    // Получить rela types
+//    @GET("prescribable/relatypes.json")
+//    fun getRelaTypes(): Call<PrescribableRelaTypesResponse>
 
-    // Получить related by type
-    @GET("prescribable/rxcui/{rxcui}/related.json")
-    fun getRelatedByType(@Path("rxcui") rxcui: String, @Query("tty") tty: String): Call<PrescribableRelatedResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRelated (rela)
+//    // Получить related by relationship
+//    @GET("prescribable/rxcui/{rxcui}/related.json")
+//    fun getRelatedByRelationship(@Path("rxcui") rxcui: String, @Query("rela") rela: String): Call<PrescribableRelatedResponse>
 
-    // Получить свойства концепта
-    @GET("prescribable/rxcui/{rxcui}/properties.json")
-    fun getRxConceptProperties(@Path("rxcui") rxcui: String): Call<PrescribablePropertiesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRelated (tty)
+//    // Получить related by type
+//    @GET("prescribable/rxcui/{rxcui}/related.json")
+//    fun getRelatedByType(@Path("rxcui") rxcui: String, @Query("tty") tty: String): Call<PrescribableRelatedResponse>
 
-    // Получить имя концепта
-    @GET("prescribable/rxcui/{rxcui}.json")
-    fun getRxNormName(@Path("rxcui") rxcui: String): Call<PrescribableNameResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRxConceptProperties
+//    // Получить свойства концепта
+//    @GET("prescribable/rxcui/{rxcui}/properties.json")
+//    fun getRxConceptProperties(@Path("rxcui") rxcui: String): Call<PrescribablePropertiesResponse>
 
-    // Получить свойство концепта
-    @GET("prescribable/rxcui/{rxcui}/property.json")
-    fun getRxProperty(@Path("rxcui") rxcui: String, @Query("propName") propName: String): Call<PrescribablePropertyResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRxNormName
+//    // Получить имя концепта
+//    @GET("prescribable/rxcui/{rxcui}.json")
+//    fun getRxNormName(@Path("rxcui") rxcui: String): Call<PrescribableNameResponse>
 
-    // Получить источники
-    @GET("prescribable/sourcetypes.json")
-    fun getSourceTypes(): Call<PrescribableSourceTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetRxProperty
+//    // Получить свойство концепта
+//    @GET("prescribable/rxcui/{rxcui}/property.json")
+//    fun getRxProperty(@Path("rxcui") rxcui: String, @Query("propName") propName: String): Call<PrescribablePropertyResponse>
 
-    // Получить spelling suggestions
-    @GET("prescribable/spellingsuggestions.json")
-    fun getSpellingSuggestions(@Query("term") term: String): Call<PrescribableSpellingSuggestionsResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetSourceTypes
+//    // Получить источники
+//    @GET("prescribable/sourcetypes.json")
+//    fun getSourceTypes(): Call<PrescribableSourceTypesResponse>
 
-    // Получить term types
-    @GET("prescribable/termtypes.json")
-    fun getTermTypes(): Call<PrescribableTermTypesResponse>
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetSpellingSuggestions (param name, legacy used term)
+//    // Получить spelling suggestions
+//    @GET("prescribable/spellingsuggestions.json")
+//    fun getSpellingSuggestions(@Query("term") term: String): Call<PrescribableSpellingSuggestionsResponse>
+
+    // -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.prescribeGetTermTypes
+//    // Получить term types
+//    @GET("prescribable/termtypes.json")
+//    fun getTermTypes(): Call<PrescribableTermTypesResponse>
 
     // Получить версию
     @GET("prescribable/version.json")

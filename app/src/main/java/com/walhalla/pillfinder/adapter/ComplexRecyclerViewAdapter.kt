@@ -30,12 +30,15 @@ import com.walhalla.pillfinder.adapter.viewHolder.SimpleTextViewHolder
 import com.walhalla.pillfinder.adapter.obj.ClickableClassItem
 import com.walhalla.pillfinder.adapter.obj.ClassCardItem
 import com.walhalla.pillfinder.adapter.obj.ClassMemberItem
+import com.walhalla.pillfinder.adapter.obj.NdcLinkItem
+import com.walhalla.pillfinder.adapter.viewHolder.NewClickableStyle
 
 class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private val TYPE_RxCuiObjString = 334
     private val TYPE_CLICKABLE_CLASS = 335
     private val TYPE_CLASS_CARD = 336
     private val TYPE_CLASS_MEMBER = 337
+    private val TYPE_NDC_LINK = 338 // NEW clickable NDC chip (roadmap #1)
 
     private val EMPTY_VIEW_DEFAULT = 777
     private val EMPTY_VIEW_FROM_OBJECT = 778
@@ -126,6 +129,8 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             return TYPE_CLASS_CARD
         } else if (datalist[position] is ClassMemberItem) {
             return TYPE_CLASS_MEMBER
+        } else if (datalist[position] is NdcLinkItem) {
+            return TYPE_NDC_LINK
         }
         return -1
     }
@@ -192,6 +197,11 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             TYPE_CLASS_MEMBER -> {
                 val v = getContentResource(R.layout.item_class_member, viewGroup)
                 viewHolder = ClassMemberViewHolder(v)
+            }
+
+            TYPE_NDC_LINK -> {
+                val v = getContentResource(R.layout.item_ndc_link, viewGroup)
+                viewHolder = Simple2TextViewHolder(v)
             }
 
             else -> {
@@ -323,6 +333,18 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.tvMemberTty.text = item.minConceptTty
                 holder.tvMemberRela.text = item.rela
                 holder.tvMemberRelaSource.text = item.relaSource
+            }
+
+            TYPE_NDC_LINK -> {
+                // NEW clickable: NDC chip (style NewClickableChip + underline) opens NdcPillCardDialog via presenter
+                val item = datalist[position] as NdcLinkItem
+                val holder = viewHolder as Simple2TextViewHolder
+                holder.setText(item, position)
+                holder.text2.text = item.ndc + "  \u203A"
+                NewClickableStyle.apply(holder.text2)
+                holder.text2.setOnClickListener { v: View ->
+                    presenter?.onItemClicked(v, item)
+                }
             }
 
             EMPTY_VIEW_FROM_OBJECT -> {

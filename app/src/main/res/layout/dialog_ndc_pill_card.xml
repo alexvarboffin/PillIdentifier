@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="8dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="8dp">
+
+        <!-- roadmap #2: in-dialog back navigation (NEW clickable, hidden on the first NDC) -->
+        <TextView
+            android:id="@+id/ndcCardBack"
+            style="@style/NewClickableChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/ndcCardPropertiesTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="@string/ndc_card_section_properties"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/ndcCardProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp" />
+
+        <TextView
+            android:id="@+id/ndcCardMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_regular"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/ndcCardRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ndc_card_retry"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ndcCardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!-- roadmap #2: getNDCStatus section (filled in code, own loading/error/empty state) -->
+        <LinearLayout
+            android:id="@+id/ndcCardStatusSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!-- roadmap #2: findRelatedNDCs section (filled in code, own loading/error/empty state) -->
+        <LinearLayout
+            android:id="@+id/ndcCardRelatedSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
+</ScrollView>

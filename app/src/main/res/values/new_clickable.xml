@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        "NEW clickable" marker (RxNorm roadmap, 2026-10).
+        Every newly added clickable element uses this style so the user can see it is a NEW tappable object:
+        blue accent text, bold + underline (underline is set in code by NewClickableStyle.apply),
+        light-blue rounded chip with a 1dp accent border and a ripple.
+    -->
+    <color name="new_clickable_accent">#1565C0</color>
+    <color name="new_clickable_bg">#E3F2FD</color>
+    <color name="new_clickable_ripple">#331565C0</color>
+    <color name="ndc_card_missing">#9E9E9E</color>
+
+    <style name="NewClickableChip">
+        <item name="android:background">@drawable/bg_new_clickable_chip</item>
+        <item name="android:textColor">@color/new_clickable_accent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+</resources>

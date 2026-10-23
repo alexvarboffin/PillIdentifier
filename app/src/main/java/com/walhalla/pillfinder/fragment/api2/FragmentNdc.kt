@@ -18,6 +18,7 @@ import com.walhalla.pillfinder.MyApp
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
+import com.walhalla.pillfinder.adapter.obj.NdcLinkItem
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
@@ -69,7 +70,8 @@ class FragmentNdc : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (!ndcList.isNullOrEmpty()) {
                     data.add(HeaderObject("NDC List"))
                     for (ndc in ndcList) {
-                        data.add(NameValue1_2("NDC", ndc))
+                        // was: data.add(NameValue1_2("NDC", ndc)) - plain text, its text2 click was a no-op here
+                        data.add(NdcLinkItem("NDC", ndc, allStatuses = false)) // NEW clickable chip -> pill card
                     }
                 }
                 val activity: Activity? = getActivity()
@@ -118,7 +120,13 @@ class FragmentNdc : Fragment(), ComplexPresenter, OnRefreshListener {
 
     override fun onItemClicked(v: View, position: Int) {}
     override fun onItemClicked(itemId: Int, category: VieModel) {}
-    override fun onItemClicked(v: View, obj: VieModel) {}
+    // was: override fun onItemClicked(v: View, obj: VieModel) {}
+    override fun onItemClicked(v: View, obj: VieModel) {
+        // NEW: NDC chip -> pill card (getNDCProperties). Other items keep the old no-op behaviour.
+        if (obj is NdcLinkItem && isAdded) {
+            NdcPillCardDialog.show(childFragmentManager, obj.ndc, obj.allStatuses)
+        }
+    }
 
     override fun onResume() {
         super.onResume()

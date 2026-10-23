@@ -33,12 +33,12 @@
 
 ## 3. Остались на Retrofit (в генерации нет)
 
-Подробности по живым пробам: %TEMP%\legacy_endpoints_probe.md (73 метода).
-- interaction / interactionWithSources: сервис закрыт (404), FragmentInteraction:89 не работает.
-- allrelatedextension: живой, вызывается только в закомментированном коде.
-- RxClassApi: FragmentClass:77 (byRxcui, работает); AnalogsActivity:49/64/100 сломаны (неверные пути, classId вместо rxcui).
-- RxTermsApi.getAllRxTermInfo: Fragment5:75, работает.
-- PrescribableRxNormApi: 24 метода с неверным префиксом (prescribable/ -> Prescribe/), не вызываются.
+Актуально на 23.10.2026, после §6 и §8. Подробности по живым пробам: %TEMP%\legacy_endpoints_probe.md (73 метода).
+- RxnormApi.interaction / interactionWithSources: сервис закрыт (404), FragmentInteraction:89 не работает. В генерации нет.
+- RxnormApi: 18 методов rxclass/* (дубли RxClassApi), в приложении не вызываются.
+- RxClassApi (20 методов) и RxTermsApi (4 метода): интерфейсы остаются. Все вызовы из приложения перенесены на DefaultApi в §6 (getClassByRxcui, getClassMembers, getRelaSources, getAllRxTermInfo). Остальные методы не вызываются и генерацией не покрыты.
+- PrescribableRxNormApi.getRxNormVersion: мёртвый (и prescribable/version.json, и Prescribe/version.json дают 404), аналога нет. Остальные 24 метода и обёртка findRxcuiByIdSafe закомментированы, см. §8.
+- allrelatedextension: перенесён в генерацию (`getAllRelatedExtension`), Retrofit-метод закомментирован, см. §8.
 - API2.searchDrag: openFDA (api.fda.gov), другой API, NlmRxFragment:559.
 
 ## 4. Удалено (бэкап: %TEMP%\pill_rxnorm_backup)
@@ -407,3 +407,388 @@
 - 11 (historystatus): scdConcept/qdFreeConcept — объект вместо списка; код Fragment7 адаптирован.
 - 16 (classMembers): листья minConcept те же; поля класса/связи отсутствуют, потому что это параметры запроса; дополнительно нужен rela для не-ATC источников.
 - 2 (allProperties): propSource/propType сервер не отдаёт, приложение их не использует.
+
+## 8. Prescribe (Prescribable RxNorm) и allrelatedextension: покрытие генерацией (23.10.2026, без коммита)
+
+В спеку RxNorm-OpenAPI добавлено 24 операции (38 -> 62): `getAllRelatedExtension` (`/rxcui/{rxcui}/allrelatedextension.json`, недокументирован, но живой) и 23 операции с тегом `Prescribe` (`/Prescribe/...`, префикс operationId `prescribe`). Они покрывают все 25 документированных функций Prescribable RxNorm API: findRxcuiById/findRxcuiByString сведены в `prescribeFindRxcui`, getRelatedByRelationship/getRelatedByType — в `prescribeGetRelated`. Генерация не менялась: один DefaultApi, пакет gov.nih.nlm.rxnorm. Новых схем 4, все для extension: AllRelatedExtensionResponse/Group, ExtensionConceptGroup/Properties. Все ответы Prescribe переиспользуют существующие схемы. desktopTest: 229/229, newman: 77 запросов / 363 проверки, 0 ошибок.
+
+Мёртвые эндпоинты (404 вживую, в документации нет), в спеку не добавлены: `Prescribe/version.json`, `Prescribe/getRxNormVersion.json`, `Prescribe/rxcui/{id}/historystatus.json`, `Prescribe/allstatus.json`, `Prescribe/ndcstatus.json`.
+
+Вызовов в приложении нет, поэтому переносить нечего (миграция call-site не делалась). В `lib/service/RxNav.kt` закомментированы (не удалены) легаси-методы, которые полностью покрыты генерацией: 24 метода `PrescribableRxNormApi` + обёртка `findRxcuiByIdSafe` и `RxnormApi.allrelatedextension`. Над каждым оставлен комментарий `// -> replaced by gov.nih.nlm.rxnorm.apis.DefaultApi.…`. Оставлен `getRxNormVersion` (prescribable/version.json): аналога нет, эндпоинт мёртвый. Интерфейс `PrescribableRxNormApi` остаётся, потому что MyApp.kt его создаёт. Файл DTO `prescribable/response/PrescribableResponses.kt` не удалён: на него ссылается `getRxNormVersion` (PrescribableVersionResponse). Все легаси-пути `prescribable/...` вживую отдают 404 (правильный префикс — `Prescribe/`). Бэкап: %TEMP%\pill_prescribe_backup.
+
+Сборка: :app:assembleLow21GoogleDebug и :app:assembleLow21RustoreDebug — OK.
+
+### 8.1. Обоснование замен (метод и статусы — как в §7)
+
+Номера продолжают нумерацию §7. «Новое» поле из переиспользованной схемы, которого нет в конкретном ответе, всё равно отмечено как «новое» (оно optional).
+
+#### 18. RxnormApi: `allrelatedextension(id, caller)` → `getAllRelatedExtension(rxcui)`
+
+Легаси DTO: `Response2`. Новое: `DefaultApi.getAllRelatedExtension` → `AllRelatedExtensionResponse` (`/rxcui/{rxcui}/allrelatedextension.json`). Живые образцы: `rxcui/198440/allrelatedextension.json`, `rxcui/161/allrelatedextension.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relatedGroup.conceptGroup[].tty` (`String?`) | `allRelatedGroup.conceptGroup[].tty` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | переименовано |
+| — | `allRelatedGroup.rxcui` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].rxnavstr` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].pres` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].humandrug` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].vetdrug` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].inferedhuman` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].inferedvet` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].genCard` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].psn` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].minConceptGroup.minConcept[].rxcui` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].minConceptGroup.minConcept[].name` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].minConceptGroup.minConcept[].tty` (`String?`) | новое |
+
+**Вывод:** Response2.relatedGroup.conceptGroup[].{tty, conceptProperties[].*} -> AllRelatedExtensionResponse.allRelatedGroup.conceptGroup[].{tty, conceptProperties[].*} (renamed wrapper, same data; новые rxnavstr, pres, humandrug, vetdrug, inferedhuman, inferedvet, genCard, psn, minConceptGroup.minConcept[]) => замена верна: сервер отдаёт корень allRelatedGroup, а не relatedGroup, поэтому старый DTO всегда был пуст. Все 8 листов DTO есть под allRelatedGroup. Новые поля — расширение относительно allrelated.json: флаги human/vet и для SBD/SCD свои минимальные концепты. Эндпоинт не документирован, но живой (200). В приложении он вызывался только в закомментированном коде.
+
+#### 19. PrescribableRxNormApi: `filterByProperty(rxcui, propName, propValues)` → `prescribeFilterByProperty(rxcui, propName, propValues)`
+
+Легаси DTO: `PrescribableFilterResponse`. Новое: `DefaultApi.prescribeFilterByProperty` → `RxcuiResponse` (`/Prescribe/rxcui/{rxcui}/filter.json`). Живые образцы: `Prescribe/rxcui/161/filter.json?propName=TTY&propValues=IN+PIN`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `filterGroup.conceptGroup[].tty` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `rxcui` (`String?`) | переименовано |
+| `filterGroup.conceptGroup[].conceptProperties[].name` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].language` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | — | отсутствует |
+| `filterGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | — | отсутствует |
+
+**Вывод:** PrescribableFilterResponse.filterGroup.conceptGroup[].conceptProperties[].rxcui -> RxcuiResponse.rxcui (renamed, same data); остальные 7 листов отсутствуют => замена верна: сервер возвращает только {"rxcui": "…"}, если концепт проходит фильтр, и {} — если не проходит. Структуры filterGroup никогда не было, поэтому старый DTO был всегда пуст. Схема RxcuiResponse переиспользована от RxNorm filterByProperty.
+
+#### 20. PrescribableRxNormApi: `findRxcuiById(idtype, id) / findRxcuiByIdSafe` → `prescribeFindRxcui(idtype = …, id = …)`
+
+Легаси DTO: `IdGroup`. Новое: `DefaultApi.prescribeFindRxcui` → `IdGroupResponse` (`/Prescribe/rxcui.json`). Живые образцы: `Prescribe/rxcui.json?idtype=NDC&id=68180-635-09`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `rxnormId[]` (`List<String>?`) | `idGroup.rxnormId[]` (`List<String>?`) | переименовано |
+| — | `idGroup.name` (`String?`) | новое |
+
+**Вывод:** IdGroup.rxnormId[] -> IdGroupResponse.idGroup.rxnormId[] (renamed wrapper, same data; новое idGroup.name) => замена верна: легаси-DTO описывал внутренний объект без обёртки idGroup, поэтому Gson ничего не находил. Теперь один prescribeFindRxcui покрывает и поиск по idtype+id, и поиск по name (в API это один путь Prescribe/rxcui.json). Типобезопасная обёртка findRxcuiByIdSafe не нужна: idtype — строка из prescribeGetIdTypes.
+
+#### 21. PrescribableRxNormApi: `findRxcuiByString(name)` → `prescribeFindRxcui(name = …)`
+
+Легаси DTO: `IdGroup`. Новое: `DefaultApi.prescribeFindRxcui` → `IdGroupResponse` (`/Prescribe/rxcui.json`). Живые образцы: `Prescribe/rxcui.json?name=tylenol`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `rxnormId[]` (`List<String>?`) | `idGroup.rxnormId[]` (`List<String>?`) | переименовано |
+| — | `idGroup.name` (`String?`) | новое |
+
+**Вывод:** IdGroup.rxnormId[] -> IdGroupResponse.idGroup.rxnormId[] (renamed wrapper, same data; новое idGroup.name) => замена верна: тот же путь rxcui.json, что и в п. 20, только с параметром name.
+
+#### 22. PrescribableRxNormApi: `getAllConceptsByTTY(tty)` → `prescribeGetAllConceptsByTTY(listOf(tty))`
+
+Легаси DTO: `PrescribableAllConceptsResponse`. Новое: `DefaultApi.prescribeGetAllConceptsByTTY` → `MinConceptGroupResponse` (`/Prescribe/allconcepts.json`). Живые образцы: `Prescribe/allconcepts.json?tty=DF`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `conceptGroup[].tty` (`String?`) | `minConceptGroup.minConcept[].tty` (`String?`) | переименовано |
+| `conceptGroup[].conceptProperties[].rxcui` (`String?`) | `minConceptGroup.minConcept[].rxcui` (`String?`) | переименовано |
+| `conceptGroup[].conceptProperties[].name` (`String?`) | `minConceptGroup.minConcept[].name` (`String?`) | переименовано |
+| `conceptGroup[].conceptProperties[].synonym` (`String?`) | — | отсутствует |
+| `conceptGroup[].conceptProperties[].tty` (`String?`) | — | отсутствует |
+| `conceptGroup[].conceptProperties[].language` (`String?`) | — | отсутствует |
+| `conceptGroup[].conceptProperties[].suppress` (`String?`) | — | отсутствует |
+| `conceptGroup[].conceptProperties[].umlscui` (`String?`) | — | отсутствует |
+
+**Вывод:** conceptGroup[].{tty, conceptProperties[].{rxcui,name}} -> MinConceptGroupResponse.minConceptGroup.minConcept[].{tty,rxcui,name} (renamed wrapper, same data); synonym, language, suppress, umlscui и вложенный tty отсутствуют => замена верна: allconcepts.json отдаёт плоский список minConcept из трёх полей. Это та же структура, что у RxNorm getAllConceptsByTTY, и схема переиспользована. Полей synonym/language/suppress/umlscui сервер не отдаёт.
+
+#### 23. PrescribableRxNormApi: `getAllProperties(rxcui)` → `prescribeGetAllProperties(rxcui, prop)`
+
+Легаси DTO: `PrescribableAllPropertiesResponse`. Новое: `DefaultApi.prescribeGetAllProperties` → `PropConceptGroupResponse` (`/Prescribe/rxcui/{rxcui}/allProperties.json`). Живые образцы: `Prescribe/rxcui/161/allProperties.json?prop=names+codes`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `propConceptGroup.propConcept[].propCategory` (`String?`) | `propConceptGroup.propConcept[].propCategory` (`String?`) | идентично |
+| `propConceptGroup.propConcept[].propName` (`String?`) | `propConceptGroup.propConcept[].propName` (`String?`) | идентично |
+| `propConceptGroup.propConcept[].propValue` (`String?`) | `propConceptGroup.propConcept[].propValue` (`String?`) | идентично |
+| `propConceptGroup.propConcept[].propSource` (`String?`) | — | отсутствует |
+| `propConceptGroup.propConcept[].propType` (`String?`) | — | отсутствует |
+
+**Вывод:** PrescribableAllPropertiesResponse.propConceptGroup.propConcept[].{propCategory,propName,propValue} -> PropConceptGroupResponse.… (идентично); propSource/propType отсутствуют => замена верна: форма 1:1, как в п. 2 (RxNorm allProperties). propSource/propType сервер не отдаёт. Параметр prop теперь передаётся явно (names, codes, attributes и т. д.).
+
+#### 24. PrescribableRxNormApi: `getAllRelatedInfo(rxcui)` → `prescribeGetAllRelatedInfo(rxcui)`
+
+Легаси DTO: `PrescribableAllRelatedResponse`. Новое: `DefaultApi.prescribeGetAllRelatedInfo` → `AllRelatedGroupResponse` (`/Prescribe/rxcui/{rxcui}/allrelated.json`). Живые образцы: `Prescribe/rxcui/9801/allrelated.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relatedGroup.conceptGroup[].tty` (`String?`) | `allRelatedGroup.conceptGroup[].tty` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | переименовано |
+| `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | `allRelatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | переименовано |
+| — | `allRelatedGroup.rxcui` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].genCard` (`String?`) | новое |
+| — | `allRelatedGroup.conceptGroup[].conceptProperties[].psn` (`String?`) | новое |
+
+**Вывод:** relatedGroup.conceptGroup[].* -> AllRelatedGroupResponse.allRelatedGroup.conceptGroup[].* (renamed wrapper, same data; новые rxcui, genCard, psn) => замена верна: сервер отдаёт корень allRelatedGroup, поэтому старый DTO был пуст. Все 8 листов совпадают. Схема та же, что у RxNorm getAllRelatedInfo.
+
+#### 25. PrescribableRxNormApi: `getApproximateMatch(term)` → `prescribeGetApproximateMatch(term)`
+
+Легаси DTO: `PrescribableApproximateMatchResponse`. Новое: `DefaultApi.prescribeGetApproximateMatch` → `ApproximateGroupResponse` (`/Prescribe/approximateTerm.json`). Живые образцы: `Prescribe/approximateTerm.json?term=zocor+10+mg&maxEntries=4`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `approximateGroup.candidate[].name` (`String?`) | `approximateGroup.candidate[].name` (`String?`) | идентично |
+| `approximateGroup.candidate[].score` (`String?`) | `approximateGroup.candidate[].score` (`String?`) | идентично |
+| `approximateGroup.candidate[].matchType` (`String?`) | — | отсутствует |
+| — | `approximateGroup.inputTerm` (`String?`) | новое |
+| — | `approximateGroup.candidate[].rxcui` (`String?`) | новое |
+| — | `approximateGroup.candidate[].rxaui` (`String?`) | новое |
+| — | `approximateGroup.candidate[].rank` (`String?`) | новое |
+| — | `approximateGroup.candidate[].source` (`String?`) | новое |
+
+**Вывод:** approximateGroup.candidate[].{name,score} -> ApproximateGroupResponse.approximateGroup.candidate[].{name,score} (идентично); matchType отсутствует; новые inputTerm, rxcui, rxaui, rank, source => замена верна: ключевые листы совпадают. matchType сервер не отдаёт. Новое поле rxcui как раз то, что нужно для перехода к концепту. Схема переиспользована от RxNorm getApproximateMatch.
+
+#### 26. PrescribableRxNormApi: `getDisplayTerms()` → `prescribeGetDisplayTerms()`
+
+Легаси DTO: `PrescribableDisplayTermsResponse`. Новое: `DefaultApi.prescribeGetDisplayTerms` → `DisplayTermsListResponse` (`/Prescribe/displaynames.json`). Живые образцы: `Prescribe/displaynames.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `displayTermList.term[]` (`List<String>`) | `displayTermsList.term[]` (`List<String>?`) | переименовано |
+
+**Вывод:** displayTermList.term[] -> DisplayTermsListResponse.displayTermsList.term[] (renamed wrapper, same data) => замена верна: обёртка в ответе называется displayTermsList (с s), поэтому старый DTO был пуст.
+
+#### 27. PrescribableRxNormApi: `getDrugs(name)` → `prescribeGetDrugs(name)`
+
+Легаси DTO: `PrescribableDrugsResponse`. Новое: `DefaultApi.prescribeGetDrugs` → `DrugGroupResponse` (`/Prescribe/drugs.json`). Живые образцы: `Prescribe/drugs.json?name=cymbalta`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `drugGroup.name` (`String?`) | `drugGroup.name` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].tty` (`String?`) | `drugGroup.conceptGroup[].tty` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].name` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].name` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].language` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].language` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | идентично |
+| `drugGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | `drugGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | идентично |
+| — | `drugGroup.conceptGroup[].conceptProperties[].genCard` (`String?`) | новое |
+| — | `drugGroup.conceptGroup[].conceptProperties[].psn` (`String?`) | новое |
+
+**Вывод:** PrescribableDrugsResponse.drugGroup.{name, conceptGroup[].*} -> DrugGroupResponse.drugGroup.… (идентично; новые genCard, psn) => замена верна: форма 1:1, все 9 листов совпадают.
+
+#### 28. PrescribableRxNormApi: `getIdTypes()` → `prescribeGetIdTypes()`
+
+Легаси DTO: `PrescribableIdTypesResponse`. Новое: `DefaultApi.prescribeGetIdTypes` → `IdTypeListResponse` (`/Prescribe/idtypes.json`). Живые образцы: `Prescribe/idtypes.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `idTypeList.idName[]` (`List<String>`) | `idTypeList.idName[]` (`List<String>?`) | идентично |
+
+**Вывод:** idTypeList.idName[] -> IdTypeListResponse.idTypeList.idName[] (идентично) => замена верна: форма 1:1. Список idtype в Prescribe короче, чем в RxNorm, а значения вне его дают 400.
+
+#### 29. PrescribableRxNormApi: `getMultiIngredBrand(ingreds)` → `prescribeGetMultiIngredBrand(ingredientids)`
+
+Легаси DTO: `PrescribableMultiIngredBrandResponse`. Новое: `DefaultApi.prescribeGetMultiIngredBrand` → `BrandGroupResponse` (`/Prescribe/brands.json`). Живые образцы: `Prescribe/brands.json?ingredientids=8896+20610`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `brandGroup.brand[].rxcui` (`String?`) | `brandGroup.conceptProperties[].rxcui` (`String?`) | переименовано |
+| `brandGroup.brand[].name` (`String?`) | `brandGroup.conceptProperties[].name` (`String?`) | переименовано |
+| `brandGroup.brand[].synonym` (`String?`) | `brandGroup.conceptProperties[].synonym` (`String?`) | переименовано |
+| `brandGroup.brand[].tty` (`String?`) | `brandGroup.conceptProperties[].tty` (`String?`) | переименовано |
+| `brandGroup.brand[].language` (`String?`) | `brandGroup.conceptProperties[].language` (`String?`) | переименовано |
+| `brandGroup.brand[].suppress` (`String?`) | `brandGroup.conceptProperties[].suppress` (`String?`) | переименовано |
+| `brandGroup.brand[].umlscui` (`String?`) | `brandGroup.conceptProperties[].umlscui` (`String?`) | переименовано |
+| — | `brandGroup.ingredientList.rxnormId[]` (`List<String>?`) | новое |
+| — | `brandGroup.conceptProperties[].genCard` (`String?`) | новое |
+| — | `brandGroup.conceptProperties[].psn` (`String?`) | новое |
+
+**Вывод:** brandGroup.brand[].* -> BrandGroupResponse.brandGroup.conceptProperties[].* (renamed wrapper, same data; новые ingredientList.rxnormId[], genCard, psn) => замена верна: список брендов в ответе лежит под conceptProperties, а не brand. Кроме того, параметр в API называется ingredientids, а не ingreds (старый вызов уходил без нужного параметра).
+
+#### 30. PrescribableRxNormApi: `getNDCs(rxcui)` → `prescribeGetNDCs(rxcui)`
+
+Легаси DTO: `PrescribableNDCsResponse`. Новое: `DefaultApi.prescribeGetNDCs` → `NdcGroupResponse` (`/Prescribe/rxcui/{rxcui}/ndcs.json`). Живые образцы: `Prescribe/rxcui/198440/ndcs.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `ndcGroup.ndc[]` (`List<String>`) | `ndcGroup.ndcList.ndc[]` (`List<String>?`) | переименовано |
+| — | `ndcGroup.rxcui` (`String?`) | новое |
+
+**Вывод:** ndcGroup.ndc[] -> NdcGroupResponse.ndcGroup.ndcList.ndc[] (renamed wrapper, same data; новое ndcGroup.rxcui) => замена верна: NDC в ответе вложены в ndcList. Схема та же, что у RxNorm getNDCs (п. 3).
+
+#### 31. PrescribableRxNormApi: `getPropCategories()` → `prescribeGetPropCategories()`
+
+Легаси DTO: `PrescribablePropCategoriesResponse`. Новое: `DefaultApi.prescribeGetPropCategories` → `PropCategoryListResponse` (`/Prescribe/propCategories.json`). Живые образцы: `Prescribe/propCategories.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `propCategoryList.propCategory[]` (`List<String>`) | `propCategoryList.propCategory[]` (`List<String>?`) | идентично |
+
+**Вывод:** propCategoryList.propCategory[] -> PropCategoryListResponse.… (идентично) => замена верна: форма 1:1.
+
+#### 32. PrescribableRxNormApi: `getPropNames()` → `prescribeGetPropNames()`
+
+Легаси DTO: `PrescribablePropNamesResponse`. Новое: `DefaultApi.prescribeGetPropNames` → `PropNameListResponse` (`/Prescribe/propnames.json`). Живые образцы: `Prescribe/propnames.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `propNameList.propName[]` (`List<String>`) | `propNameList.propName[]` (`List<String>?`) | идентично |
+
+**Вывод:** propNameList.propName[] -> PropNameListResponse.… (идентично) => замена верна: форма 1:1. Список в Prescribe короче (например, ATC вне подмножества даёт 400 в getRxProperty/filterByProperty).
+
+#### 33. PrescribableRxNormApi: `getRelaPaths()` → `prescribeGetRelaPaths(start, finish)`
+
+Легаси DTO: `PrescribableRelaPathsResponse`. Новое: `DefaultApi.prescribeGetRelaPaths` → `RelationPathListResponse` (`/Prescribe/relapaths.json`). Живые образцы: `Prescribe/relapaths.json?start=BPCK&finish=IN`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relaPathList.relaPath[]` (`List<String>`) | `relationPathList.relationPath[].tty[]` (`List<String>?`) | переименовано |
+
+**Вывод:** relaPathList.relaPath[]: List<String> -> RelationPathListResponse.relationPathList.relationPath[].tty[]: List<String> (renamed wrapper, same data) => замена верна: путь между TTY приходит как список объектов relationPath, у каждого — упорядоченный список tty. Раньше start/finish не передавались (без них API отдаёт все пути); теперь это необязательные параметры.
+
+#### 34. PrescribableRxNormApi: `getRelaTypes()` → `prescribeGetRelaTypes()`
+
+Легаси DTO: `PrescribableRelaTypesResponse`. Новое: `DefaultApi.prescribeGetRelaTypes` → `RelationTypeListResponse` (`/Prescribe/relatypes.json`). Живые образцы: `Prescribe/relatypes.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relaTypeList.relaType[]` (`List<String>`) | `relationTypeList.relationType[]` (`List<String>?`) | переименовано |
+
+**Вывод:** relaTypeList.relaType[] -> RelationTypeListResponse.relationTypeList.relationType[] (renamed wrapper, same data) => замена верна, тот же случай, что в п. 10.
+
+#### 35. PrescribableRxNormApi: `getRelatedByRelationship(rxcui, rela)` → `prescribeGetRelated(rxcui, rela = …)`
+
+Легаси DTO: `PrescribableRelatedResponse`. Новое: `DefaultApi.prescribeGetRelated` → `RelatedGroupResponse` (`/Prescribe/rxcui/{rxcui}/related.json`). Живые образцы: `Prescribe/rxcui/174742/related.json?rela=tradename_of+has_precise_ingredient`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relatedGroup.conceptGroup[].tty` (`String?`) | `relatedGroup.conceptGroup[].tty` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | идентично |
+| — | `relatedGroup.rxcui` (`String?`) | новое |
+| — | `relatedGroup.conceptGroup[].conceptProperties[].genCard` (`String?`) | новое |
+| — | `relatedGroup.conceptGroup[].conceptProperties[].psn` (`String?`) | новое |
+
+**Вывод:** relatedGroup.conceptGroup[].* -> RelatedGroupResponse.relatedGroup.… (идентично; новые rxcui, genCard, psn) => замена верна: форма 1:1. Один prescribeGetRelated, rela передаётся параметром.
+
+#### 36. PrescribableRxNormApi: `getRelatedByType(rxcui, tty)` → `prescribeGetRelated(rxcui, tty = …)`
+
+Легаси DTO: `PrescribableRelatedResponse`. Новое: `DefaultApi.prescribeGetRelated` → `RelatedGroupResponse` (`/Prescribe/rxcui/{rxcui}/related.json`). Живые образцы: `Prescribe/rxcui/174742/related.json?tty=SBD+SBDF`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `relatedGroup.conceptGroup[].tty` (`String?`) | `relatedGroup.conceptGroup[].tty` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].rxcui` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].name` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].synonym` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].tty` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].language` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].suppress` (`String?`) | идентично |
+| `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | `relatedGroup.conceptGroup[].conceptProperties[].umlscui` (`String?`) | идентично |
+| — | `relatedGroup.rxcui` (`String?`) | новое |
+| — | `relatedGroup.conceptGroup[].conceptProperties[].genCard` (`String?`) | новое |
+| — | `relatedGroup.conceptGroup[].conceptProperties[].psn` (`String?`) | новое |
+
+**Вывод:** relatedGroup.conceptGroup[].* -> RelatedGroupResponse.relatedGroup.… (идентично; новые rxcui, genCard, psn) => замена верна: тот же related.json, tty передаётся параметром.
+
+#### 37. PrescribableRxNormApi: `getRxConceptProperties(rxcui)` → `prescribeGetRxConceptProperties(rxcui)`
+
+Легаси DTO: `PrescribablePropertiesResponse`. Новое: `DefaultApi.prescribeGetRxConceptProperties` → `PropertiesResponse` (`/Prescribe/rxcui/{rxcui}/properties.json`). Живые образцы: `Prescribe/rxcui/161/properties.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `propConceptGroup.propConcept[].propCategory` (`String?`) | — | отсутствует |
+| `propConceptGroup.propConcept[].propName` (`String?`) | — | отсутствует |
+| `propConceptGroup.propConcept[].propValue` (`String?`) | — | отсутствует |
+| `propConceptGroup.propConcept[].propSource` (`String?`) | — | отсутствует |
+| `propConceptGroup.propConcept[].propType` (`String?`) | — | отсутствует |
+| — | `properties.rxcui` (`String?`) | новое |
+| — | `properties.name` (`String?`) | новое |
+| — | `properties.synonym` (`String?`) | новое |
+| — | `properties.tty` (`String?`) | новое |
+| — | `properties.language` (`String?`) | новое |
+| — | `properties.suppress` (`String?`) | новое |
+| — | `properties.umlscui` (`String?`) | новое |
+
+**Вывод:** propConceptGroup.propConcept[].* -> PropertiesResponse.properties.{rxcui,name,synonym,tty,language,suppress,umlscui} (структура другая) => замена верна: Prescribe/rxcui/{rxcui}/properties.json отдаёт объект properties, как и RxNorm getRxConceptProperties (п. 6). Легаси-DTO ошибочно описывал ответ allProperties и всегда был пуст. Новая модель — то, что реально приходит.
+
+#### 38. PrescribableRxNormApi: `getRxNormName(rxcui)` → `prescribeGetRxNormName(rxcui)`
+
+Легаси DTO: `PrescribableNameResponse`. Новое: `DefaultApi.prescribeGetRxNormName` → `IdGroupResponse` (`/Prescribe/rxcui/{rxcui}.json`). Живые образцы: `Prescribe/rxcui/161.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `idGroup.name` (`String?`) | `idGroup.name` (`String?`) | идентично |
+| `idGroup.rxcui` (`String?`) | — | отсутствует |
+| — | `idGroup.rxnormId[]` (`List<String>?`) | новое |
+
+**Вывод:** PrescribableNameResponse.idGroup.name -> IdGroupResponse.idGroup.name (идентично); idGroup.rxcui отсутствует; rxnormId[] — из переиспользованной схемы, этим путём не отдаётся => замена верна: имя концепта то же. Отдельной схемы не нужно, IdGroupResponse описывает {idGroup:{name}} строго (rxnormId optional).
+
+#### 39. PrescribableRxNormApi: `getRxProperty(rxcui, propName)` → `prescribeGetRxProperty(rxcui, propName)`
+
+Легаси DTO: `PrescribablePropertyResponse`. Новое: `DefaultApi.prescribeGetRxProperty` → `PropConceptGroupResponse` (`/Prescribe/rxcui/{rxcui}/property.json`). Живые образцы: `Prescribe/rxcui/7052/property.json?propName=RxNorm%20Name`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `propValue` (`String?`) | `propConceptGroup.propConcept[].propValue` (`String?`) | переименовано |
+| — | `propConceptGroup.propConcept[].propCategory` (`String?`) | новое |
+| — | `propConceptGroup.propConcept[].propName` (`String?`) | новое |
+
+**Вывод:** propValue (в корне) -> PropConceptGroupResponse.propConceptGroup.propConcept[].propValue (renamed wrapper, same data; новые propCategory, propName) => замена верна: сервер отдаёт значение внутри propConceptGroup.propConcept[], а не плоским полем propValue, поэтому старый DTO был пуст.
+
+#### 40. PrescribableRxNormApi: `getSourceTypes()` → `prescribeGetSourceTypes()`
+
+Легаси DTO: `PrescribableSourceTypesResponse`. Новое: `DefaultApi.prescribeGetSourceTypes` → `SourceTypeListResponse` (`/Prescribe/sourcetypes.json`). Живые образцы: `Prescribe/sourcetypes.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `sourceTypeList.sourceName[]` (`List<String>`) | `sourceTypeList.sourceName[]` (`List<String>?`) | идентично |
+
+**Вывод:** sourceTypeList.sourceName[] -> SourceTypeListResponse.… (идентично) => замена верна: форма 1:1.
+
+#### 41. PrescribableRxNormApi: `getSpellingSuggestions(term)` → `prescribeGetSpellingSuggestions(name)`
+
+Легаси DTO: `PrescribableSpellingSuggestionsResponse`. Новое: `DefaultApi.prescribeGetSpellingSuggestions` → `SuggestionGroupResponse` (`/Prescribe/spellingsuggestions.json`). Живые образцы: `Prescribe/spellingsuggestions.json?name=ambienn`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `suggestionGroup.suggestion[]` (`List<String>`) | `suggestionGroup.suggestionList.suggestion[]` (`List<String>?`) | переименовано |
+| — | `suggestionGroup.name` (`String?`) | новое |
+
+**Вывод:** suggestionGroup.suggestion[] -> SuggestionGroupResponse.suggestionGroup.suggestionList.suggestion[] (renamed wrapper, same data; новое suggestionGroup.name) => замена верна: подсказки вложены в suggestionList (как в п. 12). Параметр в API — name, а не term.
+
+#### 42. PrescribableRxNormApi: `getTermTypes()` → `prescribeGetTermTypes()`
+
+Легаси DTO: `PrescribableTermTypesResponse`. Новое: `DefaultApi.prescribeGetTermTypes` → `TermTypeListResponse` (`/Prescribe/termtypes.json`). Живые образцы: `Prescribe/termtypes.json`.
+
+| Легаси DTO: поле (тип) | Live / сгенерированная модель: поле (тип) | Статус |
+|---|---|---|
+| `termTypeList.termType[]` (`List<String>`) | `termTypeList.termType[]` (`List<String>?`) | идентично |
+
+**Вывод:** termTypeList.termType[] -> TermTypeListResponse.… (идентично) => замена верна: форма 1:1.
+
+### 8.2. Сводка
+
+Всего листовых полей в таблицах §8: идентично 36, переименовано 35, тип изменён 0, отсутствует 21, новое 45.
+- 23, 27, 28, 31, 32, 35, 36, 40, 42: структура 1:1 (максимум новые поля), замена механическая.
+- 18, 20, 21, 22, 24, 26, 29, 30, 33, 34, 39, 41: те же данные под другой обёрткой (renamed wrapper, same data). Старые DTO из-за неверного корня/обёртки всегда были пусты.
+- 19 (filter), 37 (properties): легаси-DTO описывал не ту структуру; новая модель соответствует живому ответу (RxcuiResponse, PropertiesResponse).
+- 22, 23, 25, 38: часть полей DTO сервер не отдаёт (отсутствует); приложение эти методы не вызывало.
+- Ни один из 25 легаси-методов в приложении не вызывался, и у всех был неверный путь `prescribable/` (404). Комментирование поведение не меняет.

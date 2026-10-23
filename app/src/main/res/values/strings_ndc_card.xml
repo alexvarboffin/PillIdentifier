@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- NDC pill card (getNDCProperties). English only for now. -->
+    <string name="ndc_card_title">NDC %1$s</string>
+    <string name="ndc_card_loading">Loading NDC properties…</string>
+    <string name="ndc_card_empty">No properties found for this NDC.</string>
+    <string name="ndc_card_error">Could not load NDC properties: %1$s</string>
+    <string name="ndc_card_retry">Retry</string>
+    <string name="ndc_card_record">Record %1$d of %2$d · source %3$s</string>
+    <string name="ndc_card_other">Other properties</string>
+    <string name="ndc_card_missing">not specified</string>
+    <string name="ndc_card_imprint">Imprint</string>
+    <string name="ndc_card_colour">Colour</string>
+    <string name="ndc_card_shape">Shape</string>
+    <string name="ndc_card_size">Size</string>
+    <string name="ndc_card_score">Score</string>
+    <string name="ndc_card_labeler">Labeler</string>
+    <string name="ndc_card_packaging">Packaging</string>
+    <string name="ndc_card_marketing_status">Marketing status</string>
+    <string name="ndc_card_marketing_category">Marketing category</string>
+    <string name="ndc_card_marketed">Marketed</string>
+    <string name="ndc_card_label_type">Label type</string>
+    <string name="ndc_card_spl_set_id">SPL set id</string>
+    <string name="ndc_card_ndc10">NDC-10</string>
+    <string name="ndc_card_ndc9">NDC-9</string>
+    <string name="ndc_card_rxcui">RxCUI</string>
+    <string name="ndc_card_source">Source</string>
+    <!-- roadmap #2: status + related -->
+    <string name="ndc_card_section_properties">Pill properties</string>
+    <string name="ndc_card_section_status">NDC status</string>
+    <string name="ndc_card_section_related">Other packages of the same drug</string>
+    <string name="ndc_card_section_related_count">Other packages of the same drug (%1$d, active)</string>
+    <string name="ndc_card_status_empty">No status information for this NDC.</string>
+    <string name="ndc_card_related_empty">No other active packages found.</string>
+    <string name="ndc_card_status">Status</string>
+    <string name="ndc_card_active">Active</string>
+    <string name="ndc_card_rxnorm_ndc">In RxNorm</string>
+    <string name="ndc_card_maps_to">Maps to RxCUI</string>
+    <string name="ndc_card_sources">Sources</string>
+    <string name="ndc_card_alt_ndc">Alternate NDC</string>
+    <string name="ndc_card_comment">Comment</string>
+    <string name="ndc_card_history">History</string>
+    <string name="ndc_card_source_mapping">Source mapping</string>
+    <string name="ndc_card_back">< Back to NDC %1$s</string></resources>

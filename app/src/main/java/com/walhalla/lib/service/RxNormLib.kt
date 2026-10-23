@@ -5,10 +5,16 @@ import gov.nih.nlm.rxnorm.apis.DefaultApi
 import gov.nih.nlm.rxnorm.infrastructure.ApiClient
 import gov.nih.nlm.rxnorm.infrastructure.HttpResponse
 import gov.nih.nlm.rxnorm.models.AllSourcesFlag
+import gov.nih.nlm.rxnorm.models.NdcInfoListResponse
+import gov.nih.nlm.rxnorm.models.NdcPropertyListResponse
+import gov.nih.nlm.rxnorm.models.NdcRelation
+import gov.nih.nlm.rxnorm.models.NdcStatusResponse
+import gov.nih.nlm.rxnorm.models.NdcStatusFilter
 import gov.nih.nlm.rxnorm.models.SearchMode
 import io.ktor.client.engine.android.Android
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -68,4 +74,53 @@ object RxNormLib {
                 .onFailure { t -> callback?.handleThrowable(t) }
         }
     }
+
+    /** Result callback for [ndcProperties]; delivered on the main thread. */
+    interface NdcPropertiesCallback {
+        /** body == null when the server answered non-2xx (same contract as [fetch]). */
+        fun onResult(body: NdcPropertyListResponse?)
+        fun onError(t: Throwable)
+    }
+
+    /**
+     * getNDCProperties -> /ndcproperties.json?id={ndc}[&ndcstatus=ALL] (roadmap item #1, NDC pill card).
+     * @param allStatuses true for historical/obsolete NDCs (ndcstatus=ALL), false = API default (active).
+     * @return Job so the caller can cancel when its UI goes away.
+     */
+    @JvmStatic
+    fun ndcProperties(ndc: String, allStatuses: Boolean, callback: NdcPropertiesCallback): Job =
+        mainScope.launch {
+            fetch {
+                getNDCProperties(
+                    id = ndc,
+                    ndcstatus = listOf(if (allStatuses) NdcStatusFilter.ALL else NdcStatusFilter.active)
+                )
+            }.onSuccess { body -> callback.onResult(body) }
+                .onFailure { t -> callback.onError(t) }
+        }
+
+    /** Generic main-thread result callback (roadmap item #2). body == null when the server answered non-2xx. */
+    interface LibCallback<T> {
+        fun onResult(body: T?)
+        fun onError(t: Throwable)
+    }
+
+    private fun <T : Any> launchWithCallback(
+        callback: LibCallback<T>,
+        block: suspend gov.nih.nlm.rxnorm.apis.DefaultApi.() -> gov.nih.nlm.rxnorm.infrastructure.HttpResponse<T>
+    ): Job = mainScope.launch {
+        fetch(block)
+            .onSuccess { body -> callback.onResult(body) }
+            .onFailure { t -> callback.onError(t) }
+    }
+
+    /** getNDCStatus -> /ndcstatus.json?ndc={ndc} (API defaults: history=0, altpkg=0; ndcHistory is still returned). */
+    @JvmStatic
+    fun ndcStatus(ndc: String, callback: LibCallback<NdcStatusResponse>): Job =
+        launchWithCallback(callback) { getNDCStatus(ndc = ndc) }
+
+    /** findRelatedNDCs -> /relatedndc.json?ndc={ndc}&relation={relation} (ndcstatus = API default: active). */
+    @JvmStatic
+    fun relatedNdcs(ndc: String, relation: NdcRelation, callback: LibCallback<NdcInfoListResponse>): Job =
+        launchWithCallback(callback) { findRelatedNDCs(ndc = ndc, relation = relation) }
 }
