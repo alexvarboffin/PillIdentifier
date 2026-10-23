@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="store_app_url" translatable="false">https://play.google.com/store/apps/details?id=com.walhalla.pillfindel</string>
+    <!-- <string name="store_app_url" translatable="false">https://play.google.com/store/apps/details?id=com.walhalla.pillfindel</string> -->
+    <!-- url = getString(R.string.store_app_url_prefix) + context.packageName -->
+    <string name="store_app_url_prefix" translatable="false">https://play.google.com/store/apps/details?id=</string>
 </resources>
