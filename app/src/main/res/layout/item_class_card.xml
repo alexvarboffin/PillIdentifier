@@ -28,4 +28,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="8dp"/>
+
+    <!--
+        Visible "opens something" affordance (style NewClickableChip). It has NO listener of its own:
+        clickable/focusable=false lets the tap fall through to the card's existing itemView listener
+        (ComplexRecyclerViewAdapter TYPE_CLASS_CARD -> presenter.onItemClicked(v, ClassCardItem) ->
+        FragmentClass -> AnalogsActivity.start), and duplicateParentState makes it show the card's pressed state.
+    -->
+    <TextView
+        android:id="@+id/tvClassAnalogsChip"
+        style="@style/NewClickableChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:duplicateParentState="true"
+        android:text="@string/class_card_analogs" />
 </LinearLayout> 

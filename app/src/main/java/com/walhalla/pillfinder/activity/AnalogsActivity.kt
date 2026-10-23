@@ -15,6 +15,10 @@ import com.walhalla.lib.service.RxNormLib
 import gov.nih.nlm.rxnorm.models.RelaSource
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
+import com.walhalla.pillfinder.adapter.obj.ConceptLinkItem
+import com.walhalla.pillfinder.adapter.ComplexPresenter
+import gov.nih.nlm.rxnorm.models.DrugMember
+import android.view.View
 import com.walhalla.pillfinder.adapter.obj.NameValue1_2
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
@@ -35,6 +39,8 @@ class AnalogsActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = GridLayoutManager(this, 1)
         binding.recyclerView.itemAnimator = DefaultItemAnimator()
         binding.recyclerView.adapter = mAdapter
+        // roadmap 4b: member rows with an rxcui are NEW clickable concept chips (before: no click listener at all)
+        mAdapter.setChildItemClickListener(memberClicks)
 
         val classId = intent.getStringExtra(EXTRA_CLASS_ID) ?: ""
         val classType = intent.getStringExtra(EXTRA_CLASS_TYPE) ?: ""
@@ -83,9 +89,10 @@ class AnalogsActivity : AppCompatActivity() {
                 if (members.isNotEmpty()) {
                     val data = ArrayList<VieModel>()
                     data.add(HeaderObject("Аналоги класса: $className (источник: ${relaSource.value})"))
-                    data.addAll(members.map {
-                        NameValue1_2(it.minConcept.name ?: "", it.minConcept.tty ?: "")
-                    })
+                    //data.addAll(members.map {
+                    //    NameValue1_2(it.minConcept.name ?: "", it.minConcept.tty ?: "")
+                    //})
+                    data.addAll(members.map { memberRow(it, relaSource.value) })
                     mAdapter.onRestoreInstanceState(data)
                 } else {
                     // Fallback: показать классы препарата через byRxcui.json
@@ -118,6 +125,46 @@ class AnalogsActivity : AppCompatActivity() {
                 mAdapter.onRestoreInstanceState(data)
             }.onFailure {
                 mAdapter.onRestoreInstanceState(listOf(HeaderObject("Нет информации о классах для: $className")))
+            }
+        }
+    }
+
+    /**
+     * roadmap 4b: class member -> ConceptLinkItem (name chip + "RxCUI x \u00B7 TTY" + grey nodeAttr line)
+     * when it has an rxcui; otherwise the old plain NameValue1_2(name, tty) row.
+     * nodeAttr (live): SourceId (e.g. ATC J04AB03 / VA 4001196), SourceName (source label), Relation (DIRECT/INDIRECT).
+     */
+    private fun memberRow(member: DrugMember, source: String): VieModel {
+        val c = member.minConcept
+        val name = c.name ?: ""
+        val id = c.rxcui.orEmpty()
+        if (id.isBlank()) return NameValue1_2(name, c.tty ?: "")
+        val attrs = member.nodeAttr.associate { it.attrName to it.attrValue }
+        val parts = ArrayList<String>()
+        // ATCPROD repeats the rxcui as SourceId (and adds SourceUrl) -> skipped as noise
+        attrs["SourceId"]?.takeIf { it.isNotBlank() && it != id }?.let { parts.add("$source $it") }
+        attrs["SourceName"]?.takeIf { it.isNotBlank() && !it.equals(name, ignoreCase = true) }?.let { parts.add(it) }
+        attrs["Relation"]?.takeIf { it.isNotBlank() }?.let { parts.add(it) }
+        return ConceptLinkItem(name, id, tty = c.tty, info = parts.joinToString(" \u00B7 ").ifBlank { null })
+    }
+
+    /**
+     * roadmap 4b: open the tapped member in the drug-search screen (same 10 tabs) through the existing
+     * entry point MainA2 + KEY_RXNORMID -> RxNorm.newInstance(rxcui) (same route as NlmRxFragment).
+     * This activity stays in the back stack, so system Back in MainA2 returns to this list.
+     */
+    private fun openDrug(rxcui: String) {
+        val intent = Intent(this, MainA2::class.java)
+        intent.putExtra(MainA2.KEY_RXNORMID, rxcui)
+        startActivity(intent)
+    }
+
+    private val memberClicks = object : ComplexPresenter {
+        override fun onItemClicked(v: View, position: Int) {}
+        override fun onItemClicked(itemId: Int, category: VieModel) {}
+        override fun onItemClicked(v: View, obj: VieModel) {
+            if (obj is ConceptLinkItem && obj.rxcui.isNotBlank()) {
+                openDrug(obj.rxcui)
             }
         }
     }

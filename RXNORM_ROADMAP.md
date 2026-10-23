@@ -37,6 +37,7 @@
 | 3 | getApproximateMatch | Находит препарат при опечатках/неполном названии, когда findRxcui пуст | Drug Search | S | **P1** | [x] integrated [ ] device-tested |
 | 4 | getGenericProduct | Бренд (SBD) → дженерик (SCD) одной кнопкой | Related / шапка Drug Search | S | **P1** | [x] integrated [ ] device-tested |
 | 4a | Навигация по Related / Related by Type (без новых API: getAllRelatedInfo / getRelated) | Тап по строке концепта с rxcui (например, BN Xanax → SBD 141928) открывает его в тех же 10 вкладках; история назад общая с Generic | Related, Related by Type | S | **P1** (вне очереди) | [x] integrated [ ] device-tested |
+| 4b | Переход из участников класса (AnalogsActivity, getClassMembers) | Участники класса с rxcui — чипы `ConceptLinkItem` («RxCUI x · TTY» + серая строка nodeAttr); тап открывает препарат во всех 10 вкладках через `MainA2` + `KEY_RXNORMID` | Classes → AnalogsActivity | S | **P1** (вне порядка) | [x] integrated [ ] device-tested |
 | 5 | getAllRelatedExtension | Related + psn, бейджи «назначаемый» (pres), human/vet, genCard | Related (замена getAllRelatedInfo) | M | **P1** | [x] integrated [ ] device-tested |
 | 6 | getRxProperty (PRESCRIBABLE, AVAILABLE_STRENGTH) | Бейдж «Rx-назначаемый», дозировка в шапке | шапка Drug Search | S | P2 | [ ] integrated [ ] device-tested |
 | 7 | getDrugs | Список всех лекарственных форм по названию ингредиента (SCD/SBD) | Drug Search → список | M | P2 | [ ] integrated [ ] device-tested |
@@ -60,6 +61,8 @@
 | 25 | getAllNDCsByStatus | Bulk: Alien ≈ 10 MB | — | M | ✗ | [ ] integrated [ ] device-tested |
 
 > **4a (23.10.2026):** строки концептов с rxcui на вкладках Related / Related by Type теперь `ConceptLinkItem` (чип `NewClickableChip`). Клик передаётся в `RxNorm` через `ConceptNavigator` (parentFragment) → `GenericProductBar.navigateTo`: одна история с Generic, до 20 шагов, чип «‹ Back to <name>», сбрасывается при новом поиске или Clear. Заголовки TTY остаются простым текстом. Если вкладку открыли не внутри Drug Search, строки остаются обычным текстом. Цепочка: xanax → 202363 (BN, 0 NDC) → 141928 (5 активных NDC) → 00009005501 → карточка таблетки. Сборки зелёные; на устройстве не проверено.
+
+> **4b (23.10.2026):** в `AnalogsActivity` участники класса с rxcui теперь `ConceptLinkItem` (стиль `NewClickableChip`) вместо `NameValue1_2(name, tty)`; серая некликабельная строка из nodeAttr: `<источник> SourceId · SourceName · Relation` (SourceId пропускается, если совпадает с rxcui, как в ATCPROD; SourceName — если совпадает с именем). Тап → `Intent(MainA2)` + `MainA2.KEY_RXNORMID` → `RxNorm.newInstance(rxcui)` (тот же вход, что в NlmRxFragment), манифест и MainA2 не менялись; системный Back закрывает MainA2 и возвращает к списку. Заголовки остаются простыми. Живая проверка: J04AB/ATCPROD 16, AM500/VA has_VAClass 15, N05BA/ATCPROD 137, CN302/VA 47. Сборки зелёные; на устройстве не проверено.
 
 ---
 

@@ -41,6 +41,17 @@
         tools:text="Prescribable name: Xanax 0.5 MG Oral Tablet"
         tools:visibility="visible" />
 
+    <!-- roadmap 4b (AnalogsActivity): NON-clickable classMembers nodeAttr summary, hidden unless present -->
+    <TextView
+        android:id="@+id/conceptInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/ndc_card_missing"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="VA 4001196 &#183; ISONIAZID 50MG/5ML SYRUP &#183; DIRECT"
+        tools:visibility="visible" />
     <LinearLayout
         android:id="@+id/conceptBadges"
         android:layout_width="wrap_content"

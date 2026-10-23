@@ -384,6 +384,13 @@ class ComplexRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
                 rxBadge?.visibility = if (item.prescribable) View.VISIBLE else View.GONE
                 vetBadge?.visibility = if (item.veterinary) View.VISIBLE else View.GONE
                 badges?.visibility = if (item.prescribable || item.veterinary) View.VISIBLE else View.GONE
+                // roadmap 4b: NON-clickable classMembers nodeAttr line (AnalogsActivity)
+                val infoView = holder.itemView.findViewById<TextView>(R.id.conceptInfo)
+                if (infoView != null) {
+                    val info = item.info
+                    infoView.text = info.orEmpty()
+                    infoView.visibility = if (info.isNullOrBlank()) View.GONE else View.VISIBLE
+                }
             }
 
             EMPTY_VIEW_FROM_OBJECT -> {

@@ -12,10 +12,27 @@ package com.walhalla.pillfinder.adapter.obj
  */
 //class ConceptLinkItem(val conceptName: String, val rxcui: String) :
 //    NValue("RxCUI $rxcui", "$conceptName  \u203A"), VieModel
+//class ConceptLinkItem(
+//    val conceptName: String,
+//    val rxcui: String,
+//    val psn: String? = null,
+//    val prescribable: Boolean = false,
+//    val veterinary: Boolean = false
+//) : NValue("RxCUI $rxcui", "$conceptName  \u203A"), VieModel
+/**
+ * AnalogsActivity class members (roadmap 4b):
+ *  tty  - appended to the grey line: "RxCUI <id> \u00B7 <TTY>";
+ *  info - compact NON-clickable grey line from classMembers nodeAttr (source id / source name / relation).
+ */
 class ConceptLinkItem(
     val conceptName: String,
     val rxcui: String,
     val psn: String? = null,
     val prescribable: Boolean = false,
-    val veterinary: Boolean = false
-) : NValue("RxCUI $rxcui", "$conceptName  \u203A"), VieModel
+    val veterinary: Boolean = false,
+    val tty: String? = null,
+    val info: String? = null
+) : NValue(
+    if (tty.isNullOrBlank()) "RxCUI $rxcui" else "RxCUI $rxcui \u00B7 $tty",
+    "$conceptName  \u203A"
+), VieModel

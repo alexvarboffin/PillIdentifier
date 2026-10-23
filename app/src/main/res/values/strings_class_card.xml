@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Classes tab: visible affordance on each class card (same action as tapping the card -> AnalogsActivity) -->
+    <string name="class_card_analogs"><u>Drugs in this class</u>  &#8250;</string>
+</resources>
