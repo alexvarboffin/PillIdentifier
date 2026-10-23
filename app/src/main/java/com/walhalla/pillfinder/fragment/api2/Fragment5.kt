@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.common.response.Response5
-import com.walhalla.pillfinder.MyApp.Companion.rxTerms
+//import com.walhalla.lib.datamodel.common.response.Response5
+//import com.walhalla.pillfinder.MyApp.Companion.rxTerms
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
+import gov.nih.nlm.rxnorm.models.RxTermsPropertiesResponse
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
@@ -21,11 +25,12 @@ import com.walhalla.pillfinder.adapter.obj.NameValue2_1
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.DLog.d
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 
-class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshListener {
+//class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshListener {
+class Fragment5 : Fragment(), ComplexPresenter, OnRefreshListener {
     protected var rxcui: String? = null
     private var index = 0
 
@@ -72,8 +77,14 @@ class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshLi
     }
 
     fun loadData() {
-        val allinfo: Call<Response5> = rxTerms.getAllRxTermInfo(rxcui!! /*, RxnormRepository.RX_NAV_CALLER*/)
-        allinfo.enqueue(this)
+        //val allinfo: Call<Response5> = rxTerms.getAllRxTermInfo(rxcui!! /*, RxnormRepository.RX_NAV_CALLER*/)
+        //allinfo.enqueue(this)
+        // RxTerms allinfo via generated DefaultApi; non-2xx (404 for a non-numeric rxcui) -> body null
+        lifecycleScope.launch {
+            RxNormLib.fetch { getAllRxTermInfo(rxcui!!) }
+                .onSuccess { body -> onAllInfo(body) }
+                .onFailure { /* same as old onFailure: nothing shown */ }
+        }
     }
 
 
@@ -110,8 +121,7 @@ class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshLi
     }
 
     //*** Fragment not attached to a context
-    override fun onResponse(call: Call<Response5?>, response: Response<Response5?>) {
-        val body = response.body()
+    private fun onAllInfo(body: RxTermsPropertiesResponse?) {
         val data = ArrayList<VieModel?>()
         val activity: Activity? = getActivity()
         if (activity != null && isAdded) {
@@ -121,79 +131,79 @@ class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshLi
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_brandName),
-                            prop.brandName?:""
+                            prop.brandName
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_displayName),
-                            prop.displayName?:""
+                            prop.displayName
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_synonym),
-                            prop.synonym?:""
+                            prop.synonym
                         )
                     )
                     data.add(
                         NameValue2_1(
                             resources.getString(R.string.rx_5_fullName),
-                            prop.fullName?:""
+                            prop.fullName
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_fullGenericName),
-                            prop.fullGenericName?:""
+                            prop.fullGenericName
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_strength),
-                            prop.strength?:""
+                            prop.strength
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_rxtermsDoseForm),
-                            prop.rxtermsDoseForm?:""
+                            prop.rxtermsDoseForm
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_route),
-                            prop.route?:""
+                            prop.route
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_termType),
-                            prop.termType?:""
+                            prop.termType
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_rxcui),
-                            prop.rxcui?:""
+                            prop.rxcui
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_genericRxcui),
-                            prop.genericRxcui?:""
+                            prop.genericRxcui
                         )
                     )
                     data.add(
                         NameValue2_1(
                             resources.getString(R.string.rx_5_rxnormDoseForm),
-                            prop.rxnormDoseForm?:""
+                            prop.rxnormDoseForm
                         )
                     )
                     data.add(
                         NameValue1_2(
                             resources.getString(R.string.rx_5_suppress),
-                            prop.suppress?:""
+                            prop.suppress
                         )
                     )
                     updateData(data)
@@ -217,13 +227,121 @@ class Fragment5 : Fragment(), Callback<Response5>, ComplexPresenter, OnRefreshLi
         }
     }
 
-    override fun onFailure(call: Call<Response5?>, t: Throwable) {
-        val activity: Activity? = getActivity()
-        if (activity != null && isAdded) {
-            //DLog.d("<@@@>WWWWWWWWWWWWWWWWWWWWW");
-            //Toast.makeText(getContext(), "@@@", Toast.LENGTH_SHORT).show();
-        }
-    }
+//    old Retrofit onResponse()/onFailure():
+//    //*** Fragment not attached to a context
+//    override fun onResponse(call: Call<Response5?>, response: Response<Response5?>) {
+//        val body = response.body()
+//        val data = ArrayList<VieModel?>()
+//        val activity: Activity? = getActivity()
+//        if (activity != null && isAdded) {
+//            if (body != null) {
+//                val prop = body.rxtermsProperties
+//                if (prop != null) {
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_brandName),
+//                            prop.brandName?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_displayName),
+//                            prop.displayName?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_synonym),
+//                            prop.synonym?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue2_1(
+//                            resources.getString(R.string.rx_5_fullName),
+//                            prop.fullName?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_fullGenericName),
+//                            prop.fullGenericName?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_strength),
+//                            prop.strength?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_rxtermsDoseForm),
+//                            prop.rxtermsDoseForm?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_route),
+//                            prop.route?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_termType),
+//                            prop.termType?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_rxcui),
+//                            prop.rxcui?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_genericRxcui),
+//                            prop.genericRxcui?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue2_1(
+//                            resources.getString(R.string.rx_5_rxnormDoseForm),
+//                            prop.rxnormDoseForm?:""
+//                        )
+//                    )
+//                    data.add(
+//                        NameValue1_2(
+//                            resources.getString(R.string.rx_5_suppress),
+//                            prop.suppress?:""
+//                        )
+//                    )
+//                    updateData(data)
+//                } else {
+//                    //Вернулся null данных нет
+//                    //DLog.d("<@@@>EEEEEEEEEEEEE" + body.toString());
+//
+//                    data.add(
+//                        EmptyViewObj(
+//                            "No data found for given Rxcui ($rxcui)", query!!
+//                        )
+//                    )
+//                    updateData(data)
+//                }
+//
+//                //Response{protocol=h2, code=200, message=, url=https://rxnav.nlm.nih.gov/REST/RxTerms/rxcui/317482/allinfo.json?caller=RxNav} █
+//                //DLog.d("<@@@>EEEEEEEEEEEEE" + prop.toString());
+//            } else {
+//                d("<@@@>EEEEEEEEEEEEE")
+//            }
+//        }
+//    }
+//    override fun onFailure(call: Call<Response5?>, t: Throwable) {
+//        val activity: Activity? = getActivity()
+//        if (activity != null && isAdded) {
+//            //DLog.d("<@@@>WWWWWWWWWWWWWWWWWWWWW");
+//            //Toast.makeText(getContext(), "@@@", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 
     companion object {

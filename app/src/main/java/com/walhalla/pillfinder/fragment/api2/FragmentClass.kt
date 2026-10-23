@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.walhalla.lib.datamodel.common.response.Response8
-import com.walhalla.lib.datamodel.rxclass.response.RxClassResponse
-import com.walhalla.pillfinder.MyApp
+//import com.walhalla.lib.datamodel.common.response.Response8
+//import com.walhalla.lib.datamodel.rxclass.response.RxClassResponse
+//import com.walhalla.pillfinder.MyApp
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.adapter.ComplexPresenter
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
@@ -21,9 +24,9 @@ import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.adapter.obj.ClassCardItem
 import com.walhalla.pillfinder.adapter.obj.ClassMemberItem
 import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+//import retrofit2.Call
+//import retrofit2.Callback
+//import retrofit2.Response
 import android.widget.Toast
 import com.walhalla.pillfinder.activity.AnalogsActivity
 
@@ -74,9 +77,9 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
 
     private fun loadData() {
         if (rxcui.isNullOrBlank()) return
-        MyApp.rxClass.getClassByRxNormDrugId(rxcui!!).enqueue(object : Callback<Response8?> {
-            override fun onResponse(call: Call<Response8?>, response: Response<Response8?>) {
-                val body = response.body()
+        // was: MyApp.rxClass.getClassByRxNormDrugId(rxcui!!) (Retrofit, Response8)
+        lifecycleScope.launch {
+            RxNormLib.fetch { getClassByRxcui(rxcui!!) }.onSuccess { body ->
                 val data = ArrayList<VieModel>()
                 val classGroup = body?.rxclassDrugInfoList?.rxclassDrugInfo ?: emptyList()
                 if (classGroup.isNotEmpty()) {
@@ -84,19 +87,22 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
                     // Группируем по classId/className/classType
                     val grouped = classGroup.groupBy {
                         val c = it.rxclassMinConceptItem
-                        Triple(c?.classId ?: "", c?.className ?: "", c?.classType ?: "")
+                        Triple(c.classId, c.className, c.classType)
                     }
                     for ((key, members) in grouped) {
                         val (classId, className, classType) = key
                         val memberItems = members.map { info ->
                             ClassMemberItem(
-                                minConceptName = info.minConcept?.name ?: "",
-                                minConceptTty = info.minConcept?.tty ?: "",
-                                rela = info.rela ?: "",
-                                relaSource = info.relaSource ?: ""
+                                minConceptName = info.minConcept.name ?: "",
+                                minConceptTty = info.minConcept.tty ?: "",
+                                rela = info.rela,
+                                relaSource = info.relaSource
                             )
                         }
-                        data.add(ClassCardItem(classId, className, classType, memberItems))
+                        // fix: pass the class's own relaSource/rela (first row) so AnalogsActivity
+                        // queries classMembers with the source this class actually comes from
+                        val first = members.first()
+                        data.add(ClassCardItem(classId, className, classType, memberItems, first.relaSource, first.rela))
                     }
                 } else {
                     data.add(HeaderObject("Нет данных о классах"))
@@ -105,12 +111,52 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
-            }
-            override fun onFailure(call: Call<Response8?>, t: Throwable) {
+            }.onFailure { t ->
                 updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
             }
-        })
+        }
     }
+
+//    old Retrofit loadData():
+//    private fun loadData() {
+//        if (rxcui.isNullOrBlank()) return
+//        MyApp.rxClass.getClassByRxNormDrugId(rxcui!!).enqueue(object : Callback<Response8?> {
+//            override fun onResponse(call: Call<Response8?>, response: Response<Response8?>) {
+//                val body = response.body()
+//                val data = ArrayList<VieModel>()
+//                val classGroup = body?.rxclassDrugInfoList?.rxclassDrugInfo ?: emptyList()
+//                if (classGroup.isNotEmpty()) {
+//                    data.add(HeaderObject("Классы препарата"))
+//                    // Группируем по classId/className/classType
+//                    val grouped = classGroup.groupBy {
+//                        val c = it.rxclassMinConceptItem
+//                        Triple(c?.classId ?: "", c?.className ?: "", c?.classType ?: "")
+//                    }
+//                    for ((key, members) in grouped) {
+//                        val (classId, className, classType) = key
+//                        val memberItems = members.map { info ->
+//                            ClassMemberItem(
+//                                minConceptName = info.minConcept?.name ?: "",
+//                                minConceptTty = info.minConcept?.tty ?: "",
+//                                rela = info.rela ?: "",
+//                                relaSource = info.relaSource ?: ""
+//                            )
+//                        }
+//                        data.add(ClassCardItem(classId, className, classType, memberItems))
+//                    }
+//                } else {
+//                    data.add(HeaderObject("Нет данных о классах"))
+//                }
+//                val activity: Activity? = getActivity()
+//                if (activity != null && isAdded) {
+//                    updateData(data)
+//                }
+//            }
+//            override fun onFailure(call: Call<Response8?>, t: Throwable) {
+//                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+//            }
+//        })
+//    }
 
     fun updateData(data: List<VieModel>) {
         val obj: MutableList<VieModel> = ArrayList()
@@ -127,7 +173,9 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
             }
             is ClassCardItem -> {
                 // Клик по карточке класса — открыть новую активити с аналогами
-                AnalogsActivity.start(requireContext(), obj.classId, obj.classType, obj.className)
+                //AnalogsActivity.start(requireContext(), obj.classId, obj.classType, obj.className)
+                AnalogsActivity.start(requireContext(), obj.classId, obj.classType, obj.className,
+                    obj.relaSource, obj.rela, rxcui ?: "")
             }
             is ClassMemberItem -> {
                 if (v.id == com.walhalla.pillfinder.R.id.tvMemberRela) {

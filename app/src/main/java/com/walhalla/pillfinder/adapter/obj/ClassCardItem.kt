@@ -4,7 +4,10 @@ class ClassCardItem(
     val classId: String,
     val className: String,
     val classType: String,
-    val members: List<ClassMemberItem>
+    val members: List<ClassMemberItem>,
+    // native RxClass relation of this class for the drug (from byRxcui), used by AnalogsActivity -> classMembers
+    val relaSource: String = "",
+    val rela: String = ""
 ) : VieModel
 
 class ClassMemberItem(
