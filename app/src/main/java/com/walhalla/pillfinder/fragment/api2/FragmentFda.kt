@@ -153,7 +153,8 @@ class FragmentFda : Fragment() {
         private val msg = TextView(ctx)
         private val retry = Button(ctx)
         val content = LinearLayout(ctx)
-        private val textColor = ContextCompat.getColor(ctx, android.R.color.black)
+        // was: ContextCompat.getColor(ctx, android.R.color.black) - unreadable on the dark night tint
+        private val textColor = ContextCompat.getColor(ctx, R.color.openfda_text)
 
         init {
             card.orientation = LinearLayout.VERTICAL
@@ -202,7 +203,9 @@ class FragmentFda : Fragment() {
         fun loading() { show(true, null, false) }
         fun empty() { show(false, getString(R.string.fda_empty), false) }
         fun error(t: Throwable) {
-            show(false, getString(R.string.fda_error, t.message ?: t.javaClass.simpleName), true)
+            // was: show(false, getString(R.string.fda_error, t.message ?: t.javaClass.simpleName), true)
+            android.util.Log.w(TAG, "openFDA request failed (rxcui=$rxcui)", t) // raw exception only to Log
+            show(false, getString(friendlyError(t)), true)
         }
         fun done() { show(false, null, false) }
 
@@ -236,6 +239,17 @@ class FragmentFda : Fragment() {
 
     companion object {
         private const val ARG_RXCUI = "arg_rxcui"
+        private const val TAG = "FragmentFda"
+
+        /** User-facing text for a failed openFDA call (no raw exception text in the UI). */
+        @JvmStatic
+        fun friendlyError(t: Throwable): Int = when {
+            t is OpenFdaLib.OpenFdaHttpException && t.status == 403 -> R.string.fda_err_forbidden
+            t is OpenFdaLib.OpenFdaHttpException && t.status == 429 -> R.string.fda_err_rate_limit
+            t is OpenFdaLib.OpenFdaHttpException -> R.string.fda_err_generic
+            t is java.io.IOException || t.javaClass.name.contains("Timeout") -> R.string.fda_err_no_connection // connect/unknown host/timeouts
+            else -> R.string.fda_err_generic
+        }
 
         private fun formatDate(raw: String?): String? {
             val s = raw?.trim() ?: return null

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fda_err_no_connection">Нет соединения с openFDA</string>
+    <string name="fda_err_forbidden">Доступ к openFDA запрещён</string>
+    <string name="fda_err_rate_limit">Превышен лимит запросов openFDA, попробуйте позже</string>
+    <string name="fda_err_generic">Не удалось загрузить данные openFDA</string>
+</resources>

@@ -4,4 +4,5 @@
     <color name="openfda_source">#F59E0B</color>
     <color name="openfda_source_tint">#33240C</color>
     <color name="openfda_source_on">#1A1205</color>
+    <color name="openfda_text">#F3EADF</color>
 </resources>

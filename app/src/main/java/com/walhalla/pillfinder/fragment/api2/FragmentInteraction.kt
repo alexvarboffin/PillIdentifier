@@ -27,6 +27,9 @@ import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 import com.walhalla.ui.DLog.d
 import com.walhalla.ui.plugins.Module_U.shareText
 
+import androidx.lifecycle.lifecycleScope
+import com.walhalla.lib.service.OpenFdaLib
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -86,11 +89,41 @@ class FragmentInteraction : Fragment(), Callback<Response6>, ComplexPresenter,
     fun loadData() {
         //Source: onchigh = EMPTY
 
-        val response6Call = api!!.interaction(opCode, "RxNav", "DrugBank")
-        response6Call.enqueue(this)
+        // RxNav /REST/interaction/interaction.json + list.json discontinued by NLM on 2024-01-02 (404), see RxNav FAQ.
+        // RxnormApi.interaction(...) is kept unchanged; only the call site is disabled:
+        //val response6Call = api!!.interaction(opCode, "RxNav", "DrugBank")
+        //response6Call.enqueue(this)
+        loadOpenFdaInteractions()
 
 //        Call<Response6> call6 = api.rxcui_allinfo(pd, RX_NAV_CALLER);
 //        call6.enqueue(new RxnormRepository.Task111(5, callback, this));
+    }
+
+    /**
+     * openFDA replacement for the single-drug case: SPL label section drug_interactions (Rx labels).
+     * OTC labels have no drug_interactions -> fall back to "Do not use" / "Ask a doctor or pharmacist" (also label text).
+     * Text only: no severity, no structured pairs (unlike the old DrugBank/ONCHigh data).
+     */
+    private fun loadOpenFdaInteractions() {
+        val ctx = context ?: return
+        mBinding?.recyclerView?.setBackgroundResource(R.drawable.bg_openfda_block) // openFDA source marking (amber stripe + tint)
+        mBinding?.recyclerView?.setPadding((8 * resources.displayMetrics.density).toInt(), 0, 0, 0)
+        updateData(listOf(SimpleString(getString(R.string.fda_inter_header) + "\n" + getString(R.string.fda_loading))))
+        viewLifecycleOwner.lifecycleScope.launch {
+            OpenFdaLib.labelByRxcui(opCode).fold({ list ->
+                val l = list.firstOrNull()
+                val sections = l?.drugInteractions.orEmpty().ifEmpty { l?.doNotUse.orEmpty() + l?.askDoctorOrPharmacist.orEmpty() }
+                val data = ArrayList<VieModel>()
+                data.add(SimpleString(getString(R.string.fda_inter_header) + "\n" + getString(R.string.fda_inter_disclaimer)))
+                if (sections.isEmpty()) data.add(SimpleString(ctx.getString(R.string.fda_inter_empty)))
+                else sections.flatMap { it.split(Regex("(?<=\\.)\\s+(?=\\d+(\\.\\d+)?\\s)")) }.map { it.trim() }.filter { it.isNotEmpty() }
+                    .forEach { data.add(SimpleString(it)) }
+                if (isAdded) updateData(data)
+            }, { t ->
+                android.util.Log.w("FragmentInteraction", "openFDA label failed (rxcui=$opCode)", t)
+                if (isAdded) updateData(listOf(SimpleString(getString(R.string.fda_inter_header) + "\n" + getString(FragmentFda.friendlyError(t)))))
+            })
+        }
     }
 
     override fun onResponse(call: Call<Response6>, response: Response<Response6>) {

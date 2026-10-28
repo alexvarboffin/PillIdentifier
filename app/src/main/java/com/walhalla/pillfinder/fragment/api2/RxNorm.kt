@@ -271,6 +271,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         buffer.add(FragmentProperties.newInstance(1, pd))
         buffer.add(FragmentClass.newInstance(1, pd))
         //buffer.add(FragmentInteraction.newInstance(1, pd)) // disabled: RxNav /REST/interaction discontinued by NLM 2024-01-02 (404)
+        buffer.add(FragmentInteraction.newInstance(1, pd)) // re-enabled: now openFDA label drug_interactions (RxNav call commented out)
         buffer.add(Fragment7.newInstance(1, pd))
         buffer.add(Fragment2.newInstance(1, pd))
         buffer.add(FragmentFda.newInstance(pd)) // openFDA (label / recalls / ndc / FAERS top reactions) - LAST tab
@@ -283,6 +284,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         titles.add("Properties")
         titles.add("Classes")
         //titles.add("Interaction") // disabled together with FragmentInteraction tab above
+        titles.add("Interaction") // openFDA label text
         titles.add("Status")
         titles.add("RxNorm Properties")
         titles.add(FDA_TAB_TITLE) // openFDA tab: title drawn in @color/openfda_source by the TabLayoutMediator

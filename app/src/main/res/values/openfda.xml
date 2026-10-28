@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--
         openFDA source marking: ONE dedicated accent (amber) for everything that comes from api.fda.gov.
         Deliberately unlike NewClickableChip blue (#1565C0), InfoBadge green, drugsearch purple, pillidentifier cyan.
@@ -8,6 +8,14 @@
     <color name="openfda_source">#B45309</color>
     <color name="openfda_source_tint">#FFF4E5</color>
     <color name="openfda_source_on">#FFFFFF</color>
+    <!-- text inside openFDA blocks (light: on #FFF4E5) -->
+    <color name="openfda_text">#1F1A14</color>
+
+    <!-- friendly openFDA errors (default en; ru in values-ru/openfda.xml) -->
+    <string name="fda_err_no_connection" tools:ignore="MissingTranslation">No connection to openFDA</string>
+    <string name="fda_err_forbidden" tools:ignore="MissingTranslation">Access to openFDA denied</string>
+    <string name="fda_err_rate_limit" tools:ignore="MissingTranslation">openFDA rate limit exceeded, try again later</string>
+    <string name="fda_err_generic" tools:ignore="MissingTranslation">Could not load openFDA data</string>
 
     <string name="fda_tab_title" translatable="false">FDA</string>
     <string name="fda_source_badge" translatable="false">openFDA</string>
@@ -20,5 +28,8 @@
     <string name="fda_empty" translatable="false">No openFDA data for this RxCUI</string>
     <string name="fda_error" translatable="false">openFDA error: %1$s</string>
     <string name="fda_reactions_disclaimer" translatable="false">FAERS counts are voluntary reports. They do not prove that the drug caused the reaction and are not incidence rates. Not medical advice.</string>
+    <string name="fda_inter_header" translatable="false">openFDA - Drug interactions (FDA label text)</string>
+    <string name="fda_inter_disclaimer" translatable="false">Label text, not a pairwise interaction checker: no severity, not exhaustive. Ask a doctor or pharmacist.</string>
+    <string name="fda_inter_empty" translatable="false">This FDA label has no drug interactions section</string>
     <string name="fda_recall_chip" translatable="false">Ongoing FDA recall (%1$d)</string>
 </resources>

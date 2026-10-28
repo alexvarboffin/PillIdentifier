@@ -93,6 +93,8 @@ interface RxnormApi {
 //    ): Call<Response2>
 
     // Получить взаимодействия
+    // DEPRECATED: NLM discontinued the RxNav Drug Interaction API on 2024-01-02 (endpoint returns 404).
+    // See https://lhncbc.nlm.nih.gov/RxNav/information/FAQs.html ; replacement: openFDA label drug_interactions (OpenFdaLib).
     @GET("interaction/interaction.json")
     fun interaction(
         @Query("rxcui") id: String,
@@ -101,6 +103,8 @@ interface RxnormApi {
     ): Call<Response6>
 
     // Получить взаимодействия (альтернативная сигнатура)
+    // DEPRECATED: NLM discontinued the RxNav Drug Interaction API on 2024-01-02 (endpoint returns 404).
+    // See https://lhncbc.nlm.nih.gov/RxNav/information/FAQs.html ; replacement: openFDA label drug_interactions (OpenFdaLib).
     @GET("interaction/interaction.json")
     fun interactionWithSources(
         @Query("rxcui") id: String,
