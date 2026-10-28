@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
-
+// ПЕРЕНЕСЕНО В FIREBASE
 //interface API {
 //    @GET("apps/drug-fda/api/function_api.php")
 //    fun searchDrugsNav( //@Query("color") String imprintColor
