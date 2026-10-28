@@ -242,143 +242,146 @@ interface RxnormApi {
 //    @GET("rxcui/{rxcui}/proprietary.json")
 //    fun getProprietaryInformation(@Path("rxcui") rxcui: String): Call<RxNormProprietaryResponse>
 
-    // --- RxClass API методы в RxNorm ---
+    // -> RxClass methods replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (:network:lk0-kmp, tag RxClass) on 2026-10-28.
+    // Equivalence table: C:/Users/combo/Desktop/RxNorm-OpenAPI/compare/compare_rxclass.md (most legacy paths here returned 404, never worked).
+//    // --- RxClass API методы в RxNorm ---
 
-    // Поиск класса по имени
-    @GET("rxclass/class/byName.json")
-    fun findClassByName(
-        @Query("className") className: String,
-        @Query("classTypes") classTypes: String
-    ): Call<Response8>
+//    // Поиск класса по имени
+//    @GET("rxclass/class/byName.json")
+//    fun findClassByName(
+//        @Query("className") className: String,
+//        @Query("classTypes") classTypes: String
+//    ): Call<Response8>
 
-    // Поиск классов по classId
-    @GET("rxclass/class/byId.json")
-    fun findClassesById(
-        @Query("classId") classId: String
-    ): Call<RxClassResponse>
+//    // Поиск классов по classId
+//    @GET("rxclass/class/byId.json")
+//    fun findClassesById(
+//        @Query("classId") classId: String
+//    ): Call<RxClassResponse>
 
-    // Поиск похожих классов по классу
-    @GET("rxclass/class/similarByClass.json")
-    fun findSimilarClassesByClass(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<Response8>
+//    // Поиск похожих классов по классу
+//    @GET("rxclass/class/similarByClass.json")
+//    fun findSimilarClassesByClass(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<Response8>
 
-    // Поиск похожих классов по списку препаратов
-    @GET("rxclass/class/similarByDrugList.json")
-    fun findSimilarClassesByDrugList(
-        @Query("rxcuis") rxcuis: String
-    ): Call<Response8>
+//    // Поиск похожих классов по списку препаратов
+//    @GET("rxclass/class/similarByDrugList.json")
+//    fun findSimilarClassesByDrugList(
+//        @Query("rxcuis") rxcuis: String
+//    ): Call<Response8>
 
-    // Получить все классы
-    @GET("rxclass/class/allClasses.json")
-    fun getAllClasses(
-        @Query("classTypes") classTypes: String
-    ): Call<Response8>
+//    // Получить все классы
+//    @GET("rxclass/class/allClasses.json")
+//    fun getAllClasses(
+//        @Query("classTypes") classTypes: String
+//    ): Call<Response8>
 
-    // Получить класс по RxNorm drug id
-    @GET("rxclass/class/byRxcui.json")
-    fun getClassByRxNormDrugId(
-        @Query("rxcui") rxcui: String
-    ): Call<Response8>
+//    // Получить класс по RxNorm drug id
+//    @GET("rxclass/class/byRxcui.json")
+//    fun getClassByRxNormDrugId(
+//        @Query("rxcui") rxcui: String
+//    ): Call<Response8>
 
-    // Получить класс по RxNorm drug name
-    @GET("rxclass/class/classByDrugName.json")
-    fun getClassByRxNormDrugName(
-        @Query("drugName") drugName: String
-    ): Call<Response8>
+//    // Получить класс по RxNorm drug name
+//    @GET("rxclass/class/classByDrugName.json")
+//    fun getClassByRxNormDrugName(
+//        @Query("drugName") drugName: String
+//    ): Call<Response8>
 
-    // Получить контексты классов
-    @GET("rxclass/class/classContexts.json")
-    fun getClassContexts(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassContextsResponse>
+//    // Получить контексты классов
+//    @GET("rxclass/class/classContexts.json")
+//    fun getClassContexts(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassContextsResponse>
 
-    // Получить граф класса по источнику
-    @GET("rxclass/class/classGraphBySource.json")
-    fun getClassGraphBySource(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String,
-        @Query("source") source: String
-    ): Call<RxClassGraphResponse>
+//    // Получить граф класса по источнику
+//    @GET("rxclass/class/classGraphBySource.json")
+//    fun getClassGraphBySource(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String,
+//        @Query("source") source: String
+//    ): Call<RxClassGraphResponse>
 
-    // Получить участников класса
-    @GET("rxclass/class/classMembers.json")
-    fun getClassMembers(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<Response8>
+//    // Получить участников класса
+//    @GET("rxclass/class/classMembers.json")
+//    fun getClassMembers(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<Response8>
 
-    // Получить дерево классов
-    @GET("rxclass/class/classTree.json")
-    fun getClassTree(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassTreeResponse>
+//    // Получить дерево классов
+//    @GET("rxclass/class/classTree.json")
+//    fun getClassTree(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassTreeResponse>
 
-    // Получить версию источника отношений
-    @GET("rxclass/class/relaSourceVersion.json")
-    fun getRelaSourceVersion(
-        @Query("source") source: String
-    ): Call<RxClassRelaSourceVersionResponse>
+//    // Получить версию источника отношений
+//    @GET("rxclass/class/relaSourceVersion.json")
+//    fun getRelaSourceVersion(
+//        @Query("source") source: String
+//    ): Call<RxClassRelaSourceVersionResponse>
 
-    // Получить отношения
-    @GET("rxclass/class/relas.json")
-    fun getRelas(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassRelasResponse>
+//    // Получить отношения
+//    @GET("rxclass/class/relas.json")
+//    fun getRelas(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassRelasResponse>
 
-    // Получить информацию о схожести
-    @GET("rxclass/class/similarityInformation.json")
-    fun getSimilarityInformation(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassSimilarityResponse>
+//    // Получить информацию о схожести
+//    @GET("rxclass/class/similarityInformation.json")
+//    fun getSimilarityInformation(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassSimilarityResponse>
 
-    // Получить источники связей классов
-    @GET("rxclass/class/sourcesOfDrugClassRelations.json")
-    fun getSourcesOfDrugClassRelations(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassSourcesResponse>
+//    // Получить источники связей классов
+//    @GET("rxclass/class/sourcesOfDrugClassRelations.json")
+//    fun getSourcesOfDrugClassRelations(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassSourcesResponse>
 
-    // Получить подсказки по написанию
-    @GET("rxclass/class/spellingsuggestions.json")
-    fun getSpellingSuggestionsRxClass(
-        @Query("term") term: String
-    ): Call<RxClassSpellingSuggestionsResponse>
+//    // Получить подсказки по написанию
+//    @GET("rxclass/class/spellingsuggestions.json")
+//    fun getSpellingSuggestionsRxClass(
+//        @Query("term") term: String
+//    ): Call<RxClassSpellingSuggestionsResponse>
 
-    // Получить типы классов
-    @GET("rxclass/classTypes.json")
-    fun getClassTypes(): Call<RxClassTypesResponse>
+//    // Получить типы классов
+//    @GET("rxclass/classTypes.json")
+//    fun getClassTypes(): Call<RxClassTypesResponse>
 
-    // Получить классы по RxCUI
-    @GET("rxclass/class/byRxcui.json")
-    fun byRxcui(
-        @Query("rxcui") id: String?
-    ): Call<RxClassByRxcuiResponse>
+//    // Получить классы по RxCUI
+//    @GET("rxclass/class/byRxcui.json")
+//    fun byRxcui(
+//        @Query("rxcui") id: String?
+//    ): Call<RxClassByRxcuiResponse>
 }
 
-// --- RxTerms API ---
-interface RxTermsApi {
-    // Получить все концепты RxTerms
-    @GET("RxTerms/allconcepts.json")
-    fun getAllConcepts(): Call<RxTermsAllConceptsResponse>
+// -> RxTermsApi replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (:network:lk0-kmp, tag RxTerms: getAllRxTermsProducts, getAllRxTermInfo, getRxTermDisplayName, getRxTermsVersion) on 2026-10-28; legacy displayname.json was 404
+//// --- RxTerms API ---
+//interface RxTermsApi {
+//    // Получить все концепты RxTerms
+//    @GET("RxTerms/allconcepts.json")
+//    fun getAllConcepts(): Call<RxTermsAllConceptsResponse>
 
-    // Получить всю информацию по RxTerm
-    @GET("RxTerms/rxcui/{rxcui}/allinfo.json")
-    fun getAllRxTermInfo(@Path("rxcui") rxcui: String): Call<Response5>
+//    // Получить всю информацию по RxTerm
+//    @GET("RxTerms/rxcui/{rxcui}/allinfo.json")
+//    fun getAllRxTermInfo(@Path("rxcui") rxcui: String): Call<Response5>
 
-    // Получить display name по RxTerm
-    @GET("RxTerms/rxcui/{rxcui}/displayname.json")
-    fun getRxTermDisplayName(@Path("rxcui") rxcui: String): Call<RxTermsDisplayNameResponse>
+//    // Получить display name по RxTerm
+//    @GET("RxTerms/rxcui/{rxcui}/displayname.json")
+//    fun getRxTermDisplayName(@Path("rxcui") rxcui: String): Call<RxTermsDisplayNameResponse>
 
-    // Получить версию RxTerms
-    @GET("RxTerms/version.json")
-    fun getRxTermsVersion(): Call<RxTermsVersionResponse>
-}
+//    // Получить версию RxTerms
+//    @GET("RxTerms/version.json")
+//    fun getRxTermsVersion(): Call<RxTermsVersionResponse>
+//}
 
 // --- Prescribable RxNorm API ---
 interface PrescribableRxNormApi {
@@ -520,136 +523,137 @@ interface PrescribableRxNormApi {
     fun getRxNormVersion(): Call<PrescribableVersionResponse>
 }
 
-// --- RxClass API ---
-interface RxClassApi {
-    // Поиск класса по имени
-    @GET("rxclass/class/byName.json")
-    fun findClassByName(
-        @Query("className") className: String,
-        @Query("classTypes") classTypes: String
-    ): Call<Response8>
+// -> RxClassApi replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (:network:lk0-kmp, tag RxClass) on 2026-10-28; legacy paths mostly 404, see RxNorm-OpenAPI/compare/compare_rxclass.md
+//// --- RxClass API ---
+//interface RxClassApi {
+//    // Поиск класса по имени
+//    @GET("rxclass/class/byName.json")
+//    fun findClassByName(
+//        @Query("className") className: String,
+//        @Query("classTypes") classTypes: String
+//    ): Call<Response8>
 
-    // Поиск классов по classId (правильная сигнатура согласно документации)
-    @GET("rxclass/class/byId.json")
-    fun findClassesById(
-        @Query("classId") classId: String
-    ): Call<RxClassResponse>
+//    // Поиск классов по classId (правильная сигнатура согласно документации)
+//    @GET("rxclass/class/byId.json")
+//    fun findClassesById(
+//        @Query("classId") classId: String
+//    ): Call<RxClassResponse>
 
-    // Поиск похожих классов по классу
-    @GET("rxclass/class/similarByClass.json")
-    fun findSimilarClassesByClass(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<Response8>
+//    // Поиск похожих классов по классу
+//    @GET("rxclass/class/similarByClass.json")
+//    fun findSimilarClassesByClass(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<Response8>
 
-    // Поиск похожих классов по списку препаратов
-    @GET("rxclass/class/similarByDrugList.json")
-    fun findSimilarClassesByDrugList(
-        @Query("rxcuis") rxcuis: String
-    ): Call<Response8>
+//    // Поиск похожих классов по списку препаратов
+//    @GET("rxclass/class/similarByDrugList.json")
+//    fun findSimilarClassesByDrugList(
+//        @Query("rxcuis") rxcuis: String
+//    ): Call<Response8>
 
-    // Получить все классы
-    @GET("rxclass/class/allClasses.json")
-    fun getAllClasses(
-        @Query("classTypes") classTypes: String
-    ): Call<Response8>
+//    // Получить все классы
+//    @GET("rxclass/class/allClasses.json")
+//    fun getAllClasses(
+//        @Query("classTypes") classTypes: String
+//    ): Call<Response8>
 
-    // Получить класс по RxNorm drug id
-    @GET("rxclass/class/byRxcui.json")
-    fun getClassByRxNormDrugId(
-        @Query("rxcui") rxcui: String
-    ): Call<Response8>
+//    // Получить класс по RxNorm drug id
+//    @GET("rxclass/class/byRxcui.json")
+//    fun getClassByRxNormDrugId(
+//        @Query("rxcui") rxcui: String
+//    ): Call<Response8>
 
-    // Получить класс по RxNorm drug name
-    @GET("rxclass/class/classByDrugName.json")
-    fun getClassByRxNormDrugName(
-        @Query("drugName") drugName: String
-    ): Call<Response8>
+//    // Получить класс по RxNorm drug name
+//    @GET("rxclass/class/classByDrugName.json")
+//    fun getClassByRxNormDrugName(
+//        @Query("drugName") drugName: String
+//    ): Call<Response8>
 
-    // Получить контексты классов
-    @GET("rxclass/class/classContexts.json")
-    fun getClassContexts(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassContextsResponse>
+//    // Получить контексты классов
+//    @GET("rxclass/class/classContexts.json")
+//    fun getClassContexts(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassContextsResponse>
 
-    // Получить граф класса по источнику
-    @GET("rxclass/class/classGraphBySource.json")
-    fun getClassGraphBySource(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String,
-        @Query("source") source: String
-    ): Call<RxClassGraphResponse>
+//    // Получить граф класса по источнику
+//    @GET("rxclass/class/classGraphBySource.json")
+//    fun getClassGraphBySource(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String,
+//        @Query("source") source: String
+//    ): Call<RxClassGraphResponse>
 
-    // Получить участников класса
-    @GET("rxclass/class/classMembers.json")
-    fun getClassMembers(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<Response8>
+//    // Получить участников класса
+//    @GET("rxclass/class/classMembers.json")
+//    fun getClassMembers(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<Response8>
 
-    // Получить членов класса с указанием источника
-    @GET("rxclass/class/classMembers.json")
-    fun getClassMembersWithSource(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String,
-        @Query("relaSource") relaSource: String
-    ): Call<Response8>
+//    // Получить членов класса с указанием источника
+//    @GET("rxclass/class/classMembers.json")
+//    fun getClassMembersWithSource(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String,
+//        @Query("relaSource") relaSource: String
+//    ): Call<Response8>
 
-    // Получить участников класса (правильный эндпоинт)
-    @GET("rxclass/class/byClass.json")
-    fun getClassMembersByClass(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<Response8>
+//    // Получить участников класса (правильный эндпоинт)
+//    @GET("rxclass/class/byClass.json")
+//    fun getClassMembersByClass(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<Response8>
 
-    // Получить дерево классов
-    @GET("rxclass/class/classTree.json")
-    fun getClassTree(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassTreeResponse>
+//    // Получить дерево классов
+//    @GET("rxclass/class/classTree.json")
+//    fun getClassTree(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassTreeResponse>
 
-    // Получить версию источника отношений
-    @GET("rxclass/class/relaSourceVersion.json")
-    fun getRelaSourceVersion(
-        @Query("source") source: String
-    ): Call<RxClassRelaSourceVersionResponse>
+//    // Получить версию источника отношений
+//    @GET("rxclass/class/relaSourceVersion.json")
+//    fun getRelaSourceVersion(
+//        @Query("source") source: String
+//    ): Call<RxClassRelaSourceVersionResponse>
 
-    // Получить отношения
-    @GET("rxclass/class/relas.json")
-    fun getRelas(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassRelasResponse>
+//    // Получить отношения
+//    @GET("rxclass/class/relas.json")
+//    fun getRelas(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassRelasResponse>
 
-    // Получить информацию о схожести
-    @GET("rxclass/class/similarityInformation.json")
-    fun getSimilarityInformation(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassSimilarityResponse>
+//    // Получить информацию о схожести
+//    @GET("rxclass/class/similarityInformation.json")
+//    fun getSimilarityInformation(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassSimilarityResponse>
 
-    // Получить источники связей классов
-    @GET("rxclass/class/sourcesOfDrugClassRelations.json")
-    fun getSourcesOfDrugClassRelations(
-        @Query("classId") classId: String,
-        @Query("classType") classType: String
-    ): Call<RxClassSourcesResponse>
+//    // Получить источники связей классов
+//    @GET("rxclass/class/sourcesOfDrugClassRelations.json")
+//    fun getSourcesOfDrugClassRelations(
+//        @Query("classId") classId: String,
+//        @Query("classType") classType: String
+//    ): Call<RxClassSourcesResponse>
 
-    // Получить подсказки по написанию
-    @GET("rxclass/class/spellingsuggestions.json")
-    fun getSpellingSuggestionsRxClass(
-        @Query("name") term: String
-    ): Call<RxClassSpellingSuggestionsResponse>
+//    // Получить подсказки по написанию
+//    @GET("rxclass/class/spellingsuggestions.json")
+//    fun getSpellingSuggestionsRxClass(
+//        @Query("name") term: String
+//    ): Call<RxClassSpellingSuggestionsResponse>
 
-    // Получить типы классов
-    @GET("rxclass/classTypes.json")
-    fun getClassTypes(): Call<RxClassTypesResponse>
+//    // Получить типы классов
+//    @GET("rxclass/classTypes.json")
+//    fun getClassTypes(): Call<RxClassTypesResponse>
 
-    // Получить классы по RxCUI
-    @GET("rxclass/class/byRxcui.json")
-    fun byRxcui(
-        @Query("rxcui") id: String?
-    ): Call<RxClassByRxcuiResponse>
-}
+//    // Получить классы по RxCUI
+//    @GET("rxclass/class/byRxcui.json")
+//    fun byRxcui(
+//        @Query("rxcui") id: String?
+//    ): Call<RxClassByRxcuiResponse>
+//}

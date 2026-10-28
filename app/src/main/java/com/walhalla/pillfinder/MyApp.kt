@@ -17,8 +17,8 @@ import com.walhalla.domain.repository.from_internet.AdvertConfig
 //import com.walhalla.domen.rest.API2 // replaced by OpenFdaLib (:network:openfda-kmp)
 import com.walhalla.lib.RxnormRepository
 import com.walhalla.lib.service.PrescribableRxNormApi
-import com.walhalla.lib.service.RxClassApi
-import com.walhalla.lib.service.RxTermsApi
+//import com.walhalla.lib.service.RxClassApi // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp)
+//import com.walhalla.lib.service.RxTermsApi // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp)
 import com.walhalla.lib.service.RxnormApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -91,12 +91,12 @@ class MyApp : MultiDexApplication(), Constants
         // --- RxNav API singletons ---
         @JvmStatic
         lateinit var rxnorm: RxnormApi
-        @JvmStatic
-        lateinit var rxTerms: RxTermsApi
+        //@JvmStatic
+        //lateinit var rxTerms: RxTermsApi // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp), legacy RxClass/RxTerms Retrofit commented 2026-10-28
         @JvmStatic
         lateinit var prescribableRxNorm: PrescribableRxNormApi
-        @JvmStatic
-        lateinit var rxClass: RxClassApi
+        //@JvmStatic
+        //lateinit var rxClass: RxClassApi // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp), legacy RxClass/RxTerms Retrofit commented 2026-10-28
 
         /**
          * instance
@@ -273,11 +273,11 @@ class MyApp : MultiDexApplication(), Constants
             // Основной RxNorm API
             rxnorm = RETROFIT_RX_NORM.create(RxnormApi::class.java)
             // RxTerms API
-            rxTerms = RETROFIT_RX_NORM.create(RxTermsApi::class.java)
+            //rxTerms = RETROFIT_RX_NORM.create(RxTermsApi::class.java) // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp), legacy RxClass/RxTerms Retrofit commented 2026-10-28
             // Prescribable RxNorm API
             prescribableRxNorm = RETROFIT_RX_NORM.create(PrescribableRxNormApi::class.java)
             // RxClass API
-            rxClass = RETROFIT_RX_NORM.create(RxClassApi::class.java)
+            //rxClass = RETROFIT_RX_NORM.create(RxClassApi::class.java) // replaced by gov.nih.nlm.rxnorm.apis.DefaultApi (lk0-kmp), legacy RxClass/RxTerms Retrofit commented 2026-10-28
         }
 
 

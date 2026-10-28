@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- RxClass Classes tab / AnalogsActivity states (2026-10-28) -->
+    <string name="rxclass_source_header">Источник %1$s · %2$s</string>
+    <string name="rxclass_empty">Для этого препарата классы не найдены</string>
+    <string name="rxclass_err_no_connection">Нет соединения с RxNav. Проверьте интернет и повторите.</string>
+    <string name="rxclass_err_generic">Сервис классов временно недоступен. Попробуйте позже.</string>
+    <string name="rxclass_retry">Повторить</string>
+</resources>

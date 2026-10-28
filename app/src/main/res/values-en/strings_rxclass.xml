@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rxclass_source_header">Source %1$s · %2$s</string>
+    <string name="rxclass_empty">No drug classes found for this drug</string>
+    <string name="rxclass_err_no_connection">No connection to RxNav. Check your internet and retry.</string>
+    <string name="rxclass_err_generic">The drug class service is temporarily unavailable. Try later.</string>
+    <string name="rxclass_retry">Retry</string>
+</resources>

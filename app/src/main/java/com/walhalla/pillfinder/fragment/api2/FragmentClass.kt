@@ -37,6 +37,8 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
     private var rxcui: String? = null
     private var index = 0
     private var mBinding: CategoryListFragmentBinding? = null
+    private var state: RxClassStateView? = null // loading/error+retry/empty overlay
+    private var loaded = false // lazy: load once, not on every onResume
     private var mAdapter: ComplexRecyclerViewAdapter? = null
 
     override fun onCreateView(
@@ -45,6 +47,7 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
         savedInstanceState: Bundle?
     ): View? {
         mBinding = CategoryListFragmentBinding.inflate(inflater)
+        state = RxClassStateView(mBinding!!.root) { loadData() }
         if (mAdapter == null) {
             mAdapter = ComplexRecyclerViewAdapter(requireContext())
             mAdapter!!.setChildItemClickListener(this)
@@ -71,7 +74,8 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
     override fun onResume() {
         super.onResume()
         mBinding!!.swiperefresh.setOnRefreshListener(this)
-        loadData()
+        //loadData()
+        if (!loaded) loadData()
         if (mBinding!!.swiperefresh.isRefreshing) {
             mBinding!!.swiperefresh.isRefreshing = false
         }
@@ -79,9 +83,12 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
 
     private fun loadData() {
         if (rxcui.isNullOrBlank()) return
+        state?.loading()
         // was: MyApp.rxClass.getClassByRxNormDrugId(rxcui!!) (Retrofit, Response8)
         lifecycleScope.launch {
             RxNormLib.fetch { getClassByRxcui(rxcui!!) }.onSuccess { body ->
+                loaded = true
+                state?.done()
                 val data = ArrayList<VieModel>()
                 val classGroup = body?.rxclassDrugInfoList?.rxclassDrugInfo ?: emptyList()
                 if (classGroup.isNotEmpty()) {
@@ -115,7 +122,13 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
                     }
                     if (split.regular.isNotEmpty()) {
                         data.add(HeaderObject("Классы препарата"))
-                        for ((key, members) in split.regular) data.add(toClassCard(key, members))
+                        //for ((key, members) in split.regular) data.add(toClassCard(key, members))
+                        // grouped by relaSource (ATC, FDASPL/DAILYMED EPC/MoA/PE, MEDRT may_treat, VA ...): one sub-header per source
+                        for ((src, classes) in split.regular.toList().groupBy { it.second.first().relaSource }) {
+                            val types = classes.map { it.first.classType }.distinct().joinToString(", ")
+                            data.add(HeaderObject(getString(com.walhalla.pillfinder.R.string.rxclass_source_header, src.ifBlank { "RxClass" }, types)))
+                            for ((key, members) in classes) data.add(toClassCard(key, members))
+                        }
                     }
                     // old single-list grouping (replaced by ContraindicationSplitter above):
 //                    data.add(HeaderObject("Классы препарата"))
@@ -143,14 +156,17 @@ class FragmentClass : Fragment(), ComplexPresenter, OnRefreshListener {
 //                        data.add(ClassCardItem(classId, className, classType, memberItems, first.relaSource, first.rela))
 //                    }
                 } else {
-                    data.add(HeaderObject("Нет данных о классах"))
+                    //data.add(HeaderObject("Нет данных о классах")) // replaced by friendly empty state
+                    state?.empty()
                 }
                 val activity: Activity? = getActivity()
                 if (activity != null && isAdded) {
                     updateData(data)
                 }
             }.onFailure { t ->
-                updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error")))
+                //updateData(listOf(HeaderObject(t.message ?: t.localizedMessage ?: "Error"))) // raw exception text in UI, replaced
+                updateData(emptyList())
+                state?.error(t)
             }
         }
     }

@@ -345,3 +345,20 @@ flowchart LR
 3. W3: **getApproximateMatch** как fallback, когда findRxcui пуст.
 4. W4: кнопка «Дженерик» через **getGenericProduct** (+ getRxNormName для заголовка).
 5. W5: **getAllRelatedExtension** во вкладке Related (psn, бейдж pres), затем W6 — чип PRESCRIBABLE через getRxProperty как подготовка к Prescribe-переключателю.
+
+
+## 8. Миграция RxClass/RxTerms и общие уроки (2026-10-28)
+
+Общий workflow и чек-лист: `C:\Users\combo\.cursor\skills\openapi-spec-from-docs\SKILL.md` §11 и `reference\checklist.md` (раздел "Migrating legacy Retrofit...").
+
+Специфика проекта:
+- Спеки: `C:\Users\combo\Desktop\RxNorm-OpenAPI` (RxNorm+RxClass+RxTerms, 79 ops) и `C:\Users\combo\Desktop\OpenFDA-OpenAPI`.
+- Модули: `network/lk0-kmp` (gov.nih.nlm.rxnorm, DefaultApi) и `network/openfda-kmp`, подключены через settings.gradle projectDir.
+- Таблица эквивалентности: `RxNorm-OpenAPI\compare\compare_rxclass.md`.
+- RxNav Interaction API снят NLM 2024-01-02 (взаимодействия -> openFDA).
+- RxImage мёртв (снят NLM).
+- Legacy rxclass paths битые (17 вызовов -> 404: similar*, allClasses, classContext, classGraph, classTree, relas, version, spellingsuggestions, byDrugName, classMembers, RxTerms displayname.json); legacy RxClassApi/RxTermsApi и копия внутри RxnormApi закомментированы 2026-10-28.
+- PrescribableRxNormApi.getRxNormVersion -> `prescribable/version.json` = 404 (не тронуто).
+- `OPENFDA_API_KEY`: `C:\Users\combo\.gradle\gradle.properties` -> BuildConfig.
+- PC1 получает 403 от api.fda.gov -> newman openFDA гонять с другой сети.
+- Данные openFDA в UI помечены amber-цветом.

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import com.walhalla.lib.service.RxNormLib
+import com.walhalla.pillfinder.fragment.api2.RxClassStateView
 import gov.nih.nlm.rxnorm.models.RelaSource
 import com.walhalla.pillfinder.adapter.ComplexRecyclerViewAdapter
 import com.walhalla.pillfinder.adapter.obj.HeaderObject
@@ -29,6 +30,7 @@ import com.walhalla.pillfinder.databinding.CategoryListFragmentBinding
 class AnalogsActivity : AppCompatActivity() {
     private lateinit var binding: CategoryListFragmentBinding
     private lateinit var mAdapter: ComplexRecyclerViewAdapter
+    private var state: RxClassStateView? = null // loading/error+retry overlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class AnalogsActivity : AppCompatActivity() {
         val rxcui = intent.getStringExtra(EXTRA_RXCUI) ?: ""
         title = "Аналоги: $className"
 
+        state = RxClassStateView(binding.root) { loadAnalogs(classId, classType, className, relaSource, rela, rxcui) }
         loadAnalogs(classId, classType, className, relaSource, rela, rxcui)
         binding.swiperefresh.setOnRefreshListener {
             loadAnalogs(classId, classType, className, relaSource, rela, rxcui)
@@ -69,6 +72,7 @@ class AnalogsActivity : AppCompatActivity() {
         relaSourceIn: String, relaIn: String, rxcui: String
     ) {
         lifecycleScope.launch {
+            state?.loading()
             // 1. Доступные источники (relaSources.json)
             val sources = RxNormLib.fetch { getRelaSources() }.getOrNull()
                 ?.relaSourceList?.relaSourceName ?: emptyList()
@@ -93,13 +97,17 @@ class AnalogsActivity : AppCompatActivity() {
                     //    NameValue1_2(it.minConcept.name ?: "", it.minConcept.tty ?: "")
                     //})
                     data.addAll(members.map { memberRow(it, relaSource.value) })
+                    state?.done()
                     mAdapter.onRestoreInstanceState(data)
                 } else {
                     // Fallback: показать классы препарата через byRxcui.json
                     loadClassInfoFallback(rxcui, className)
                 }
-            }.onFailure {
-                loadClassInfoFallback(rxcui, className)
+            }.onFailure { t ->
+                //loadClassInfoFallback(rxcui, className)
+                // network failure -> friendly error + retry (was: silent fallback); other errors -> fallback as before
+                if (t is java.io.IOException) { mAdapter.onRestoreInstanceState(ArrayList<VieModel>()); state?.error(t) }
+                else loadClassInfoFallback(rxcui, className)
             }
         }
     }
@@ -107,11 +115,13 @@ class AnalogsActivity : AppCompatActivity() {
     // Fallback: показать классы препарата через byRxcui.json (rxcui препарата)
     private fun loadClassInfoFallback(rxcui: String, className: String) {
         if (rxcui.isBlank()) {
+            state?.done()
             mAdapter.onRestoreInstanceState(listOf(HeaderObject("Нет информации о классах для: $className")))
             return
         }
         lifecycleScope.launch {
             RxNormLib.fetch { getClassByRxcui(rxcui) }.onSuccess { body ->
+                state?.done()
                 val classes = (body?.rxclassDrugInfoList?.rxclassDrugInfo ?: emptyList())
                     .map { it.rxclassMinConceptItem }
                     .distinctBy { it.classId }
@@ -123,7 +133,9 @@ class AnalogsActivity : AppCompatActivity() {
                     data.add(HeaderObject("Нет информации о классах для: $className"))
                 }
                 mAdapter.onRestoreInstanceState(data)
-            }.onFailure {
+            }.onFailure { t ->
+                if (t is java.io.IOException) { mAdapter.onRestoreInstanceState(ArrayList<VieModel>()); state?.error(t); return@onFailure }
+                state?.done()
                 mAdapter.onRestoreInstanceState(listOf(HeaderObject("Нет информации о классах для: $className")))
             }
         }
