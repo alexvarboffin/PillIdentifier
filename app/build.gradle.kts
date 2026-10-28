@@ -43,6 +43,9 @@ android {
             resValue("string", "banner_ad_unit_id", "ca-app-pub-5111357348858303/1099385603")
             resValue("string", "application_id", "ca-app-pub-5111357348858303~7134758027")
 
+            // openFDA api_key (optional): gradle property OPENFDA_API_KEY, default empty = keyless (1000 req/day per IP)
+            buildConfigField("String", "OPENFDA_API_KEY", "\"${project.findProperty("OPENFDA_API_KEY") ?: ""}\"")
+
             multiDexEnabled = false
             resConfigs(
                 "en",

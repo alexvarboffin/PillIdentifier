@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- openFDA data block: light amber tint + 4dp amber left stripe (source marking, NOT clickable) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/openfda_source" />
+            <corners android:radius="6dp" />
+        </shape>
+    </item>
+    <item android:left="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/openfda_source_tint" />
+            <corners android:topRightRadius="6dp" android:bottomRightRadius="6dp" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        openFDA source marking: ONE dedicated accent (amber) for everything that comes from api.fda.gov.
+        Deliberately unlike NewClickableChip blue (#1565C0), InfoBadge green, drugsearch purple, pillidentifier cyan.
+        Dark-theme variant in values-night/openfda.xml.
+    -->
+    <color name="openfda_source">#B45309</color>
+    <color name="openfda_source_tint">#FFF4E5</color>
+    <color name="openfda_source_on">#FFFFFF</color>
+
+    <string name="fda_tab_title" translatable="false">FDA</string>
+    <string name="fda_source_badge" translatable="false">openFDA</string>
+    <string name="fda_block_label" translatable="false">Label (SPL)</string>
+    <string name="fda_block_recalls" translatable="false">Recalls (enforcement)</string>
+    <string name="fda_block_ndc" translatable="false">NDC products (FDA NDC Directory)</string>
+    <string name="fda_block_reactions" translatable="false">Top reported reactions (FAERS)</string>
+    <string name="fda_loading" translatable="false">Loading…</string>
+    <string name="fda_retry" translatable="false">Retry</string>
+    <string name="fda_empty" translatable="false">No openFDA data for this RxCUI</string>
+    <string name="fda_error" translatable="false">openFDA error: %1$s</string>
+    <string name="fda_reactions_disclaimer" translatable="false">FAERS counts are voluntary reports. They do not prove that the drug caused the reaction and are not incidence rates. Not medical advice.</string>
+    <string name="fda_recall_chip" translatable="false">Ongoing FDA recall (%1$d)</string>
+</resources>

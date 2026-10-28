@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- small solid "openFDA" source badge (not clickable) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/openfda_source" />
+    <corners android:radius="8dp" />
+</shape>

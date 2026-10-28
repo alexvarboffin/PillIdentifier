@@ -7,6 +7,9 @@ import com.walhalla.lib.service.RxNormLib
 import com.walhalla.pillfinder.R
 import com.walhalla.pillfinder.adapter.viewHolder.NewClickableStyle
 import gov.nih.nlm.rxnorm.models.PropConceptGroupResponse
+import com.walhalla.lib.service.OpenFdaLib
+import gov.fda.openfda.models.DrugRecall
+import android.widget.LinearLayout
 import kotlinx.coroutines.Job
 
 /**
@@ -27,6 +30,18 @@ class DrugHeaderBar(
     private val badge: TextView = root.findViewById(R.id.headerBadgePrescribable)
     private val toggle: SwitchCompat = root.findViewById(R.id.prescribeToggle)
     private var job: Job? = null
+
+    // openFDA: NEW clickable chip "Ongoing FDA recall (n)" (NewClickableChip + amber openFDA dot), shown only when
+    // /drug/enforcement.json has status=Ongoing for the open rxcui; tap -> host switches to the FDA tab.
+    var onRecallChipClick: (() -> Unit)? = null
+    private var recallJob: Job? = null
+    private val recallChip: TextView = TextView(root.context, null, 0, R.style.NewClickableChip).also { chip ->
+        chip.textSize = 13f
+        chip.visibility = View.GONE
+        OpenFdaUi.markClickableChip(chip)
+        chip.setOnClickListener { onRecallChipClick?.invoke() }
+        (root as LinearLayout).addView(chip, 1, LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { marginStart = (6 * root.resources.displayMetrics.density).toInt() })
+    }
     private var generation = 0
 
     init {
@@ -45,6 +60,17 @@ class DrugHeaderBar(
         cancelJobs()
         val gen = ++generation
         badge.visibility = View.GONE
+        recallChip.visibility = View.GONE
+        recallJob = OpenFdaLib.recalls(rxcui, object : RxNormLib.LibCallback<List<DrugRecall>> {
+            override fun onResult(body: List<DrugRecall>?) {
+                if (gen != generation) return
+                val n = body.orEmpty().count { it.status.equals("Ongoing", ignoreCase = true) }
+                recallChip.text = recallChip.context.getString(R.string.fda_recall_chip, n)
+                recallChip.visibility = if (n > 0) View.VISIBLE else View.GONE
+            }
+
+            override fun onError(t: Throwable) { /* silent: chip stays hidden */ }
+        })
         job = RxNormLib.rxProperty(rxcui, PROP_PRESCRIBABLE, object : RxNormLib.LibCallback<PropConceptGroupResponse> {
             override fun onResult(body: PropConceptGroupResponse?) {
                 if (gen != generation) return
@@ -62,11 +88,14 @@ class DrugHeaderBar(
         cancelJobs()
         generation++
         badge.visibility = View.GONE
+        recallChip.visibility = View.GONE
     }
 
     fun cancelJobs() {
         job?.cancel()
         job = null
+        recallJob?.cancel()
+        recallJob = null
     }
 
     companion object {

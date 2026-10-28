@@ -71,6 +71,9 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
     // Roadmap #6 + #12: PRESCRIBABLE badge + "Prescribable only" switch above the tabs
     private var headerBar: DrugHeaderBar? = null
 
+    // openFDA: pager reference so the header recall chip can switch to the FDA tab
+    private var pager: ViewPager2? = null
+
     //rxcui or ingredient
     private var rxcui: String? = null
     private var ingredient: String? = null
@@ -161,6 +164,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         }
 
         val viewPager = view.findViewById<ViewPager2>(R.id.viewpager)
+        pager = viewPager
         setupViewPager(viewPager)
 
         // Roadmap #3: a tapped closest match opens exactly like a successful search (same tabs via makeInformationGui)
@@ -185,11 +189,24 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
             val open = genericBar?.currentRxcui
             if (open != null) makeInformationGui(open)
         }
+        // openFDA: Ongoing-recall chip in the header switches to the FDA tab (last tab)
+        headerBar?.onRecallChipClick = {
+            val idx = titles.lastIndexOf(FDA_TAB_TITLE)
+            val count = mPagerAdapter?.itemCount ?: 0
+            if (count > 0) pager?.currentItem = if (idx in 0 until count) idx else count - 1
+        }
 
         if (null != tabLayout) {
             TabLayoutMediator(
                 tabLayout, viewPager
             ) { tab: TabLayout.Tab?, position: Int ->
+                if (titles.getOrNull(position) == FDA_TAB_TITLE) {
+                    // openFDA source marking: amber dot + amber title (other tab titles unchanged)
+                    val c = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.openfda_source)
+                    val s = android.text.SpannableString("\u25CF " + FDA_TAB_TITLE)
+                    s.setSpan(android.text.style.ForegroundColorSpan(c), 0, s.length, android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    tab!!.setText(s)
+                } else
                 tab!!.setText(
                     titles[position]
                 )
@@ -256,6 +273,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         //buffer.add(FragmentInteraction.newInstance(1, pd)) // disabled: RxNav /REST/interaction discontinued by NLM 2024-01-02 (404)
         buffer.add(Fragment7.newInstance(1, pd))
         buffer.add(Fragment2.newInstance(1, pd))
+        buffer.add(FragmentFda.newInstance(pd)) // openFDA (label / recalls / ndc / FAERS top reactions) - LAST tab
 
         titles.add("[INFO]") //titles.add("[" + pd + "]");
         titles.add("Related")
@@ -267,6 +285,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
         //titles.add("Interaction") // disabled together with FragmentInteraction tab above
         titles.add("Status")
         titles.add("RxNorm Properties")
+        titles.add(FDA_TAB_TITLE) // openFDA tab: title drawn in @color/openfda_source by the TabLayoutMediator
         mPagerAdapter!!.updateEmployeeListItems(buffer)
         if (pd != null) genericBar?.onDrugOpened(pd) // roadmap #4: show "Generic: ..." for branded concepts
         if (pd != null) headerBar?.onDrugOpened(pd) // roadmap #6: PRESCRIBABLE badge
@@ -483,6 +502,7 @@ class RxNorm : BaseFragment(), RxnormRepositoryCallback, ConceptNavigator {
     }
 
     companion object {
+        const val FDA_TAB_TITLE = "FDA" // openFDA tab (FragmentFda)
         const val KEY_RXNORMID: String = "key_rx_norm_Id"
         const val KEY_INGREDIENT: String = "key_Ingredien"
 
