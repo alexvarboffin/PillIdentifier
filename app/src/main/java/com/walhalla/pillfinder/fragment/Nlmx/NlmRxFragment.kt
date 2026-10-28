@@ -35,6 +35,8 @@ import com.itextpdf.text.DocumentException
 import com.walhalla.FileSystem
 import com.walhalla.PDFUtil2
 import com.walhalla.Util
+import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 
 import com.walhalla.lib.datamodel.common.response.Response5
 import com.walhalla.lib.datamodel.common.response.Response8
@@ -61,7 +63,9 @@ import com.walhalla.ui.DLog.handleException
 import com.walhalla.ui.plugins.Launcher.openBrowser
 import com.walhalla.ui.plugins.Launcher.rateUs
 import com.walhalla.ui.plugins.Module_U.shareText
-import gov.fda.api.Main
+//import gov.fda.api.Main
+import gov.fda.openfda.models.DrugLabelResponse
+import com.walhalla.lib.service.OpenFdaLib
 import gov.nih.nlm.model.NlmRxImage
 import okhttp3.PicassoHelper.Companion.getInstance
 import org.json.JSONObject
@@ -555,36 +559,49 @@ class NlmRxFragment : BaseFragment(), ComplexPresenter {
             .replace("\\", "")
             .replace("/", "")
 
-        val service2 = MyApp.service2
-        val call = service2.searchDrag(tmp)
-        call.enqueue(object : Callback<Main> {
-            override fun onResponse(call: Call<Main>, response: Response<Main>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
+        // openFDA: Retrofit API2 replaced by generated :network:openfda-kmp via OpenFdaLib
+//        val service2 = MyApp.service2
+//        val call = service2.searchDrag(tmp)
+//        call.enqueue(object : Callback<Main> {
+//            override fun onResponse(call: Call<Main>, response: Response<Main>) {
+//                if (response.isSuccessful) {
+//                    val body = response.body()
+//                    if (body != null) {
+//                        makeText(body)
+//                    }
+//                    return
+//                }
+//                val body = response.errorBody()
+//                if (body != null) {
+//                    try {
+//                        val jObjError = JSONObject(body.string())
+//                        d(jObjError.toString() + pname)
+//                        //Toast.makeText(getContext(), jObjError.getJSONObject("error").getString("message"), Toast.LENGTH_LONG).show();
+//                    } catch (e: Exception) {
+//                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            }
+
+//            override fun onFailure(call: Call<Main>, tr: Throwable) {
+//                callback!!.handleThrowable(tr)
+//            }
+//        })
+        val query: String = tmp
+        viewLifecycleOwner.lifecycleScope.launch {
+            OpenFdaLib.searchDrugLabel(query)
+                .onSuccess { body ->
                     if (body != null) {
                         makeText(body)
-                    }
-                    return
-                }
-                val body = response.errorBody()
-                if (body != null) {
-                    try {
-                        val jObjError = JSONObject(body.string())
-                        d(jObjError.toString() + pname)
-                        //Toast.makeText(getContext(), jObjError.getJSONObject("error").getString("message"), Toast.LENGTH_LONG).show();
-                    } catch (e: Exception) {
-                        //Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        d("openFDA: no label (non-2xx) for $pname")
                     }
                 }
-            }
-
-            override fun onFailure(call: Call<Main>, tr: Throwable) {
-                callback!!.handleThrowable(tr)
-            }
-        })
+                .onFailure { tr -> callback!!.handleThrowable(tr) }
+        }
     }
 
-    private fun makeText(data: Main) {
+    private fun makeText(data: DrugLabelResponse) {
         val value = Util.wrapper(data)
         val sp = SpannableString(Html.fromHtml(value.toString()))
         binding!!.api2.text = sp

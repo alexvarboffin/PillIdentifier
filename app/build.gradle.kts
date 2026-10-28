@@ -240,6 +240,8 @@ dependencies {
     implementation(project(":health"))
     // RxNorm KMP network library + Android Ktor engine (the lib ships no engine)
     implementation(project(":network:lk0-kmp"))
+    // openFDA KMP network library (replaces Retrofit API2)
+    implementation(project(":network:openfda-kmp"))
     implementation(libs.ktor.client.android)
 
     implementation(libs.kotlin.stdlib.jdk8)

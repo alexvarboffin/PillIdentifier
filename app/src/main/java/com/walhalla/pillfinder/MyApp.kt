@@ -14,7 +14,7 @@ import com.walhalla.AppOpenManager
 
 import com.walhalla.domain.repository.from_internet.AdvertAdmobRepository
 import com.walhalla.domain.repository.from_internet.AdvertConfig
-import com.walhalla.domen.rest.API2
+//import com.walhalla.domen.rest.API2 // replaced by OpenFdaLib (:network:openfda-kmp)
 import com.walhalla.lib.RxnormRepository
 import com.walhalla.lib.service.PrescribableRxNormApi
 import com.walhalla.lib.service.RxClassApi
@@ -85,8 +85,8 @@ class MyApp : MultiDexApplication(), Constants
         var appOpenManager: AppOpenManager? = null
         //private static final API service1;
 
-        @kotlin.jvm.JvmField
-        val service2: API2
+        //@kotlin.jvm.JvmField
+        //val service2: API2 // replaced by OpenFdaLib
 
         // --- RxNav API singletons ---
         @JvmStatic
@@ -238,14 +238,15 @@ class MyApp : MultiDexApplication(), Constants
 //                .addConverterFactory(GsonConverterFactory.create(gson))
 //                .client(client1)
 //                .build();
-            val RETROFIT_FDA_GOV = Retrofit.Builder()
-                .baseUrl(Constants.ENDPOINT_FDA_GOV)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client0)
-                .build()
+            // openFDA: replaced by OpenFdaLib (:network:openfda-kmp)
+            //val RETROFIT_FDA_GOV = Retrofit.Builder()
+                //.baseUrl(Constants.ENDPOINT_FDA_GOV)
+                //.addConverterFactory(GsonConverterFactory.create(gson))
+                //.client(client0)
+                //.build()
 
             //service1 = RETROFIT_RX.create(API.class);
-            service2 = RETROFIT_FDA_GOV.create(API2::class.java)
+            //service2 = RETROFIT_FDA_GOV.create(API2::class.java)
 
 
             //        Request request = new Request.Builder()

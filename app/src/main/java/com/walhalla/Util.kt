@@ -21,7 +21,8 @@ import com.walhalla.pillfinder.adapter.obj.RxCuiObjString
 import com.walhalla.pillfinder.adapter.obj.SimpleString
 import com.walhalla.pillfinder.adapter.obj.VieModel
 import com.walhalla.pillfinder.adapter.obj.ingredient.IngredientString
-import gov.fda.api.Main
+//import gov.fda.api.Main
+import gov.fda.openfda.models.DrugLabelResponse
 import gov.nih.nlm.model.NlmRxImage
 import gov.nih.nlm.model.ReplyStatus
 
@@ -86,7 +87,108 @@ object Util {
         }
     }
 
-    fun wrapper(data: Main): SpannableStringBuilder {
+    // openFDA: replaced by generated gov.fda.openfda.models.DrugLabelResponse (OpenFDA-OpenAPI)
+//    fun wrapper(data: Main): SpannableStringBuilder {
+//        val value = SpannableStringBuilder()
+//        val meta = data.meta
+//        val results = data.results
+//        if (meta != null) {
+//            append(value, "disclaimer", "" + meta.disclaimer)
+//            append(value, "terms", "" + meta.terms)
+//            append(value, "license", "" + meta.license)
+//            append(value, "last_updated", "" + meta.lastUpdated)
+//            val mr = meta.results
+//            if (mr != null) {
+//                append(value, "results", "________")
+//                append(value, "skip", "" + mr.skip)
+//                append(value, "limit", "" + mr.limit)
+//                append(value, "total", "" + mr.total)
+//            }
+//        }
+//        if (results != null) {
+//            //dappend(value, "#################", "________");
+//            append(value, "results", "________")
+//            val result = results.get(0)
+//            if (result != null) {
+//                append(value, "effective_time", result.effectiveTime)
+
+//                wrapList(value, "purpose", result.purpose)
+//                wrapList(value, "keep_out_of_reach_of_children", result.keepOutOfReachOfChildren)
+//                wrapList(value, "warnings", result.warnings)
+//                wrapList(value, "questions", result.questions)
+//                wrapList(value, "spl_product_data_elements", result.splProductDataElements)
+//                wrapList(value, "ask_doctor", result.askDoctor)
+
+//                val openfda = result.openfda
+//                if (openfda != null) {
+//                    wrapList(value, "upc", openfda.upc)
+//                    wrapList(value, "brand_name", openfda.brandName)
+//                    wrapList(value, "manufacturer_name", openfda.manufacturerName)
+
+//                    wrapList(value, "unii", openfda.unii)
+//                    wrapList(value, "rxcui", openfda.rxcui)
+//                    wrapList(value, "spl_id", openfda.splId)
+
+//                    wrapList(value, "substance_name", openfda.substanceName)
+//                    wrapList(value, "product_type", openfda.productType)
+//                    wrapList(value, "route", openfda.route)
+//                    wrapList(value, "application_number", openfda.applicationNumber)
+
+//                    wrapList(value, "product_ndc", openfda.productNdc)
+//                    append(value, "is_original_packager", openfda.isOriginalPackager.toString())
+//                    wrapList(value, "package_ndc", openfda.packageNdc)
+//                    wrapList(value, "generic_name", openfda.genericName)
+//                    wrapList(value, "spl_set_id", openfda.splSetId)
+//                }
+
+
+//                append(value, "version", result.version)
+//                wrapList(value, "dosage_and_administration", result.dosageAndAdministration)
+//                wrapList(value, "pregnancy_or_breast_feeding", result.pregnancyOrBreastFeeding)
+//                wrapList(value, "stop_use", result.stopUse)
+//                wrapList(value, "storage_and_handling", result.storageAndHandling)
+//                wrapList(value, "do_not_use", result.doNotUse)
+//                wrapList(
+//                    value,
+//                    "package_label_principal_display_panel",
+//                    result.packageLabelPrincipalDisplayPanel
+//                )
+//                wrapList(value, "indications_and_usage", result.indicationsAndUsage)
+
+
+//                append(value, "set_id", result.setId)
+//                append(value, "id", result.id)
+
+//                val ask_doctor_or_pharmacist = result.askDoctorOrPharmacist
+//                if (ask_doctor_or_pharmacist != null) {
+//                    append(value, "ask_doctor_or_pharmacist", "________")
+//                    for (s in ask_doctor_or_pharmacist) {
+//                        append(value, null, s)
+//                    }
+//                }
+
+//                val inactive_ingredient = result.inactiveIngredient
+//                //dappend(value, "inactive_ingredient", "________");
+//                if (inactive_ingredient != null) {
+//                    for (ingredient in inactive_ingredient) {
+//                        append(value, "inactive_ingredient", ingredient)
+//                    }
+//                }
+
+//                val active_ingredient = result.activeIngredient
+//                //dappend(value, "active_ingredient", "________");
+//                if (active_ingredient != null) {
+//                    for (ingredient in active_ingredient) {
+//                        append(value, "active_ingredient", ingredient)
+//                    }
+//                }
+//            }
+//        }
+//        return value
+//    }
+
+
+    fun wrapper(data: DrugLabelResponse): SpannableStringBuilder {
         val value = SpannableStringBuilder()
         val meta = data.meta
         val results = data.results
@@ -188,7 +290,7 @@ object Util {
     private fun wrapList(
         value: SpannableStringBuilder,
         name: String?,
-        data: MutableList<String?>?
+        data: List<String?>?
     ) {
         if (data != null) {
             for (s in data) {
